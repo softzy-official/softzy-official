@@ -49,7 +49,7 @@ const categories = [
 
 const CategoryWithImage = () => {
   return (
-    <section className="w-full bg-background py-10 sm:py-14 lg:py-16">
+    <section className="w-full py-10 sm:py-14 lg:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-8 sm:mb-10 lg:mb-12">
@@ -76,10 +76,10 @@ const CategoryWithImage = () => {
             <Link
               key={category.name}
               href={category.href}
-              className="flex flex-col items-center gap-3 sm:gap-4 group"
+              className="flex flex-col items-center gap-3 sm:gap-y-4 group"
             >
               {/* Image Circle */}
-              <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-56 xl:h-56 rounded-full overflow-hidden bg-card border-[3px] border-border hover:border-secondary transition-all duration-300 shadow-md hover:shadow-xl">
+              <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 rounded-full overflow-hidden bg-card border-[3px] border-border hover:border-secondary transition-all duration-300 shadow-md hover:shadow-xl">
                 <Image
                   src={category.image}
                   alt={category.name}
