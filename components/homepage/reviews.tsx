@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 
 interface Review {
   id: string;
@@ -94,12 +93,10 @@ export const defaultReviews: Review[] = [
   },
 ];
 
-
 // Video Card Component
 const VideoCard = ({ review }: { review: Review }) => {
   return (
-    <div className="flex-shrink-0 w-[260px] sm:w-[280px] bg-white rounded-2xl overflow-hidden shadow-sm">
-      {/* Video */}
+    <div className="flex-shrink-0 w-[240px] sm:w-[260px] bg-white rounded-xl overflow-hidden shadow-sm">
       <div className="relative aspect-[3/4] bg-gray-100">
         <video
           src={review.media}
@@ -109,28 +106,15 @@ const VideoCard = ({ review }: { review: Review }) => {
           muted
           playsInline
         />
-
-        {/* Gradient Overlay (unchanged) */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-        {/* User Info Overlay (unchanged) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-3">
           <div className="flex items-center gap-2">
-            <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white/50">
-              <Image
-                src={review.avatar}
-                alt={review.name}
-                fill
-                className="object-cover"
-              />
+            <div className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-white/50">
+              <Image src={review.avatar} alt={review.name} fill className="object-cover" />
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-white poppins">
-                {review.name}
-              </h4>
-              <p className="text-[10px] text-white/70 poppins">
-                {review.place}
-              </p>
+              <h4 className="text-xs font-semibold text-white poppins">{review.name}</h4>
+              <p className="text-[10px] text-white/70 poppins">{review.place}</p>
             </div>
           </div>
         </div>
@@ -139,23 +123,19 @@ const VideoCard = ({ review }: { review: Review }) => {
   );
 };
 
-
 // Image Card Component
 const ImageCard = ({ review }: { review: Review }) => {
   return (
-    <div className="flex-shrink-0 w-[260px] sm:w-[280px] bg-white rounded-2xl overflow-hidden shadow-sm">
-      {/* Image */}
+    <div className="flex-shrink-0 w-[240px] sm:w-[260px] bg-white rounded-xl overflow-hidden shadow-sm">
       <div className="relative aspect-[4/3] bg-gray-100">
         <Image src={review.media!} alt={review.name} fill className="object-cover" />
       </div>
-      
-      {/* Content */}
-      <div className="p-3 sm:p-4">
-        <p className="text-xs sm:text-sm text-gray-700 poppins leading-relaxed mb-3 line-clamp-2">
+      <div className="p-3">
+        <p className="text-xs text-gray-700 poppins leading-relaxed mb-2.5 line-clamp-2">
           {review.review}
         </p>
         <div className="flex items-center gap-2">
-          <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-secondary/20">
+          <div className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-secondary/20">
             <Image src={review.avatar} alt={review.name} fill className="object-cover" />
           </div>
           <div>
@@ -171,12 +151,12 @@ const ImageCard = ({ review }: { review: Review }) => {
 // Text Card Component
 const TextCard = ({ review }: { review: Review }) => {
   return (
-    <div className="flex-shrink-0 w-[260px] sm:w-[280px] bg-white rounded-2xl p-4 sm:p-5 shadow-sm">
-      <p className="text-xs sm:text-sm text-gray-700 poppins leading-relaxed mb-4 line-clamp-4">
+    <div className="flex-shrink-0 w-[240px] sm:w-[260px] bg-white rounded-xl p-4 shadow-sm">
+      <p className="text-xs text-gray-700 poppins leading-relaxed mb-3 line-clamp-4">
         {review.review}
       </p>
       <div className="flex items-center gap-2">
-        <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-secondary/20">
+        <div className="relative w-7 h-7 rounded-full overflow-hidden border-2 border-secondary/20">
           <Image src={review.avatar} alt={review.name} fill className="object-cover" />
         </div>
         <div>
@@ -209,18 +189,18 @@ const ReviewsSection = ({
   const duplicatedReviews = [...reviews, ...reviews, ...reviews];
 
   return (
-    <section className="w-full py-12 sm:py-16 lg:py-20 bg-secondary overflow-hidden">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+    <section className="w-full py-16 sm:py-20 lg:py-24 bg-secondary overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header Section - UNCHANGED */}
-       <div className="text-center mb-8 sm:mb-10">
-          <span className="inline-block px-4 py-1.5 bg-white/20 text-white text-xs font-medium rounded-full poppins mb-3">
+        {/* Header Section */}
+        <div className="text-center mb-10 sm:mb-12">
+          <span className="inline-block px-4 py-1.5 bg-white/20 text-white text-xs sm:text-sm font-medium rounded-full poppins mb-3 sm:mb-4">
             {badge}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white poppins mb-2 tracking-tight sm:tracking-normal">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white poppins mb-3">
             {title}
           </h2>
-          <p className="text-sm sm:text-base text-white/70 poppins max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-white/70 poppins max-w-lg mx-auto">
             {description}
           </p>
           {/* Decorative Line */}
@@ -234,17 +214,17 @@ const ReviewsSection = ({
 
       {/* Moving Reviews Container */}
       <div className="relative">
-        {/* Left Fade */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-r from-secondary via-secondary/80 to-transparent z-10 pointer-events-none" />
+        {/* Left Fade - Softer */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-16 lg:w-24 bg-gradient-to-r from-secondary to-transparent z-10 pointer-events-none" />
         
-        {/* Right Fade */}
-        <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 lg:w-32 bg-gradient-to-l from-secondary via-secondary/80 to-transparent z-10 pointer-events-none" />
+        {/* Right Fade - Softer */}
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-16 lg:w-24 bg-gradient-to-l from-secondary to-transparent z-10 pointer-events-none" />
 
         {/* Row 1 - Left to Right */}
-        <div className="mb-4">
+        <div className="mb-4 sm:mb-5">
           <motion.div
-            className="flex gap-4"
-            animate={{ x: [0, -284 * reviews.length] }}
+            className="flex gap-4 sm:gap-5"
+            animate={{ x: [0, -264 * reviews.length] }}
             transition={{
               x: {
                 repeat: Infinity,
@@ -263,8 +243,8 @@ const ReviewsSection = ({
         {/* Row 2 - Right to Left */}
         <div>
           <motion.div
-            className="flex gap-4"
-            animate={{ x: [-284 * reviews.length, 0] }}
+            className="flex gap-4 sm:gap-5"
+            animate={{ x: [-264 * reviews.length, 0] }}
             transition={{
               x: {
                 repeat: Infinity,
