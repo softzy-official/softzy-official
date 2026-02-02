@@ -5,11 +5,13 @@ import ProductByTitle from "./productByTitle";
 import ProductList from "./productList";
 import ReviewsSection from "./reviews";
 import FAQSection from "./faqSection";
+import HeroSection from "./heroSection";
 
 const Homepage = () => {
   return (
     <div>
       <CategoryLists />
+      <HeroSection/>
       <CategoryWithImage />
       {/* <ProductByTitle /> */}
       <ProductList

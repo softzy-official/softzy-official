@@ -105,3 +105,11 @@
 .poppins {
   font-family: "Poppins", sans-serif;
 }
+
+.hero-swiper .swiper-pagination-bullet {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.hero-swiper .swiper-pagination-bullet-active {
+  background: #fa49cb;
+}
