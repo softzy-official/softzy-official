@@ -17,24 +17,39 @@ const ShopPageContent = () => {
   const filteredProducts = useMemo(() => {
     let result = [...shopProducts];
 
-    // Category filter (checkbox - multiple values)
+    // 🔍 SEARCH FILTER
+    const searchQuery = searchParams.get("q")?.toLowerCase().trim();
+    if (searchQuery) {
+      result = result.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchQuery) ||
+          product.shortDescription?.toLowerCase().includes(searchQuery) ||
+          product.category?.toLowerCase().includes(searchQuery) ||
+          product.brand?.toLowerCase().includes(searchQuery),
+      );
+    }
+
+    // Category filter
     const categoryParam = searchParams.get("category");
     if (categoryParam) {
       const categories = categoryParam.split(",");
       result = result.filter((product) => {
         const productCategory = product.category?.toLowerCase();
-        return categories.some((cat) => productCategory?.includes(cat.toLowerCase()));
+        return categories.some((cat) =>
+          productCategory?.includes(cat.toLowerCase()),
+        );
       });
     }
 
-    // Collection/Filter (radio - single value)
+    // Collection filter
     const filterParam = searchParams.get("filter");
     if (filterParam) {
       result = result.filter((product) => {
-        const tags = product.tags?.map((t) => t.toLowerCase().replace(/\s+/g, "-")) || [];
+        const tags =
+          product.tags?.map((t) => t.toLowerCase().replace(/\s+/g, "-")) || [];
         switch (filterParam) {
           case "best-sellers":
-            return tags.includes("best-seller") || tags.includes("best seller");
+            return tags.includes("best-seller") || tags.includes("best-seller");
           case "new-arrivals":
             return tags.includes("new");
           case "trending":
@@ -49,7 +64,7 @@ const ShopPageContent = () => {
       });
     }
 
-    // Price filter (radio - single value)
+    // Price filter
     const priceParam = searchParams.get("price");
     if (priceParam) {
       result = result.filter((product) => {
@@ -71,30 +86,29 @@ const ShopPageContent = () => {
       });
     }
 
-    // Rating filter (radio - single value)
+    // Rating filter
     const ratingParam = searchParams.get("rating");
     if (ratingParam) {
       result = result.filter((product) => {
-        const rating = product.rating;
         switch (ratingParam) {
           case "4+":
-            return rating >= 4;
+            return product.rating >= 4;
           case "3+":
-            return rating >= 3;
+            return product.rating >= 3;
           case "2+":
-            return rating >= 2;
+            return product.rating >= 2;
           default:
             return true;
         }
       });
     }
 
-    // Sort products
+    // Sorting
     const sortParam = searchParams.get("sort");
     if (sortParam) {
       switch (sortParam) {
         case "newest":
-          result = result.reverse();
+          result = [...result].reverse();
           break;
         case "price-low":
           result.sort((a, b) => a.price - b.price);
@@ -104,8 +118,6 @@ const ShopPageContent = () => {
           break;
         case "rating":
           result.sort((a, b) => b.rating - a.rating);
-          break;
-        default:
           break;
       }
     }
@@ -121,7 +133,7 @@ const ShopPageContent = () => {
   const totalPages = Math.ceil(totalProducts / productsPerPage);
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage
+    currentPage * productsPerPage,
   );
 
   return (

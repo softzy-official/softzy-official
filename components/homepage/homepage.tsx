@@ -11,12 +11,13 @@ const Homepage = () => {
     <div>
       <CategoryLists />
       <CategoryWithImage />
-      <ProductByTitle />
+      {/* <ProductByTitle /> */}
       <ProductList
         badge="Trending"
         title="Trending Now"
         description="Most popular products this week"
         type="trending"
+        background="muted"
       />
       <ProductList
         badge="Featured Products"
@@ -29,6 +30,7 @@ const Homepage = () => {
         title="Most Selling Products"
         description="Most popular products this week"
         type="mustTry"
+        background="muted"
       />
       <ReviewsSection />
       <FAQSection />

@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { ChevronDown, ChevronUp, X, SlidersHorizontal } from "lucide-react";
+import { ChevronDown, ChevronUp, X, SlidersHorizontal, Search } from "lucide-react";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface FilterOption {
   id: string;
@@ -80,6 +81,41 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
   const [expandedGroups, setExpandedGroups] = useState<string[]>(
     filterGroups.map((g) => g.id)
   );
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
+  const debouncedSearch = useDebounce(searchQuery, 300);
+  const isFirstRender = useRef(true);
+
+  // Dynamic search - update URL when user types
+  useEffect(() => {
+  if (isFirstRender.current) {
+    isFirstRender.current = false;
+    return;
+  }
+
+  const currentQ = searchParams.get("q") || "";
+
+  // ⛔ prevent infinite loop
+  if (currentQ === debouncedSearch.trim()) return;
+
+  const params = new URLSearchParams(searchParams.toString());
+
+  if (debouncedSearch.trim()) {
+    params.set("q", debouncedSearch.trim());
+  } else {
+    params.delete("q");
+  }
+
+  params.delete("page");
+  router.replace(`/shop?${params.toString()}`, { scroll: false });
+}, [debouncedSearch]);
+
+  // Sync search query with URL when URL changes externally
+  useEffect(() => {
+    const urlQuery = searchParams.get("q") || "";
+    if (urlQuery !== searchQuery && !searchQuery) {
+      setSearchQuery(urlQuery);
+    }
+  }, [searchParams]);
 
   const toggleGroup = (groupId: string) => {
     setExpandedGroups((prev) =>
@@ -122,18 +158,26 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
       }
     }
 
-    // Reset page when filter changes
+    params.delete("page");
+    router.push(`/shop?${params.toString()}`, { scroll: false });
+  };
+
+  const clearSearch = () => {
+    setSearchQuery("");
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("q");
     params.delete("page");
     router.push(`/shop?${params.toString()}`, { scroll: false });
   };
 
   const clearAllFilters = () => {
+    setSearchQuery("");
     router.push("/shop", { scroll: false });
   };
 
   const hasActiveFilters = filterGroups.some(
     (group) => getSelectedValues(group.id).length > 0
-  );
+  ) || searchParams.get("q");
 
   // Mobile Sidebar
   if (isMobile) {
@@ -156,9 +200,13 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
           getSelectedValues={getSelectedValues}
           handleFilterChange={handleFilterChange}
           clearAllFilters={clearAllFilters}
-          hasActiveFilters={hasActiveFilters}
+          hasActiveFilters={!!hasActiveFilters}
           onClose={onClose}
           showCloseButton
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          clearSearch={clearSearch}
+          hasSearchQuery={!!searchQuery}
         />
       </aside>
     );
@@ -174,7 +222,11 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
         getSelectedValues={getSelectedValues}
         handleFilterChange={handleFilterChange}
         clearAllFilters={clearAllFilters}
-        hasActiveFilters={hasActiveFilters}
+        hasActiveFilters={!!hasActiveFilters}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        clearSearch={clearSearch}
+        hasSearchQuery={!!searchQuery}
       />
     </aside>
   );
@@ -190,6 +242,10 @@ interface SidebarContentProps {
   hasActiveFilters: boolean;
   onClose?: () => void;
   showCloseButton?: boolean;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
+  clearSearch: () => void;
+  hasSearchQuery: boolean;
 }
 
 const SidebarContent = ({
@@ -202,11 +258,15 @@ const SidebarContent = ({
   hasActiveFilters,
   onClose,
   showCloseButton,
+  searchQuery,
+  setSearchQuery,
+  clearSearch,
+  hasSearchQuery,
 }: SidebarContentProps) => {
   return (
     <>
       {/* Header */}
-      <div className="sticky top-0  z-10 p-4 sm:p-5 border-b border-border/40">
+      <div className="sticky top-0 bg-white z-10 p-4 sm:p-5 border-b border-border/40">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-5 h-5 text-secondary" />
@@ -232,6 +292,29 @@ const SidebarContent = ({
               </button>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Search Box - Dynamic Search */}
+      <div className="p-4 sm:p-5 pb-0">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products..."
+            className="w-full pl-10 pr-10 py-2.5 bg-muted/50 border border-border/50 rounded-xl text-sm text-foreground placeholder:text-muted-foreground poppins focus:outline-none focus:border-secondary/50 transition-colors"
+          />
+          {hasSearchQuery && (
+            <button
+              type="button"
+              onClick={clearSearch}
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-muted-foreground/20 flex items-center justify-center hover:bg-muted-foreground/30 transition-colors"
+            >
+              <X className="w-3 h-3 text-muted-foreground" />
+            </button>
+          )}
         </div>
       </div>
 

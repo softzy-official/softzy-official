@@ -4,22 +4,23 @@ import React from "react";
 import { shopProducts } from "../shopPage/products";
 import ProductCard from "../shopPage/productCard";
 
-
 type ProductSectionType = "featured" | "trending" | "mustTry";
 
-interface  ProductListProps {
+interface ProductListProps {
   badge: string;
   title: string;
   description?: string;
   type: ProductSectionType;
+  background?: "muted"; // extend later if needed
 }
 
-const  ProductList = ({
+const ProductList = ({
   badge,
   title,
   description,
   type,
-}:  ProductListProps) => {
+  background,
+}: ProductListProps) => {
   const filteredProducts = shopProducts.filter((product) => {
     if (type === "featured") return product.isFeatured;
     if (type === "trending") return product.isTrending;
@@ -30,7 +31,11 @@ const  ProductList = ({
   if (filteredProducts.length === 0) return null;
 
   return (
-    <section className="w-full py-16 sm:py-20 lg:py-24">
+    <section
+      className={`w-full py-16 sm:py-20 lg:py-24 ${
+        background === "muted" ? "bg-muted" : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
@@ -68,4 +73,4 @@ const  ProductList = ({
   );
 };
 
-export default  ProductList;
+export default ProductList;
