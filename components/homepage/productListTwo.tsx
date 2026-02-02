@@ -13,7 +13,7 @@ interface Product {
   href: string;
 }
 
-interface ProductListOneProps {
+interface ProductListTwoProps {
   badge?: string;
   title?: string;
   description?: string;
@@ -26,14 +26,16 @@ const defaultProducts: Product[] = [
     name: "Premium Leather Handbag",
     price: 2499,
     originalPrice: 3299,
-    image: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?q=80&w=763&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?q=80&w=763&auto=format&fit=crop",
     href: "/product/f1",
   },
   {
     id: "f2",
     name: "Elegant Summer Dress",
     price: 1299,
-    image: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=764&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=764&auto=format&fit=crop",
     href: "/product/f2",
   },
   {
@@ -41,14 +43,16 @@ const defaultProducts: Product[] = [
     name: "Kids Educational Toys Set",
     price: 899,
     originalPrice: 1199,
-    image: "https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=1170&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=1170&auto=format&fit=crop",
     href: "/product/f3",
   },
   {
     id: "f4",
     name: "Sport Running Shoes",
     price: 2999,
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1170&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1170&auto=format&fit=crop",
     href: "/product/f4",
   },
   {
@@ -56,14 +60,16 @@ const defaultProducts: Product[] = [
     name: "Handcrafted Silk Scarf",
     price: 799,
     originalPrice: 999,
-    image: "https://plus.unsplash.com/premium_photo-1674273913841-1468c9432368?q=80&w=687&auto=format&fit=crop",
+    image:
+      "https://plus.unsplash.com/premium_photo-1674273913841-1468c9432368?q=80&w=687&auto=format&fit=crop",
     href: "/product/f5",
   },
   {
     id: "f6",
     name: "Gold Plated Jewelry Set",
     price: 1599,
-    image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1074&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1074&auto=format&fit=crop",
     href: "/product/f6",
   },
   {
@@ -71,28 +77,29 @@ const defaultProducts: Product[] = [
     name: "Modern Home Decor Vase",
     price: 1199,
     originalPrice: 1499,
-    image: "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=1032&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=1032&auto=format&fit=crop",
     href: "/product/f7",
   },
   {
     id: "f8",
     name: "Professional Makeup Kit",
     price: 1999,
-    image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1180&auto=format&fit=crop",
+    image:
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1180&auto=format&fit=crop",
     href: "/product/f8",
   },
 ];
 
-const ProductListOne = ({
+const ProductListTwo = ({
   badge,
-  title ,
+  title,
   description,
   products = defaultProducts,
-}: ProductListOneProps) => {
+}: ProductListTwoProps) => {
   return (
-    <section className="w-full py-16 sm:py-20 lg:py-24">
+    <section className="w-full py-16 sm:py-20 lg:py-24 bg-muted">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Header Section */}
         <div className="text-center mb-10 sm:mb-12">
           <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-xs sm:text-sm font-medium rounded-full poppins mb-3 sm:mb-4">
@@ -159,4 +166,4 @@ const ProductListOne = ({
   );
 };
 
-export default ProductListOne;
+export default ProductListTwo;

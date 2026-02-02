@@ -13,7 +13,7 @@ interface Product {
   href: string;
 }
 
-interface ProductListOneProps {
+interface ProductListThreeProps {
   badge?: string;
   title?: string;
   description?: string;
@@ -83,12 +83,12 @@ const defaultProducts: Product[] = [
   },
 ];
 
-const ProductListOne = ({
+const ProductListThree = ({
   badge,
   title ,
   description,
   products = defaultProducts,
-}: ProductListOneProps) => {
+}: ProductListThreeProps) => {
   return (
     <section className="w-full py-16 sm:py-20 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -159,4 +159,4 @@ const ProductListOne = ({
   );
 };
 
-export default ProductListOne;
+export default ProductListThree;
