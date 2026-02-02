@@ -33,6 +33,9 @@ export interface Product {
   warranty?: string;
   returnPolicy?: string;
   buyLink?: string;
+  isFeatured?: boolean;
+  isTrending?: boolean;
+  isMustTry?: boolean;
 }
 
 interface ProductCardProps {

@@ -2,9 +2,7 @@ import React from "react";
 import CategoryLists from "./categoryLists";
 import CategoryWithImage from "./categoryWithImage";
 import ProductByTitle from "./productByTitle";
-import ProductListOne from "./productListOne";
-import ProductListTwo from "./productListTwo";
-import ProductListThree from "./productListThree";
+import ProductList from "./productList";
 import ReviewsSection from "./reviews";
 import FAQSection from "./faqSection";
 
@@ -14,23 +12,26 @@ const Homepage = () => {
       <CategoryLists />
       <CategoryWithImage />
       <ProductByTitle />
-      <ProductListOne
+      <ProductList
         badge="Trending"
         title="Trending Now"
         description="Most popular products this week"
+        type="trending"
       />
-      <ProductListTwo
+      <ProductList
         badge="Featured Products"
-        title="Must Try Items"
-        description="Most popular products this week"
+        title="Featured Products"
+        description="Featured popular products this week"
+        type="featured"
       />
-      <ProductListThree
+      <ProductList
         badge="Most Selling"
         title="Most Selling Products"
         description="Most popular products this week"
+        type="mustTry"
       />
-      <ReviewsSection/>
-      <FAQSection/>
+      <ReviewsSection />
+      <FAQSection />
     </div>
   );
 };
