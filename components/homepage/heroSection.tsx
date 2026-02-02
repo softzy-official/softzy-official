@@ -71,7 +71,7 @@ const HeroSection = () => {
                   className="object-cover"
                 />
 
-                {/* OVERLAY (SOFTER) */}
+                {/* OVERLAY */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/20 to-black/35" />
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.05)_0%,rgba(0,0,0,0.45)_80%)]" />
 

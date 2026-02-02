@@ -2,15 +2,11 @@
 
 import React from "react";
 import {
-  Package,
+
   Ruler,
   Sparkles,
   FileText,
-  Truck,
-  RotateCcw,
-  Shield,
   Check,
-  Info,
   Droplets,
 } from "lucide-react";
 import { Product } from "@/components/shopPage/productCard";

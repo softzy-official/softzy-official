@@ -48,7 +48,7 @@ const ProductByTitle = () => {
           </div>
         </div>
 
-        {/* Tabs - Horizontal Scrollable */}
+        {/* Tabs */}
         <div className="mb-10 sm:mb-12 -mx-4 px-4 sm:mx-0 sm:px-0">
           <div 
             ref={scrollRef}

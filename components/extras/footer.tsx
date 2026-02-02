@@ -40,7 +40,6 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-14">
         <div className="grid grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
           
-          {/* Brand Column - Full width on mobile, 2 cols on larger */}
           <div className="col-span-2 lg:col-span-1 pb-6 sm:pb-0 border-b border-white/10 sm:border-b-0">
             <Link href="/" className="inline-block ">
               <Image
@@ -80,7 +79,6 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Links Container - 3 columns on mobile, same row on desktop */}
           <div className="col-span-2 lg:col-span-1">
             <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {/* Shop Links */}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Star, ShoppingCart, ExternalLink, Check, Truck, RotateCcw, Shield } from "lucide-react";
+import { Star } from "lucide-react";
 import { Product } from "@/components/shopPage/productCard";
 
 interface ProductInfoProps {
@@ -17,6 +17,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : 0;
 
+    //  ADD TO CART LOGIC IS WRITTEN FOR FUTURE SCOPE
   const handleAddToCart = () => {
     // Get existing cart from localStorage
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");

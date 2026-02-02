@@ -24,13 +24,13 @@ const filterGroups: FilterGroup[] = [
     title: "Categories",
     type: "checkbox",
     options: [
-      { id: "clothing", label: "Clothing", count: 124 },
-      { id: "jewelry", label: "Jewelry", count: 86 },
-      { id: "home-decor", label: "Home Decor", count: 52 },
-      { id: "beauty", label: "Beauty", count: 78 },
-      { id: "accessories", label: "Accessories", count: 95 },
-      { id: "bags", label: "Bags", count: 43 },
-      { id: "footwear", label: "Footwear", count: 67 },
+      { id: "clothing", label: "Clothing"},
+      { id: "jewelry", label: "Jewelry"},
+      { id: "home-decor", label: "Home Decor" },
+      { id: "beauty", label: "Beauty"},
+      { id: "accessories", label: "Accessories"},
+      { id: "bags", label: "Bags"},
+      { id: "footwear", label: "Footwear"},
     ],
   },
   {
@@ -94,7 +94,6 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
 
   const currentQ = searchParams.get("q") || "";
 
-  // ⛔ prevent infinite loop
   if (currentQ === debouncedSearch.trim()) return;
 
   const params = new URLSearchParams(searchParams.toString());
@@ -393,11 +392,7 @@ const SidebarContent = ({
                         >
                           {option.label}
                         </span>
-                        {option.count && (
-                          <span className="text-xs text-muted-foreground">
-                            {option.count}
-                          </span>
-                        )}
+                        
                       </button>
                     );
                   })}

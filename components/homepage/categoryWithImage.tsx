@@ -57,7 +57,7 @@ const categories = [
 
 const CategoryWithImage = () => {
   return (
-    <section className="w-full py-16">
+    <section className="w-full py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Title */}
         <div className="text-center mb-12">
@@ -78,7 +78,7 @@ const CategoryWithImage = () => {
           </div>
         </div>
 
-        {/* Categories Grid - Modern & Tight */}
+        {/* Categories Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {categories.map((category) => (
             <Link

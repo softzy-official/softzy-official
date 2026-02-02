@@ -11,7 +11,7 @@ interface ProductListProps {
   title: string;
   description?: string;
   type: ProductSectionType;
-  background?: "muted"; // extend later if needed
+  background?: "muted";
 }
 
 const ProductList = ({
@@ -32,7 +32,7 @@ const ProductList = ({
 
   return (
     <section
-      className={`w-full py-16 sm:py-20 lg:py-24 ${
+      className={`w-full py-16  ${
         background === "muted" ? "bg-muted" : ""
       }`}
     >

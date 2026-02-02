@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
+import TopBanner from "./topBanner";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -27,7 +28,8 @@ const Navbar = () => {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border py-1">
+    <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border pb-1">
+      <TopBanner/>
       <div className="mx-auto px-6 sm:px-10 md:px-16">
         <div className="flex h-16 items-center justify-between gap-6">
 

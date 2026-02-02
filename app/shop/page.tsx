@@ -17,7 +17,6 @@ const ShopPageContent = () => {
   const filteredProducts = useMemo(() => {
     let result = [...shopProducts];
 
-    // 🔍 SEARCH FILTER
     const searchQuery = searchParams.get("q")?.toLowerCase().trim();
     if (searchQuery) {
       result = result.filter(

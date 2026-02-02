@@ -14,14 +14,14 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { name: "Explore", href: "/explore", icon: Compass },
+  { name: "Explore", href: "/shop", icon: Compass },
   { name: "Toys", href: "/shop?category=toys", icon: Baby },
   { name: "Clothing", href: "/shop?category=clothing", icon: Shirt },
   { name: "Shoes", href: "/shop?category=shoes", icon: Footprints },
   { name: "Bags", href: "/shop?category=bags", icon: ShoppingBag },
   { name: "Beauty", href: "/shop?category=beauty", icon: Sparkles },
   { name: "Handloom", href: "/shop?category=handloom", icon: Scissors },
-  { name: "Collections", href: "/collections", icon: Package },
+  { name: "Collections", href: "/shop", icon: Package },
 ];
 
 const CategoryLists = () => {
