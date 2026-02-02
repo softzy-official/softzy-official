@@ -6,6 +6,7 @@ import ProductListOne from "./productListOne";
 import ProductListTwo from "./productListTwo";
 import ProductListThree from "./productListThree";
 import ReviewsSection from "./reviews";
+import FAQSection from "./faqSection";
 
 const Homepage = () => {
   return (
@@ -29,6 +30,7 @@ const Homepage = () => {
         description="Most popular products this week"
       />
       <ReviewsSection/>
+      <FAQSection/>
     </div>
   );
 };
