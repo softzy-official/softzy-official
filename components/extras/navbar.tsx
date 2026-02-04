@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import TopBanner from "./topBanner";
+import { RiWhatsappLine } from "@remixicon/react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -50,7 +51,7 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative px-4 py-2 font-medium rounded-full transition-colors
+                className={`relative inter font-medium px-4 py-2 rounded-full transition-colors group
                   ${
                     isActive(link.href)
                       ? "bg-secondary text-secondary-foreground"
@@ -58,6 +59,9 @@ const Navbar = () => {
                   }`}
               >
                 {link.name}
+                {!isActive(link.href) && (
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-[calc(100%-2rem)]"></span>
+                )}
               </Link>
             ))}
           </div>
@@ -79,7 +83,7 @@ const Navbar = () => {
                 target="_blank"
                 className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
               >
-                <MessageCircle className="w-4.5 h-4.5" />
+                <RiWhatsappLine className="w-4.5 h-4.5" />
               </a>
               <a
                 href="https://facebook.com"
@@ -134,7 +138,7 @@ const Navbar = () => {
                     target="_blank"
                     className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
                   >
-                    <MessageCircle className="w-4.5 h-4.5" />
+                    <RiWhatsappLine className="w-4.5 h-4.5" />
                   </a>
                   <a
                     href="https://facebook.com"

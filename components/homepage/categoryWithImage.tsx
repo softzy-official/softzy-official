@@ -57,17 +57,17 @@ const categories = [
 
 const CategoryWithImage = () => {
   return (
-    <section className="w-full py-10 sm:py-16">
+    <section id="categories" className="w-full bg-muted/5 py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Title */}
         <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-3">
+          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
             Browse Collections
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-2 tracking-tight sm:tracking-normal">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3">
             Shop by Category
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground poppins max-w-xl mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto">
             Discover amazing products in every category
           </p>
           {/* Decorative Line */}

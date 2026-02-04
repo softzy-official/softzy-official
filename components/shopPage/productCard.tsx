@@ -69,7 +69,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div className="group">
       <div
-        className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-gray-100 mb-3 cursor-pointer"
+        className="relative aspect-3/4 rounded-md overflow-hidden bg-gray-100 mb-3 cursor-pointer"
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
       >
@@ -107,45 +107,40 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       <div className="space-y-2">
         <Link href={`/product/${product.slug}`}>
-          <h3 className="text-sm sm:text-base font-medium text-foreground poppins line-clamp-1 hover:text-secondary transition-colors">
+          <h3 className="text-sm sm:text-base font-medium text-foreground inter line-clamp-1 hover:text-secondary transition-colors">
             {product.name}
           </h3>
         </Link>
 
-        <div className="flex items-center gap-1.5">
-          <div className="flex items-center gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${
-                  i < Math.floor(product.rating)
-                    ? "fill-yellow-400 text-yellow-400"
-                    : "fill-gray-200 text-gray-200"
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-[10px] sm:text-xs text-muted-foreground poppins">
-            ({product.reviews})
-          </span>
-        </div>
+       <div className="flex items-center gap-1.5 mt-0.5">
+  <Star className="w-3.5 h-3.5 fill-yellow-400 text-yellow-400" />
 
-        <div className="flex items-center gap-2">
-          <p className="text-base sm:text-lg font-bold text-foreground poppins">
+  <span className="text-xs font-medium text-foreground inter">
+    {product.rating.toFixed(1)}
+  </span>
+
+  <span className="text-[10px] sm:text-xs text-muted-foreground inter">
+    ({product.reviews})
+  </span>
+</div>
+
+
+        <div className="flex items-center gap-2 -mt-0.5">
+          <p className="text-base sm:text-lg font-bold text-foreground inter">
             Rs. {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
           </p>
-          {product.originalPrice && (
-            <p className="text-sm text-muted-foreground line-through poppins">
+          {/* {product.originalPrice && (
+            <p className="text-sm text-muted-foreground line-through inter font-normal opacity-60">
               Rs. {product.originalPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </p>
-          )}
+          )} */}
         </div>
 
         <Link
           href={`/product/${product.slug}`}
-          className="flex items-center justify-center gap-2 w-full py-2.5 bg-secondary text-white text-xs sm:text-sm font-medium rounded-xl hover:bg-secondary/90 active:scale-[0.98] transition-all poppins"
+          className="flex items-center justify-center gap-2 w-full py-2.5 bg-secondary text-white text-xs sm:text-sm font-medium rounded-md hover:bg-secondary/90 active:scale-[0.98] transition-all poppins"
         >
-          <Eye className="w-4 h-4" />
+          {/* <Eye className="w-4 h-4" /> */}
           View Product
         </Link>
       </div>

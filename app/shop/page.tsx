@@ -136,7 +136,7 @@ const ShopPageContent = () => {
   );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-muted/5">
       {/* Mobile Filter Overlay */}
       {isFilterOpen && (
         <div

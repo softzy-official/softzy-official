@@ -213,7 +213,7 @@ const FilterSidebar = ({ isOpen = false, onClose, isMobile = false }: FilterSide
 
   // Desktop Sidebar
   return (
-    <aside className="w-full bg-white border border-border/40 rounded-2xl overflow-hidden">
+    <aside className="w-full bg-white border border-border rounded-2xl overflow-hidden">
       <SidebarContent
         filterGroups={filterGroups}
         expandedGroups={expandedGroups}
@@ -265,7 +265,7 @@ const SidebarContent = ({
   return (
     <>
       {/* Header */}
-      <div className="sticky top-0 bg-white z-10 p-4 sm:p-5 border-b border-border/40">
+      <div className="sticky top-0 bg-white z-10 p-4 sm:p-5 border-b border-border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <SlidersHorizontal className="w-5 h-5 text-secondary" />

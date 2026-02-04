@@ -1,43 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
-import { X } from "lucide-react";
 
 const TopBanner = () => {
-  const [visible, setVisible] = useState(true);
-
-  if (!visible) return null;
-
   return (
-    <div className="w-full bg-primary ">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative flex items-center justify-center py-2.5 sm:py-3 text-center">
-          
-          {/* Banner Text */}
-          <p className="text-xs sm:text-sm poppins font-medium tracking-tight sm:tracking-wide">
-            Free Shipping on Orders Above ₹999 —{" "}
-            <Link
-              href="/shop"
-              className="hover:underline transition-all duration-300 underline-offset-4  ease-in"
-            >
-              Shop Now
-            </Link>
-          </p>
+    <div className="relative w-full overflow-hidden bg-banner-gradient">
+      
+      {/* soft overlay for depth */}
+      <div className="absolute inset-0 bg-black/5" />
 
-          {/* Close Button */}
-          <button
-            onClick={() => setVisible(false)}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full flex items-center justify-center hover:bg-white/20 transition hidden"
-            aria-label="Close banner"
-          >
-            <X className="w-4 h-4" />
-          </button>
+      <div className="relative py-2.5 sm:py-3">
+        <div className="marquee-track">
+          
+          <div className="marquee-content">
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+          </div>
+
+          {/* duplicate for TRUE infinite loop */}
+          <div className="marquee-content">
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+            <MarqueeItem />
+          </div>
 
         </div>
       </div>
     </div>
   );
 };
+
+const MarqueeItem = () => (
+  <span className="mx-10 flex items-center gap-2 text-xs sm:text-sm inter font-medium tracking-[0.12em] text-primary-foreground/95">
+  <span className="opacity-90">
+    Free Shipping on Orders Above Rs.999
+  </span>
+
+  <span className="opacity-60"> - </span>
+
+  <Link
+    href="/shop"
+    className="underline underline-offset-4 decoration-primary-foreground/60 hover:decoration-primary-foreground"
+  >
+    Shop Now
+  </Link>
+</span>
+
+);
 
 export default TopBanner;

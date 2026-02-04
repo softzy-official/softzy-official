@@ -7,10 +7,10 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="relative py-10 bg-secondary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-sm font-medium rounded-full poppins mb-4">
+          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-sm font-medium rounded-full poppins mb-4 uppercase tracking-[0.12em]">
             Our Story
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground playfair mb-6">
             About Softzy
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground poppins leading-relaxed max-w-2xl mx-auto">
@@ -21,25 +21,25 @@ const AboutPage = () => {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16 sm:py-20 lg:py-24">
+      <section className="py-16 sm:py-20 lg:py-24 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
             <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-muted">
               <Image
-                src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?q=80&w=1170&auto=format&fit=crop"
+                src="/about.png"
                 alt="Our Mission"
                 fill
                 className="object-cover"
               />
             </div>
             <div>
-              <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-4">
+              <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins uppercase tracking-[0.12em] mb-4">
                 Our Mission
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground poppins mb-5">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground playfair mb-5">
                 Quality Products, Happy Customers
               </h2>
-              <p className="text-muted-foreground poppins leading-relaxed mb-4">
+              <p className="text-muted-foreground poppins leading-relaxed mb-4 ">
                 At Softzy, our mission is simple — to make premium quality products accessible to everyone. 
                 We work directly with trusted manufacturers to bring you authentic products at the best prices.
               </p>
@@ -53,19 +53,19 @@ const AboutPage = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-muted">
+      <section className="py-16 sm:py-20 bg-muted">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-4">
+            <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-4 uppercase tracking-[0.12em] ">
               What We Stand For
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground poppins">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground playfair">
               Our Core Values
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-background border border-border/40 rounded-2xl p-6 sm:p-8">
+            <div className="bg-background border border-secondary/50 rounded-2xl p-6 sm:p-8">
               <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-5">
                 <span className="text-2xl">✨</span>
               </div>
@@ -77,7 +77,7 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="bg-background border border-border/40 rounded-2xl p-6 sm:p-8">
+            <div className="bg-background border border-secondary/50 rounded-2xl p-6 sm:p-8">
               <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-5">
                 <span className="text-2xl">💝</span>
               </div>
@@ -89,7 +89,7 @@ const AboutPage = () => {
               </p>
             </div>
 
-            <div className="bg-background border border-border/40 rounded-2xl p-6 sm:p-8 sm:col-span-2 lg:col-span-1">
+            <div className="bg-background border border-secondary/50 rounded-2xl p-6 sm:p-8">
               <div className="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center mb-5">
                 <span className="text-2xl">🤝</span>
               </div>
@@ -105,30 +105,30 @@ const AboutPage = () => {
       </section>
 
       {/* Promise Section */}
-      <section className="py-16 sm:py-20 ">
+      <section className="hidden py-16 sm:py-20 md:py-24 bg-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-4">
+          <span className="inline-block px-3 py-1 bg-secondary/10 text-secondary text-xs font-medium rounded-full poppins mb-4 uppercase tracking-[0.12em] ">
             Our Promise
           </span>
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground poppins mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground playfair mb-6">
             Why Shop With Us?
           </h2>
           
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary poppins mb-2">100%</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">100%</p>
               <p className="text-sm text-muted-foreground poppins">Authentic Products</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary poppins mb-2">24/7</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">24/7</p>
               <p className="text-sm text-muted-foreground poppins">Customer Support</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary poppins mb-2">Fast</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">Fast</p>
               <p className="text-sm text-muted-foreground poppins">Delivery</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary poppins mb-2">Easy</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">Easy</p>
               <p className="text-sm text-muted-foreground poppins">Returns</p>
             </div>
           </div>
@@ -136,9 +136,9 @@ const AboutPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-secondary/5">
+      <section className="bg-white py-16 sm:py-20 bg-secondary/5">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-foreground poppins mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground playfair mb-4">
             Start Shopping Today
           </h2>
           <p className="text-muted-foreground poppins mb-8">

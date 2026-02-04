@@ -50,13 +50,14 @@ const ShopHeader = ({ totalProducts, onFilterToggle }: ShopHeaderProps) => {
   return (
     <div className="space-y-4">
       {/* Top Row */}
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-start md:items-center justify-between gap-4">
         <div>
           <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-foreground poppins">
             Shop All
           </h1>
           <p className="text-xs sm:text-sm text-muted-foreground poppins mt-0.5">
-            Showing {totalProducts} product{totalProducts !== 1 ? "s" : ""}
+            {/* Showing {totalProducts} product{totalProducts !== 1 ? "s" : ""} */}
+            Discover thoughtfully curated products for you
           </p>
         </div>
 
@@ -85,7 +86,7 @@ const ShopHeader = ({ totalProducts, onFilterToggle }: ShopHeaderProps) => {
               className="group inline-flex items-center gap-1.5 px-3 py-1.5 bg-secondary/10 hover:bg-secondary/20 text-secondary text-xs sm:text-sm rounded-full poppins capitalize transition-colors"
             >
               {filter.label}
-              <X className="w-3.5 h-3.5 group-hover:rotate-90 transition-transform" />
+              <X className="w-3.5 h-3.5  transition-transform" />
             </button>
           ))}
         </div>

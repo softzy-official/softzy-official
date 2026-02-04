@@ -10,6 +10,7 @@ import {
   Droplets,
 } from "lucide-react";
 import { Product } from "@/components/shopPage/productCard";
+import { RiArrowGoBackLine, RiAwardLine, RiShieldCheckLine, RiTruckLine } from "@remixicon/react";
 
 interface ProductDetailsProps {
   product: Product;
@@ -42,12 +43,12 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
         {/* Description Card */}
         {hasDescription && (
-          <div className="lg:col-span-2 bg-secondary/5 border border-secondary/20 rounded-2xl sm:rounded-3xl overflow-hidden">
+          <div className="lg:col-span-2 bg-muted/50 border border-secondary/20 rounded-2xl sm:rounded-3xl overflow-hidden">
             <div className="flex items-center gap-3 px-5 sm:px-6 py-4 border-b border-secondary/10">
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary flex items-center justify-center">
                 <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <h3 className="text-base sm:text-lg font-semibold text-foreground poppins">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground inter">
                 Description
               </h3>
             </div>
@@ -70,7 +71,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary flex items-center justify-center">
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <h3 className="text-base sm:text-lg font-semibold text-foreground poppins">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground inter">
                 Key Features
               </h3>
             </div>
@@ -81,7 +82,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
                     <div className="w-5 h-5 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
                       <Check className="w-3 h-3 text-secondary" />
                     </div>
-                    <span className="text-sm sm:text-base text-foreground poppins leading-relaxed">
+                    <span className="text-sm sm:text-base text-foreground/80 poppins leading-relaxed">
                       {feature}
                     </span>
                   </div>
@@ -98,7 +99,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-secondary flex items-center justify-center">
                 <Ruler className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <h3 className="text-base sm:text-lg font-semibold text-foreground poppins">
+              <h3 className="text-base sm:text-lg font-semibold text-foreground inter">
                 Specifications
               </h3>
             </div>
@@ -189,11 +190,49 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
             </div>
           </div>
         )}
-
+      
         
 
        
       </div>
+
+       <div className="w-full bg-muted/40 border border-border/50 rounded-2xl sm:rounded-3xl px-4 sm:px-6 py-4 hidden">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-4 gap-x-6">
+        
+        {/* 7-day returns */}
+        <div className="flex items-center gap-3">
+          <RiArrowGoBackLine className="w-5 h-5 text-secondary flex-shrink-0" />
+          <span className="text-sm sm:text-[15px] text-foreground poppins">
+            7-day easy returns
+          </span>
+        </div>
+
+        {/* Free shipping */}
+        <div className="flex items-center gap-3">
+          <RiTruckLine className="w-5 h-5 text-secondary flex-shrink-0" />
+          <span className="text-sm sm:text-[15px] text-foreground poppins">
+            Free shipping above ₹999
+          </span>
+        </div>
+
+        {/* Secure payments */}
+        <div className="flex items-center gap-3">
+          <RiShieldCheckLine className="w-5 h-5 text-secondary flex-shrink-0" />
+          <span className="text-sm sm:text-[15px] text-foreground poppins">
+            Secure payments
+          </span>
+        </div>
+
+        {/* Premium quality */}
+        <div className="flex items-center gap-3">
+          <RiAwardLine className="w-5 h-5 text-secondary flex-shrink-0" />
+          <span className="text-sm sm:text-[15px] text-foreground poppins">
+            Premium quality assured
+          </span>
+        </div>
+
+      </div>
+    </div>
     </div>
   );
 };

@@ -42,7 +42,7 @@ const ProductGrid = ({ products, isLoading }: ProductGridProps) => {
   }
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 bg-muted/5">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

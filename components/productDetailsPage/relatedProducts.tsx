@@ -36,8 +36,8 @@ const RelatedProducts = ({ currentProductId, category }: RelatedProductsProps) =
 
   return (
     <section className="py-8 sm:py-12">
-      <h2 className="text-xl sm:text-2xl font-bold text-foreground poppins mb-6 sm:mb-8">
-        You May Also Like
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-foreground inter mb-6 sm:mb-8">
+        Customers also loved these
       </h2>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">

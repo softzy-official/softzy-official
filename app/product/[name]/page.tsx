@@ -26,7 +26,7 @@ const SingleProductDetailsPage = async ({ params }: ProductPageProps) => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground poppins mb-6 sm:mb-8 overflow-x-auto">

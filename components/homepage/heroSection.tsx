@@ -49,18 +49,18 @@ const heroSlides = [
 
 const HeroSection = () => {
   return (
-    <section className="w-full py-8 sm:py-12">
+    <section className="w-full py-8 sm:py-12 bg-white">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <Swiper
           modules={[Autoplay, Pagination]}
           autoplay={{ delay: 4800, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           loop
-          className="rounded-2xl md:rounded-3xl overflow-hidden hero-swiper"
+          className="rounded-xl md:rounded-3xl overflow-hidden hero-swiper"
         >
           {heroSlides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="relative h-[360px] sm:h-[460px] lg:h-[520px]">
+              <div className="relative h-[360px] sm:h-[400px] lg:h-[480px]">
 
                 {/* IMAGE */}
                 <Image
@@ -79,18 +79,18 @@ const HeroSection = () => {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center px-4 max-w-3xl">
 
-                    <h1 className="text-2xl sm:text-3xl lg:text-5xl xl:text-6xl font-bold text-white poppins mb-3 sm:mb-4 leading-tight drop-shadow-md">
+                    <h1 className="text-3xl min-[360px]:text-4xl sm:text-5xl  md:text-4xl lg:text-6xl xl:text-7xl  text-white font-medium playfair mb-3 sm:mb-4 leading-tight drop-shadow-md tracking-tight">
                       {slide.title}
                     </h1>
 
-                    <p className="text-xs sm:text-sm lg:text-lg text-white/90 poppins mb-6 sm:mb-8 tracking-wide">
+                    <p className="text-sm sm:text-lg lg:text-xl text-white/90 poppins mb-6 sm:mb-8 tracking-wide inter font-light opacity-90">
                       {slide.subtitle}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                    <div className="flex flex-col min-[460px]:flex-row justify-center gap-3 sm:gap-4">
                       <Link
                         href="/shop"
-                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-secondary text-white text-sm sm:text-base font-semibold rounded-xl poppins hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all"
+                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-secondary text-white text-sm sm:text-base font-medium rounded-xl poppins hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all"
                       >
                         Shop Now
                       </Link>

@@ -14,10 +14,12 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
   const [addedToCart, setAddedToCart] = useState(false);
 
   const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
+    ? Math.round(
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
+      )
     : 0;
 
-    //  ADD TO CART LOGIC IS WRITTEN FOR FUTURE SCOPE
+  //  ADD TO CART LOGIC IS WRITTEN FOR FUTURE SCOPE
   const handleAddToCart = () => {
     // Get existing cart from localStorage
     const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
@@ -25,7 +27,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
     // Check if product already exists in cart
     const existingIndex = existingCart.findIndex(
       (item: { id: string; size?: string }) =>
-        item.id === product.id && item.size === selectedSize
+        item.id === product.id && item.size === selectedSize,
     );
 
     if (existingIndex > -1) {
@@ -60,35 +62,35 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
   return (
     <div className="space-y-5 sm:space-y-6">
-      
-
-      
-
       {/* Name */}
-      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-foreground poppins leading-tight">
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground inter leading-tight">
         {product.name}
       </h1>
 
       {/* Rating */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-4 h-4 sm:w-5 sm:h-5 ${
-                i < Math.floor(product.rating)
-                  ? "fill-yellow-400 text-yellow-400"
-                  : "fill-gray-200 text-gray-200"
-              }`}
-            />
-          ))}
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                  i < Math.floor(product.rating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "fill-gray-200 text-gray-200"
+                }`}
+              />
+            ))}
+          </div>
+
+          <span className="text-sm sm:text-base font-medium text-foreground poppins">
+            {product.rating.toFixed(1)}
+          </span>
         </div>
-        <span className="text-sm sm:text-base font-medium text-foreground poppins">
-          {product.rating}
-        </span>
-        <span className="text-sm text-muted-foreground poppins">
-          ({product.reviews} reviews)
-        </span>
+
+        {/* <span className="text-xs sm:text-sm text-muted-foreground poppins">
+          {product.reviews} verified buyers
+        </span> */}
       </div>
 
       {/* Short Description */}
@@ -100,15 +102,19 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
 
       {/* Price */}
       <div className="flex items-center gap-3">
-        <span className="text-2xl sm:text-3xl font-bold text-foreground poppins">
-          Rs. {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+        <span className="text-2xl sm:text-3xl font-bold text-foreground inter">
+          Rs.{" "}
+          {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
         </span>
         {product.originalPrice && (
           <>
-            <span className="text-lg sm:text-xl text-muted-foreground line-through poppins">
-              Rs. {product.originalPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
+            <span className="text-lg sm:text-xl text-muted-foreground opacity-80 line-through inter">
+              Rs.{" "}
+              {product.originalPrice.toLocaleString("en-IN", {
+                minimumFractionDigits: 2,
+              })}
             </span>
-            <span className="px-2 py-1 bg-green-100 text-green-700 text-sm font-medium rounded poppins">
+            <span className="px-2 py-1 bg-green-100 text-green-700 text-sm font-medium rounded inter rounded-full">
               {discount}% OFF
             </span>
           </>
@@ -162,8 +168,12 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
       {/* Color */}
       {product.color && (
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-foreground poppins">Color:</span>
-          <span className="text-sm text-muted-foreground poppins">{product.color}</span>
+          <span className="text-sm font-medium text-foreground poppins">
+            Color:
+          </span>
+          <span className="text-sm text-muted-foreground poppins">
+            {product.color}
+          </span>
         </div>
       )}
 
@@ -220,7 +230,6 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
           </button>
         )}
       </div>
-
     </div>
   );
 };

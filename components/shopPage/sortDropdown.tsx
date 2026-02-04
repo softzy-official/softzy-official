@@ -55,7 +55,7 @@ const SortDropdown = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-card border border-border/60 rounded-xl shadow-lg overflow-hidden z-50">
+        <div className="absolute right-0 top-full mt-2  sm:w-56 bg-card border border-border/60 rounded-xl shadow-lg overflow-hidden z-50">
           {sortOptions.map((option) => (
             <button
               key={option.id}

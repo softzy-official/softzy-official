@@ -100,10 +100,21 @@
   body {
     @apply bg-background text-foreground;
   }
+  html{
+    scroll-behavior: smooth;
+  }
 }
 
 .poppins {
   font-family: "Poppins", sans-serif;
+}
+
+.playfair{
+  font-family: "Playfair Display",sans-serif;
+}
+
+.inter{
+  font-family: "Inter",sans-serif;
 }
 
 .hero-swiper .swiper-pagination-bullet {
@@ -112,4 +123,86 @@
 
 .hero-swiper .swiper-pagination-bullet-active {
   background: #fa49cb;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+.marquee-content {
+  display: flex;
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.bg-banner-gradient {
+  background:
+    linear-gradient(
+      120deg,
+      oklch(0.78 0.14 350) 0%,
+      var(--primary) 25%,
+      var(--secondary) 50%,
+      var(--accent) 75%,
+      oklch(0.78 0.14 350) 100%
+    );
+  background-size: 300% 300%;
+  animation: banner-gradient-flow 12s ease-in-out infinite;
+}
+
+.bg-banner-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 45%,
+    transparent 55%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+
+
+@keyframes banner-gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.divider-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: divider-marquee-scroll 35s linear infinite;
+  will-change: transform;
+}
+
+.divider-marquee-content {
+  display: flex;
+  align-items: center;
+}
+
+@keyframes divider-marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

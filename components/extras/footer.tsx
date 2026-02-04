@@ -10,6 +10,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import { RiWhatsappLine } from "@remixicon/react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -30,6 +31,7 @@ const Footer = () => {
   const socialLinks = [
     { name: "Facebook", icon: Facebook, href: "https://facebook.com" },
     { name: "Instagram", icon: Instagram, href: "https://instagram.com" },
+    { name: "Whatsapp", icon: RiWhatsappLine, href: "#" },
     { name: "Twitter", icon: Twitter, href: "https://twitter.com" },
     { name: "Youtube", icon: Youtube, href: "https://youtube.com" },
   ];
@@ -83,7 +85,7 @@ const Footer = () => {
             <div className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
               {/* Shop Links */}
               <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-white poppins mb-3 sm:mb-4">
+                <h4 className="text-xs sm:text-base  md:text-lg font-medium text-white playfair mb-3 sm:mb-4">
                   Shop
                 </h4>
                 <ul className="space-y-1.5 sm:space-y-2.5">
@@ -91,7 +93,7 @@ const Footer = () => {
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="text-[11px] sm:text-sm text-white/70 hover:text-white transition-colors poppins leading-relaxed"
+                        className="text-[11px] sm:text-sm text-white/70 hover:text-white transition-colors inter font-normal leading-relaxed"
                       >
                         {link.name}
                       </Link>
@@ -102,7 +104,7 @@ const Footer = () => {
 
               {/* Support Links */}
               <div>
-                <h4 className="text-xs sm:text-sm font-semibold text-white poppins mb-3 sm:mb-4">
+                <h4 className="text-xs sm:text-base  md:text-lg font-medium text-white playfair mb-3 sm:mb-4">
                   Support
                 </h4>
                 <ul className="space-y-1.5 sm:space-y-2.5">
@@ -110,7 +112,7 @@ const Footer = () => {
                     <li key={link.name}>
                       <Link
                         href={link.href}
-                        className="text-[11px] sm:text-sm text-white/70 hover:text-white transition-colors poppins leading-relaxed"
+                        className="text-[11px] sm:text-sm text-white/70 hover:text-white transition-colors inter font-normal leading-relaxed"
                       >
                         {link.name}
                       </Link>

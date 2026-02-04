@@ -11,7 +11,7 @@ interface ProductListProps {
   title: string;
   description?: string;
   type: ProductSectionType;
-  background?: "muted";
+  background?: string;
 }
 
 const ProductList = ({
@@ -31,20 +31,15 @@ const ProductList = ({
   if (filteredProducts.length === 0) return null;
 
   return (
-    <section
-      className={`w-full py-16  ${
-        background === "muted" ? "bg-muted" : ""
-      }`}
-    >
+    <section className={`w-full py-16 ${background ? `bg-${background}` : ""}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         {/* Header */}
         <div className="text-center mb-10 sm:mb-12">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-xs sm:text-sm font-medium rounded-full poppins mb-3 sm:mb-4">
+          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
             {badge}
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3">
             {title}
           </h2>
 
@@ -67,7 +62,6 @@ const ProductList = ({
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-
       </div>
     </section>
   );

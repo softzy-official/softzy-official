@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Poppins } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Poppins,
+  Playfair_Display,
+  Inter,
+} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/extras/navbar";
 import Footer from "@/components/extras/footer";
@@ -20,6 +26,18 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
 });
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
 export const metadata: Metadata = {
   title: "Softzy",
   description: "Ecommerce website",
@@ -33,11 +51,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} poppins antialiased`}
+        className={`
+          ${geistSans.variable}
+          ${geistMono.variable}
+          ${poppins.variable}
+          ${playfair.variable}
+          ${inter.variable}
+          antialiased
+        `}
       >
-        <Navbar/>
+        <Navbar />
         {children}
-        <Footer/>
+        <Footer />
       </body>
     </html>
   );

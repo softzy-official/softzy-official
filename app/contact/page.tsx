@@ -9,6 +9,7 @@ import {
   Twitter,
   Linkedin,
 } from "lucide-react";
+import { RiWhatsappLine } from "@remixicon/react";
 
 const ContactPage = () => {
   return (
@@ -16,10 +17,10 @@ const ContactPage = () => {
       {/* Hero Section */}
       <section className="relative py-10 bg-secondary/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-sm font-medium rounded-full poppins mb-4">
+          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-sm font-medium rounded-full poppins mb-4 uppercase tracking-[0.12em]">
             Get In Touch
           </span>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-6 playfair">
             Contact Us
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground poppins leading-relaxed max-w-2xl mx-auto">
@@ -35,7 +36,7 @@ const ContactPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
             {/* Contact Form */}
             <div className="bg-white border border-border rounded-3xl p-6 sm:p-8 lg:p-10">
-              <h2 className="text-xl sm:text-2xl font-bold text-foreground poppins mb-2">
+              <h2 className="text-xl sm:text-2xl font-bold text-foreground inter mb-2">
                 Send us a Message
               </h2>
               <p className="text-sm text-muted-foreground poppins mb-8">
@@ -107,7 +108,7 @@ const ContactPage = () => {
             {/* Contact Info */}
             <div className="space-y-8">
               <div>
-                <h2 className="text-xl sm:text-2xl font-bold text-foreground poppins mb-2">
+                <h2 className="text-xl sm:text-2xl font-bold text-foreground inter mb-2">
                   Contact Information
                 </h2>
                 <p className="text-sm text-muted-foreground poppins">
@@ -190,6 +191,12 @@ const ContactPage = () => {
                     className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-muted-foreground"
                   >
                     <Instagram className="w-5 h-5" />
+                  </Link>
+                  <Link
+                    href="#"
+                    className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center text-muted-foreground"
+                  >
+                    <RiWhatsappLine className="w-5 h-5" />
                   </Link>
                   <Link
                     href="#"

@@ -57,7 +57,7 @@ const FAQItem = ({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
         onClick={onToggle}
         className="w-full flex items-center justify-between py-4 sm:py-5 text-left group"
       >
-        <span className="text-sm sm:text-base font-medium text-foreground poppins pr-4 group-hover:text-secondary transition-colors">
+        <span className="text-sm sm:text-base font-medium text-foreground inter pr-4 group-hover:text-secondary transition-colors">
           {faq.question}
         </span>
         <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
@@ -79,7 +79,7 @@ const FAQItem = ({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="text-xs sm:text-sm text-muted-foreground poppins leading-relaxed pb-4 sm:pb-5 pr-12">
+            <p className="text-xs sm:text-sm text-muted-foreground inter font-normal leading-relaxed pb-4 sm:pb-5 pr-12">
               {faq.answer}
             </p>
           </motion.div>
@@ -112,10 +112,10 @@ const FAQSection = ({
         
         {/* Header Section */}
         <div className="text-center mb-10 sm:mb-12">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-xs sm:text-sm font-medium rounded-full poppins mb-3 sm:mb-4">
+          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
             {badge}
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground poppins mb-3">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3">
             {title}
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto">
