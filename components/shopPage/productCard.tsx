@@ -129,11 +129,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <p className="text-base sm:text-lg font-bold text-foreground inter">
             Rs. {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
           </p>
-          {/* {product.originalPrice && (
+          {product.originalPrice && (
             <p className="text-sm text-muted-foreground line-through inter font-normal opacity-60">
               Rs. {product.originalPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </p>
-          )} */}
+          )}
         </div>
 
         <Link
