@@ -200,43 +200,43 @@ const FAQSection = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <motion.div
-                  variants={sectionTimeline}
-                  initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, amount: 0.4 }}
-                  className="text-center mb-12"
-                >
-                  {/* Badge */}
-                  <motion.span
-                    variants={fadeUp}
-                    className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3"
-                  >
-                    Browse Collections
-                  </motion.span>
-        
-                  {/* Title */}
-                  <motion.h2
-                    variants={headingContainer}
-                    className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3"
-                  >
-                    <AnimatedText text="Shop by Category" />
-                  </motion.h2>
-        
-                  {/* Description */}
-                  <motion.p
-                    variants={fadeUp}
-                    className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto"
-                  >
-                    Discover amazing products in every category
-                  </motion.p>
-        
-                  {/* Decorative Line */}
-                  <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
-                    <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
-                    <span className="w-2 h-2 bg-secondary rounded-full"></span>
-                    <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
-                  </div>
-                </motion.div>
+          variants={sectionTimeline}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          className="text-center mb-12"
+        >
+          {/* Badge */}
+          <motion.span
+            variants={fadeUp}
+            className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3"
+          >
+            {badge}
+          </motion.span>
+
+          {/* Title */}
+          <motion.h2
+            variants={headingContainer}
+            className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3"
+          >
+            <AnimatedText text={title} />
+          </motion.h2>
+
+          {/* Description */}
+          <motion.p
+            variants={fadeUp}
+            className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto"
+          >
+            {description}
+          </motion.p>
+
+          {/* Decorative Line */}
+          <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
+            <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
+            <span className="w-2 h-2 bg-secondary rounded-full"></span>
+            <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
+          </div>
+        </motion.div>
 
         {/* FAQ Grid */}
         <div className="max-w-7xl mx-auto">
