@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { shopProducts } from "../shopPage/products";
+import { shopProducts } from "../../data/products";
 import ProductCard from "../shopPage/productCard";
 
 type ProductSectionType = "featured" | "trending" | "mustTry";

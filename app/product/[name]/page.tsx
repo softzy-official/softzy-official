@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 
 import Link from "next/link";
-import { shopProducts } from "@/components/shopPage/products";
+import { shopProducts } from "@/data/products";
 import ImageGallery from "@/components/productDetailsPage/imageGallery";
 import ProductInfo from "@/components/productDetailsPage/productInfo";
 import ProductDetails from "@/components/productDetailsPage/productDetails";

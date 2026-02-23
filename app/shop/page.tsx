@@ -7,7 +7,7 @@ import ProductGrid from "@/components/shopPage/productGrid";
 import ShopHeader from "@/components/shopPage/shopHeader";
 import SortDropdown from "@/components/shopPage/sortDropdown";
 import Pagination from "@/components/shopPage/pagination";
-import { shopProducts } from "@/components/shopPage/products";
+import { shopProducts } from "@/data/products";
 
 const ShopPageContent = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);

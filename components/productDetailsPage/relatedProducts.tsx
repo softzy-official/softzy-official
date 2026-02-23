@@ -2,7 +2,7 @@
 
 import React from "react";
 import ProductCard, { Product } from "@/components/shopPage/productCard";
-import { shopProducts } from "../shopPage/products";
+import { shopProducts } from "../../data/products";
 
 
 interface RelatedProductsProps {

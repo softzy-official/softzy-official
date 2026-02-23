@@ -21,36 +21,50 @@ const defaultFaqs: FAQ[] = [
   {
     id: "faq1",
     question: "How long does shipping take?",
-    answer: "Standard shipping takes 5-7 business days. Express shipping is available for 2-3 business days delivery. Free shipping on orders above ₹999.",
+    answer:
+      "Standard shipping takes 5-7 business days. Express shipping is available for 2-3 business days delivery. Free shipping on orders above ₹1499.",
   },
   {
     id: "faq2",
     question: "What is your return policy?",
-    answer: "We offer hassle-free 7-day returns on all products. Items must be unused and in original packaging. Refunds are processed within 5-7 business days.",
+    answer:
+      "We offer hassle-free 7-day returns on all products. Items must be unused and in original packaging. Refunds are processed within 5-7 business days.",
   },
   {
     id: "faq3",
     question: "Are the products authentic?",
-    answer: "Yes, all our products are 100% authentic and sourced directly from verified sellers. We guarantee quality and authenticity on every purchase.",
+    answer:
+      "Yes, all our products are 100% authentic and sourced directly from verified sellers. We guarantee quality and authenticity on every purchase.",
   },
   {
     id: "faq4",
     question: "How can I track my order?",
-    answer: "Once your order is shipped, you'll receive a tracking link via email and SMS. You can also track your order from your account dashboard.",
+    answer:
+      "Once your order is shipped, you'll receive a tracking link via email and SMS. You can also track your order from your account dashboard.",
   },
   {
     id: "faq5",
     question: "Do you offer Cash on Delivery?",
-    answer: "Yes, we offer COD on orders up to ₹5,000. A small COD fee of ₹49 applies. Prepaid orders enjoy free shipping on orders above ₹499.",
+    answer:
+      "Yes, we offer COD on orders up to ₹5,000. A small COD fee of ₹49 applies. Prepaid orders enjoy free shipping on orders above ₹1499.",
   },
   {
     id: "faq6",
     question: "How do I contact customer support?",
-    answer: "You can reach us via WhatsApp, email, or call. Our support team is available Monday to Saturday, 10 AM to 7 PM. We respond within 24 hours.",
+    answer:
+      "You can reach us via WhatsApp, email, or call. Our support team is available Monday to Saturday, 10 AM to 7 PM. We respond within 24 hours.",
   },
 ];
 
-const FAQItem = ({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggle: () => void }) => {
+const FAQItem = ({
+  faq,
+  isOpen,
+  onToggle,
+}: {
+  faq: FAQ;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => {
   return (
     <div className="border-b border-border/60 last:border-b-0">
       <button
@@ -60,9 +74,13 @@ const FAQItem = ({ faq, isOpen, onToggle }: { faq: FAQ; isOpen: boolean; onToggl
         <span className="text-sm sm:text-base font-medium text-foreground inter pr-4 group-hover:text-secondary transition-colors">
           {faq.question}
         </span>
-        <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-          isOpen ? "bg-secondary text-white" : "bg-muted text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary"
-        }`}>
+        <span
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isOpen
+              ? "bg-secondary text-white"
+              : "bg-muted text-muted-foreground group-hover:bg-secondary/10 group-hover:text-secondary"
+          }`}
+        >
           {isOpen ? (
             <Minus className="w-4 h-4" />
           ) : (
@@ -109,7 +127,6 @@ const FAQSection = ({
   return (
     <section className="w-full py-16 sm:py-20 lg:py-24 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Header Section */}
         <div className="text-center mb-10 sm:mb-12">
           <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
@@ -130,50 +147,46 @@ const FAQSection = ({
         </div>
 
         {/* FAQ Grid */}
-<div className="max-w-7xl mx-auto">
-  
-  {/* MOBILE: Single Column */}
-  <div className="lg:hidden bg-card rounded-2xl p-4 sm:p-6 border border-secondary/30">
-    {faqs.map((faq) => (
-      <FAQItem
-        key={faq.id}
-        faq={faq}
-        isOpen={openId === faq.id}
-        onToggle={() => handleToggle(faq.id)}
-      />
-    ))}
-  </div>
+        <div className="max-w-7xl mx-auto">
+          {/* MOBILE: Single Column */}
+          <div className="lg:hidden bg-card rounded-2xl p-4 sm:p-6 border border-secondary/30">
+            {faqs.map((faq) => (
+              <FAQItem
+                key={faq.id}
+                faq={faq}
+                isOpen={openId === faq.id}
+                onToggle={() => handleToggle(faq.id)}
+              />
+            ))}
+          </div>
 
-  {/* DESKTOP: Two Columns */}
-  <div className="hidden lg:grid grid-cols-2 gap-12">
-    
-    {/* Left Column */}
-    <div className="bg-card rounded-xl p-6 border border-secondary/30">
-      {leftFaqs.map((faq) => (
-        <FAQItem
-          key={faq.id}
-          faq={faq}
-          isOpen={openId === faq.id}
-          onToggle={() => handleToggle(faq.id)}
-        />
-      ))}
-    </div>
+          {/* DESKTOP: Two Columns */}
+          <div className="hidden lg:grid grid-cols-2 gap-12">
+            {/* Left Column */}
+            <div className="bg-card rounded-xl p-6 border border-secondary/30">
+              {leftFaqs.map((faq) => (
+                <FAQItem
+                  key={faq.id}
+                  faq={faq}
+                  isOpen={openId === faq.id}
+                  onToggle={() => handleToggle(faq.id)}
+                />
+              ))}
+            </div>
 
-    {/* Right Column */}
-    <div className="bg-card rounded-xl p-6 border border-secondary/30">
-      {rightFaqs.map((faq) => (
-        <FAQItem
-          key={faq.id}
-          faq={faq}
-          isOpen={openId === faq.id}
-          onToggle={() => handleToggle(faq.id)}
-        />
-      ))}
-    </div>
-
-  </div>
-</div>
-
+            {/* Right Column */}
+            <div className="bg-card rounded-xl p-6 border border-secondary/30">
+              {rightFaqs.map((faq) => (
+                <FAQItem
+                  key={faq.id}
+                  faq={faq}
+                  isOpen={openId === faq.id}
+                  onToggle={() => handleToggle(faq.id)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

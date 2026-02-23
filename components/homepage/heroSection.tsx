@@ -49,7 +49,7 @@ const heroSlides = [
 
 const HeroSection = () => {
   return (
-    <section className="w-full pb-8 sm:pb-12 bg-white">
+    <section className="w-full bg-white">
       <div className="">
         <Swiper
           modules={[Autoplay, Pagination]}
@@ -90,7 +90,7 @@ const HeroSection = () => {
                     <div className="flex flex-col min-[460px]:flex-row justify-center gap-3 sm:gap-4">
                       <Link
                         href="/shop"
-                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-secondary text-white text-sm sm:text-base font-medium rounded-xl poppins hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all"
+                        className="px-6 sm:px-8  w-fit mx-auto py-2.5 sm:py-3 bg-secondary text-white text-sm sm:text-base font-medium rounded-full poppins hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all"
                       >
                         Shop Now
                       </Link>

@@ -37,7 +37,7 @@ const TopBanner = () => {
 const MarqueeItem = () => (
   <span className="mx-10 flex items-center gap-2 text-xs sm:text-sm inter font-medium tracking-[0.12em] text-primary-foreground/95">
   <span className="opacity-90">
-    Free Shipping on Orders Above Rs.999
+    Free Shipping on Orders Above Rs 1,499
   </span>
 
   <span className="opacity-60"> - </span>
