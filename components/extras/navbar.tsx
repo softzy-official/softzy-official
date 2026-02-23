@@ -60,7 +60,7 @@ const Navbar = () => {
             </Link>
 
             {/* Fixed Width Quote Wrapper */}
-            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[14px] sm:h-[16px] md:h-[18px] overflow-hidden">
+            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[22px]  overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentQuote}
@@ -71,7 +71,7 @@ const Navbar = () => {
                     duration: 0.6,
                     ease: [0.22, 1, 0.36, 1],
                   }}
-                  className="absolute left-0 top-0 text-[10px] sm:text-xs md:text-sm text-foreground italic whitespace-nowrap inter"
+                  className="absolute left-0 top-0 text-[12px] sm:text-sm md:text-base font-medium text-foreground italic whitespace-nowrap playfair"
                 >
                   “{quotes[currentQuote]}”
                 </motion.span>
