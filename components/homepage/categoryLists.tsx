@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 
 const categories = [
-  { name: "Explore", href: "/shop", icon: Compass },
+  // { name: "Explore", href: "/shop", icon: Compass },
   { name: "Handbags", href: "/shop?category=bags", icon: ShoppingBag },
   { name: "Toys", href: "/shop?category=toys", icon: Baby },
   { name: "Clothing", href: "/shop?category=clothing", icon: Shirt },
