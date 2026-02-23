@@ -48,41 +48,41 @@
 
 :root {
   --radius: 0.625rem;
-  
+
   --background: oklch(0.98 0.02 345);
   --foreground: oklch(0.27 0 0);
-  
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.27 0 0);
-  
+
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.27 0 0);
-  
+
   --primary: oklch(0.72 0.13 350);
   --primary-foreground: oklch(0.27 0 0);
-  
+
   --secondary: oklch(0.64 0.18 335);
   --secondary-foreground: oklch(1 0 0);
-  
+
   --muted: oklch(0.95 0.02 345);
   --muted-foreground: oklch(0.5 0.01 0);
-  
+
   --accent: oklch(0.82 0.08 340);
   --accent-foreground: oklch(0.27 0 0);
-  
+
   --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(1 0 0);
-  
+
   --border: oklch(0.9 0.03 345);
   --input: oklch(0.96 0.02 345);
   --ring: oklch(0.64 0.18 335);
-  
+
   --chart-1: oklch(0.64 0.18 280);
   --chart-2: oklch(0.62 0.2 290);
   --chart-3: oklch(0.64 0.22 300);
   --chart-4: oklch(0.65 0.24 315);
   --chart-5: oklch(0.66 0.2 335);
-  
+
   --sidebar: oklch(1 0 0);
   --sidebar-foreground: oklch(0.27 0 0);
   --sidebar-primary: oklch(0.72 0.13 350);
@@ -100,7 +100,7 @@
   body {
     @apply bg-background text-foreground;
   }
-  html{
+  html {
     scroll-behavior: smooth;
   }
 }
@@ -109,12 +109,12 @@
   font-family: "Poppins", sans-serif;
 }
 
-.playfair{
-  font-family: "Playfair Display",sans-serif;
+.playfair {
+  font-family: "Playfair Display", sans-serif;
 }
 
-.inter{
-  font-family: "Inter",sans-serif;
+.inter {
+  font-family: "Inter", sans-serif;
 }
 
 .hero-swiper .swiper-pagination-bullet {
@@ -145,15 +145,14 @@
 }
 
 .bg-banner-gradient {
-  background:
-    linear-gradient(
-      120deg,
-      oklch(0.78 0.14 350) 0%,
-      var(--primary) 25%,
-      var(--secondary) 50%,
-      var(--accent) 75%,
-      oklch(0.78 0.14 350) 100%
-    );
+  background: linear-gradient(
+    120deg,
+    oklch(0.78 0.14 350) 0%,
+    var(--primary) 25%,
+    var(--secondary) 50%,
+    var(--accent) 75%,
+    oklch(0.78 0.14 350) 100%
+  );
   background-size: 300% 300%;
   animation: banner-gradient-flow 12s ease-in-out infinite;
 }
@@ -172,7 +171,6 @@
   pointer-events: none;
 }
 
-
 @keyframes banner-gradient-flow {
   0% {
     background-position: 0% 50%;
@@ -184,7 +182,6 @@
     background-position: 0% 50%;
   }
 }
-
 
 .divider-marquee-track {
   display: flex;
@@ -205,4 +202,71 @@
   100% {
     transform: translateX(-50%);
   }
+}
+
+.bg-footer-flow {
+  background: linear-gradient(
+    120deg,
+    oklch(0.6 0.22 345),
+    oklch(0.72 0.18 350),
+    oklch(0.68 0.2 340),
+    oklch(0.6 0.22 345)
+  );
+  background-size: 300% 300%;
+  animation: footer-flow 15s ease-in-out infinite;
+}
+
+@keyframes footer-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.bg-banner-gradient {
+  background: linear-gradient(
+    120deg,
+    oklch(0.8 0.18 355),
+    oklch(0.76 0.2 350),
+    oklch(0.73 0.22 345),
+    oklch(0.8 0.18 355)
+  );
+  background-size: 250% 250%;
+  animation: banner-gradient-flow 10s ease-in-out infinite;
+}
+
+.bg-banner-gradient::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+}
+.bg-category-flow {
+  background: linear-gradient(
+    120deg,
+    oklch(0.70 0.18 350),
+    oklch(0.74 0.16 345),
+    oklch(0.72 0.20 340),
+    oklch(0.70 0.18 350)
+  );
+  background-size: 250% 250%;
+  animation: category-flow 14s ease-in-out infinite;
+}
+
+@keyframes category-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

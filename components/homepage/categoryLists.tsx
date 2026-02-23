@@ -2,15 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
-import { 
-  Compass, 
-  Baby, 
-  Shirt, 
-  Footprints, 
-  ShoppingBag, 
-  Sparkles, 
-  Scissors, 
-  Package 
+import {
+  Compass,
+  Baby,
+  Shirt,
+  Footprints,
+  ShoppingBag,
+  Sparkles,
+  Scissors,
+  Package,
 } from "lucide-react";
 
 const categories = [
@@ -26,7 +26,8 @@ const categories = [
 
 const CategoryLists = () => {
   return (
-    <section className="w-full bg-secondary border-b border-border/50 shadow-sm">
+    <section className="relative w-full overflow-hidden">
+      <div className="absolute inset-0 -z-10 bg-category-flow" />
       <div className="container mx-auto">
         {/* Categories Container */}
         <div className="flex items-center justify-start lg:justify-center gap-1.5 sm:gap-2 overflow-x-auto scrollbar-hide py-2 sm:py-2.5 px-4 sm:px-6">
@@ -45,7 +46,7 @@ const CategoryLists = () => {
           })}
         </div>
       </div>
-      
+
       <style jsx>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;

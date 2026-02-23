@@ -40,8 +40,8 @@ const heroSlides = [
   },
   {
     id: 5,
-    title: "Curated Pieces, Endless Expression",
-    subtitle: "Find what feels uniquely yours",
+    title: "Made to feel good, luxury that comforts",
+    subtitle: "say yes to be comfortable ",
     image:
       "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=2000&auto=format&fit=crop",
   },
@@ -49,18 +49,18 @@ const heroSlides = [
 
 const HeroSection = () => {
   return (
-    <section className="w-full py-8 sm:py-12 bg-white">
-      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="w-full pb-8 sm:pb-12 bg-white">
+      <div className="">
         <Swiper
           modules={[Autoplay, Pagination]}
           autoplay={{ delay: 4800, disableOnInteraction: false }}
           pagination={{ clickable: true }}
           loop
-          className="rounded-xl md:rounded-3xl overflow-hidden hero-swiper"
+          className="overflow-hidden hero-swiper"
         >
           {heroSlides.map((slide) => (
             <SwiperSlide key={slide.id}>
-              <div className="relative h-[360px] sm:h-[400px] lg:h-[480px]">
+              <div className="relative h-[360px] sm:h-[400px] lg:h-[480px] xl:h-[500px]">
 
                 {/* IMAGE */}
                 <Image
@@ -97,7 +97,7 @@ const HeroSection = () => {
 
                       <Link
                         href="#categories"
-                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white/90 backdrop-blur text-foreground text-sm sm:text-base font-semibold rounded-xl poppins hover:bg-white transition-all"
+                        className="px-6 sm:px-8 py-2.5 sm:py-3 bg-white/90 backdrop-blur text-foreground text-sm sm:text-base font-semibold rounded-xl poppins hover:bg-white transition-all hidden"
                       >
                         Explore Categories
                       </Link>

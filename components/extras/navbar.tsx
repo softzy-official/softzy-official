@@ -41,7 +41,7 @@ const Navbar = () => {
               alt="Softzy"
               width={80}
               height={40}
-              className="h-14 w-auto"
+              className="h-12 sm:h-14 w-auto"
             />
           </Link>
 
