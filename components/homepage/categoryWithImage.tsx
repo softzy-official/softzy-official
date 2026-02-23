@@ -3,115 +3,216 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const categories = [
   {
     name: "Toys",
     href: "/shop?category=toys",
-    image:
-      "https://images.unsplash.com/photo-1545558014-8692077e9b5c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "/toys.png",
   },
   {
     name: "Handbags",
     href: "/shop?category=bags",
-    image:
-      "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?q=80&w=763&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "/bags.png",
   },
   {
     name: "Clothing",
     href: "/shop?category=clothing",
-    image:
-      "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=764&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "/cloths.png",
   },
   {
     name: "Shoes",
     href: "/shop?category=shoes",
-    image:
-      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "/shoes.png",
   },
-
-  // {
-  //   name: "Beauty",
-  //   href: "/shop?category=beauty",
-  //   image:
-  //     "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1180&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // },
-  // {
-  //   name: "Handloom",
-  //   href: "/shop?category=handloom",
-  //   image:
-  //     "https://plus.unsplash.com/premium_photo-1674273913841-1468c9432368?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // },
-  // {
-  //   name: "Accessories",
-  //   href: "/shop?category=accessories",
-  //   image:
-  //     "https://images.unsplash.com/photo-1611652022419-a9419f74343d?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // },
-  // {
-  //   name: "Home Decor",
-  //   href: "/shop?category=home-decor",
-  //   image:
-  //     "https://images.unsplash.com/photo-1615873968403-89e068629265?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // },
 ];
+
+/* ===== Section Timeline ===== */
+
+const sectionTimeline = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+/* ===== Badge + Description ===== */
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
+
+/* ===== Curtain Reveal (Title Words) ===== */
+
+const headingContainer = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const wordReveal = {
+  hidden: { y: "100%", rotateZ: 4 },
+  show: {
+    y: "0%",
+    rotateZ: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 65,
+      damping: 16,
+      mass: 0.9,
+    },
+  },
+};
+
+const AnimatedText = ({ text }: { text: string }) => (
+  <>
+    {text.split(" ").map((word, i, arr) => (
+      <React.Fragment key={i}>
+        <span className="inline-block overflow-hidden pb-1 -mb-1">
+          <motion.span
+            variants={wordReveal}
+            className="inline-block origin-top-left"
+          >
+            {word}
+          </motion.span>
+        </span>
+        {i < arr.length - 1 && " "}
+      </React.Fragment>
+    ))}
+  </>
+);
+
+/* ===== Grid Cards Animation ===== */
+
+const gridContainer = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const cardReveal = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    scale: 0.98,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 1.25,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
 
 const CategoryWithImage = () => {
   return (
     <section id="categories" className="w-full bg-muted/5 py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Section Title */}
-        <div className="text-center mb-12">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
+        <motion.div
+          variants={sectionTimeline}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.4 }}
+          className="text-center mb-12"
+        >
+          {/* Badge */}
+          <motion.span
+            variants={fadeUp}
+            className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3"
+          >
             Browse Collections
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3">
-            Shop by Category
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto">
+          </motion.span>
+
+          {/* Title */}
+          <motion.h2
+            variants={headingContainer}
+            className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3"
+          >
+            <AnimatedText text="Shop by Category" />
+          </motion.h2>
+
+          {/* Description */}
+          <motion.p
+            variants={fadeUp}
+            className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto"
+          >
             Discover amazing products in every category
-          </p>
+          </motion.p>
+
           {/* Decorative Line */}
           <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
             <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
             <span className="w-2 h-2 bg-secondary rounded-full"></span>
             <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Categories Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        <motion.div
+          variants={gridContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5"
+        >
           {categories.map((category) => (
-            <Link
-              key={category.name}
-              href={category.href}
-              className="group relative"
-            >
-              {/* Card */}
-              <div className="relative aspect-square rounded-xl overflow-hidden bg-card shadow-sm hover:shadow-2xl transition-all duration-500 border border-border/40 hover:border-secondary/60">
-                <Image
-                  src={category.image}
-                  alt={category.name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
+            <motion.div key={category.name} variants={cardReveal}>
+              <Link
+                key={category.name}
+                href={category.href}
+                className="group relative"
+              >
+                {/* Card */}
+                <div className="relative aspect-square rounded-xl overflow-hidden bg-card shadow-sm hover:shadow-2xl transition-all duration-500 border border-border/40 hover:border-secondary/60">
+                  <Image
+                    src={category.image}
+                    alt={category.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                {/* Hover Effect */}
-                <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/20 transition-colors duration-500" />
+                  {/* Hover Effect */}
+                  {/* <div className="absolute inset-0 bg-secondary/0 group-hover:bg-secondary/20 transition-colors duration-500" /> */}
 
-                {/* Category Name */}
-                <div className="absolute bottom-0 left-0 right-0 p-4 pb-2">
-                  <h3 className=" font-semibold text-white poppins group-hover:text-white transition-all sm:text-xl md:text-2xl">
-                    {category.name}
-                  </h3>
+                  {/* Category Name */}
+                  <div className="absolute bottom-0 left-0 right-0 p-4 pb-2">
+                    <h3 className=" font-semibold text-white poppins group-hover:text-white transition-all sm:text-xl md:text-2xl">
+                      {category.name}
+                    </h3>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

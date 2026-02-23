@@ -56,6 +56,77 @@ const defaultFaqs: FAQ[] = [
   },
 ];
 
+/* ===== Section Timeline ===== */
+
+const sectionTimeline = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+/* ===== Badge + Description ===== */
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
+
+/* ===== Curtain Reveal (Title Words) ===== */
+
+const headingContainer = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const wordReveal = {
+  hidden: { y: "100%", rotateZ: 4 },
+  show: {
+    y: "0%",
+    rotateZ: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 65,
+      damping: 16,
+      mass: 0.9,
+    },
+  },
+};
+
+const AnimatedText = ({ text }: { text: string }) => (
+  <>
+    {text.split(" ").map((word, i, arr) => (
+      <React.Fragment key={i}>
+        <span className="inline-block overflow-hidden pb-1 -mb-1">
+          <motion.span
+            variants={wordReveal}
+            className="inline-block origin-top-left"
+          >
+            {word}
+          </motion.span>
+        </span>
+        {i < arr.length - 1 && " "}
+      </React.Fragment>
+    ))}
+  </>
+);
+
 const FAQItem = ({
   faq,
   isOpen,
@@ -128,23 +199,44 @@ const FAQSection = ({
     <section className="w-full py-16 sm:py-20 lg:py-24 ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-10 sm:mb-12">
-          <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3">
-            {badge}
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3">
-            {title}
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto">
-            {description}
-          </p>
-          {/* Decorative Line */}
-          <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
-            <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
-            <span className="w-2 h-2 bg-secondary rounded-full"></span>
-            <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
-          </div>
-        </div>
+        <motion.div
+                  variants={sectionTimeline}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.4 }}
+                  className="text-center mb-12"
+                >
+                  {/* Badge */}
+                  <motion.span
+                    variants={fadeUp}
+                    className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary font-medium rounded-full inter uppercase tracking-[0.12em] text-[12px] mb-3"
+                  >
+                    Browse Collections
+                  </motion.span>
+        
+                  {/* Title */}
+                  <motion.h2
+                    variants={headingContainer}
+                    className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-foreground playfair mb-3"
+                  >
+                    <AnimatedText text="Shop by Category" />
+                  </motion.h2>
+        
+                  {/* Description */}
+                  <motion.p
+                    variants={fadeUp}
+                    className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto"
+                  >
+                    Discover amazing products in every category
+                  </motion.p>
+        
+                  {/* Decorative Line */}
+                  <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
+                    <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
+                    <span className="w-2 h-2 bg-secondary rounded-full"></span>
+                    <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
+                  </div>
+                </motion.div>
 
         {/* FAQ Grid */}
         <div className="max-w-7xl mx-auto">

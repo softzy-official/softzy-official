@@ -56,9 +56,9 @@ export const defaultReviews: Review[] = [
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80",
     review:
       "The jewellery looks elegant and minimal. I’ve already worn it twice and got compliments.",
-    type: "video",
+    type: "image",
     media:
-      "https://player.vimeo.com/external/403295402.sd.mp4?s=fdedc7cba62f29b1bfe6c2bafbb07d4f4a6e9c88&profile_id=164",
+      "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80",
     rating: 5,
   },
   {
@@ -93,9 +93,9 @@ export const defaultReviews: Review[] = [
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
     review:
       "Ordered toys for my kids and they loved it. Delivery was faster than expected.",
-    type: "video",
+    type: "image",
     media:
-      "https://player.vimeo.com/external/517090081.sd.mp4?s=0c0dce2745c3b1a8f34a30b40d8a8b20f38f8b6f&profile_id=165",
+      "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=900&q=80",
     rating: 5,
   },
   {
@@ -124,6 +124,76 @@ export const defaultReviews: Review[] = [
   },
 ];
 
+/* ===== Section Timeline ===== */
+
+const sectionTimeline = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+/* ===== Badge + Description ===== */
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: [0.22, 1, 0.36, 1] as const,
+    },
+  },
+};
+
+/* ===== Curtain Reveal (Title Words) ===== */
+
+const headingContainer = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+const wordReveal = {
+  hidden: { y: "100%", rotateZ: 4 },
+  show: {
+    y: "0%",
+    rotateZ: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 65,
+      damping: 16,
+      mass: 0.9,
+    },
+  },
+};
+
+const AnimatedText = ({ text }: { text: string }) => (
+  <>
+    {text.split(" ").map((word, i, arr) => (
+      <React.Fragment key={i}>
+        <span className="inline-block overflow-hidden pb-1 -mb-1">
+          <motion.span
+            variants={wordReveal}
+            className="inline-block origin-top-left"
+          >
+            {word}
+          </motion.span>
+        </span>
+        {i < arr.length - 1 && " "}
+      </React.Fragment>
+    ))}
+  </>
+);
 
 // Unified Review Card Component
 const ReviewCard = ({ review }: { review: Review }) => {
@@ -212,23 +282,44 @@ const ReviewsSection = ({
     <section id="reviews" className="w-full py-16 sm:py-20 bg-secondary overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-12 sm:mb-14">
-          <span className="bg-white/20 text-white text-xs sm:text-sm font-medium poppins inline-block px-4 py-1.5 rounded-full inter uppercase tracking-[0.12em] mb-3">
-            {badge}
-          </span>
-          <h2 className="text-white mb-3 text-3xl sm:text-4xl lg:text-5xl playfair">
-            {title}
-          </h2>
-          <p className="text-sm sm:text-base text-white/70 poppins max-w-lg mx-auto">
-            {description}
-          </p>
-          {/* Decorative Line */}
-          <div className="flex items-center justify-center gap-2 mt-5">
-            <span className="w-8 sm:w-12 h-0.5 bg-white/30 rounded-full"></span>
-            <span className="w-2 h-2 bg-white rounded-full"></span>
-            <span className="w-8 sm:w-12 h-0.5 bg-white/30 rounded-full"></span>
-          </div>
-        </div>
+        <motion.div
+  variants={sectionTimeline}
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true, amount: 0.4 }}
+  className="text-center mb-12 sm:mb-14"
+>
+  {/* Badge */}
+  <motion.span
+    variants={fadeUp}
+    className="bg-white/20 text-white text-xs sm:text-sm font-medium poppins inline-block px-4 py-1.5 rounded-full inter uppercase tracking-[0.12em] mb-3"
+  >
+    {badge}
+  </motion.span>
+
+  {/* Title */}
+  <motion.h2
+    variants={headingContainer}
+    className="text-white mb-3 text-3xl sm:text-4xl lg:text-5xl playfair"
+  >
+    <AnimatedText text={title} />
+  </motion.h2>
+
+  {/* Description */}
+  <motion.p
+    variants={fadeUp}
+    className="text-sm sm:text-base text-white/70 poppins max-w-lg mx-auto"
+  >
+    {description}
+  </motion.p>
+
+  {/* Decorative Line */}
+  <div className="flex items-center justify-center gap-2 mt-5">
+    <span className="w-8 sm:w-12 h-0.5 bg-white/30 rounded-full"></span>
+    <span className="w-2 h-2 bg-white rounded-full"></span>
+    <span className="w-8 sm:w-12 h-0.5 bg-white/30 rounded-full"></span>
+  </div>
+</motion.div>
       </div>
 
       {/* Moving Reviews Container */}

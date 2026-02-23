@@ -3,8 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { productsData } from "@/data/products";
-
+import { shopProducts } from "@/data/products";
 
 const titles = [
   { id: "best-sellers", title: "Best Sellers" },
@@ -15,7 +14,14 @@ const titles = [
 
 const ProductByTitle = () => {
   const [activeTitle, setActiveTitle] = useState("best-sellers");
-  const products = productsData[activeTitle];
+  const products = shopProducts.filter((product) => {
+    if (activeTitle === "best-sellers")
+      return product.tags?.includes("Best Seller");
+    if (activeTitle === "new-arrivals") return product.tags?.includes("New");
+    if (activeTitle === "beauty-picks") return product.category === "beauty";
+    if (activeTitle === "bag-essentials") return product.category === "bags";
+    return false;
+  });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Scroll to start on mount
@@ -28,7 +34,6 @@ const ProductByTitle = () => {
   return (
     <section className="w-full bg-muted py-16 sm:py-20 lg:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         {/* Header Section */}
         <div className="text-center mb-10 sm:mb-12">
           <span className="inline-block px-4 py-1.5 bg-secondary/10 text-secondary text-xs sm:text-sm font-medium rounded-full poppins mb-3 sm:mb-4">
@@ -40,7 +45,7 @@ const ProductByTitle = () => {
           <p className="text-sm sm:text-base text-muted-foreground poppins max-w-lg mx-auto">
             Tap a spotlight to see matching products
           </p>
-           {/* Decorative Line */}
+          {/* Decorative Line */}
           <div className="flex items-center justify-center gap-2 mt-4 sm:mt-5">
             <span className="w-8 sm:w-12 h-0.5 bg-border rounded-full"></span>
             <span className="w-2 h-2 bg-secondary rounded-full"></span>
@@ -50,7 +55,7 @@ const ProductByTitle = () => {
 
         {/* Tabs */}
         <div className="mb-10 sm:mb-12 -mx-4 px-4 sm:mx-0 sm:px-0">
-          <div 
+          <div
             ref={scrollRef}
             className="flex sm:justify-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
@@ -67,7 +72,9 @@ const ProductByTitle = () => {
                 >
                   <span
                     className={`w-2 h-2 rounded-sm transition-colors duration-300 ${
-                      activeTitle === item.id ? "bg-white" : "bg-muted-foreground/40"
+                      activeTitle === item.id
+                        ? "bg-white"
+                        : "bg-muted-foreground/40"
                     }`}
                   />
                   {item.title}
@@ -82,13 +89,13 @@ const ProductByTitle = () => {
           {products.map((product) => (
             <Link
               key={product.id}
-              href={product.href}
+              href={`/product/${product.slug}`}
               className="group bg-card rounded-xl overflow-hidden border border-border/40 hover:border-secondary/60 hover:shadow-lg transition-all duration-300"
             >
               {/* Image */}
               <div className="relative aspect-square bg-muted overflow-hidden">
                 <Image
-                  src={product.image}
+                  src={product.images[0]}
                   alt={product.name}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -126,7 +133,7 @@ const ProductByTitle = () => {
             href={`/shop?filter=${activeTitle}`}
             className="inline-flex items-center gap-2 px-6 sm:px-8 py-3 bg-secondary text-white font-semibold rounded-xl hover:bg-secondary/90 shadow-md hover:shadow-lg transition-all duration-300 poppins"
           >
-            View All {titles.find(t => t.id === activeTitle)?.title}
+            View All {titles.find((t) => t.id === activeTitle)?.title}
           </Link>
         </div>
       </div>
