@@ -3,17 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Menu,
-  Instagram,
-  Facebook,
-  MessageCircle,
-} from "lucide-react";
+import { Menu, Instagram, Facebook, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
 import TopBanner from "./topBanner";
 import { RiWhatsappLine } from "@remixicon/react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -21,32 +17,70 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Shop", href: "/shop" },
+    { name: "Explore", href: "/explore" },
     { name: "About", href: "/about" },
     { name: "Contact", href: "/contact" },
   ];
+
+  const quotes = [
+    "Handcrafted with love",
+    "Elegance in every detail",
+    "Made for everyday beauty",
+    "Style that feels personal",
+  ];
+
+  const [currentQuote, setCurrentQuote] = React.useState(0);
+
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentQuote((prev) => (prev + 1) % quotes.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border pb-1">
-      <TopBanner/>
+      <TopBanner />
       <div className="mx-auto px-6 sm:px-10 md:px-16">
         <div className="flex h-16 items-center justify-between gap-6">
+          {/* Logo + Quote */}
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <Link href="/">
+              <Image
+                src="/logo2.png"
+                alt="Softzy"
+                width={80}
+                height={40}
+                className="h-12 sm:h-14 w-auto"
+              />
+            </Link>
 
-          {/* Logo */}
-          <Link href="/" className="flex-shrink-0">
-            <Image
-              src="/logo2.png"
-              alt="Softzy"
-              width={80}
-              height={40}
-              className="h-12 sm:h-14 w-auto"
-            />
-          </Link>
+            {/* Fixed Width Quote Wrapper */}
+            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[14px] sm:h-[16px] md:h-[18px] overflow-hidden">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentQuote}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="absolute left-0 top-0 text-[10px] sm:text-xs md:text-sm text-foreground italic whitespace-nowrap inter"
+                >
+                  “{quotes[currentQuote]}”
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-1 md:pl-20">
+          <div className="hidden lg:flex items-center gap-1 md:-ml-20">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -68,7 +102,6 @@ const Navbar = () => {
 
           {/* Right Section */}
           <div className="flex items-center gap-2">
-
             {/* Social Icons */}
             <div className="hidden sm:flex items-center gap-1">
               <a
@@ -150,7 +183,6 @@ const Navbar = () => {
                 </div>
               </SheetContent>
             </Sheet>
-
           </div>
         </div>
       </div>
