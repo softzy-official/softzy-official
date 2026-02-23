@@ -5,12 +5,13 @@ import {
   Poppins,
   Playfair_Display,
   Inter,
+  Nunito,
 } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/extras/navbar";
 import Footer from "@/components/extras/footer";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,6 +46,12 @@ export const metadata: Metadata = {
   description: "Ecommerce website",
 };
 
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,14 +66,15 @@ export default function RootLayout({
           ${poppins.variable}
           ${playfair.variable}
           ${inter.variable}
+          ${nunito.variable}
           antialiased
         `}
       >
         <Navbar />
         {children}
         <Footer />
-        <Analytics/>
-        <SpeedInsights/>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
