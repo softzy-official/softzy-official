@@ -9,11 +9,11 @@ export interface Product {
   id: string;
   name: string;
   slug: string;
-  price: number;
+  price?: number;
   originalPrice?: number;
   images: string[];
-  rating: number;
-  reviews: number;
+  rating?: number;
+  reviews?: number;
   tags?: string[];
   category?: string;
   shortDescription?: string;
