@@ -915,7 +915,7 @@ export const shopProducts: Product[] = [
       "https://rukminim2.flixcart.com/image/1536/1536/xif0q/stuffed-toy/d/z/r/pikachu-kids-plush-sitter-30-0-softzy-original-imahh4gt2ae7zaay.jpeg?q=90",
       "https://rukminim2.flixcart.com/image/1536/1536/xif0q/stuffed-toy/t/p/z/pikachu-kids-plush-sitter-30-0-softzy-original-imahh4gthhpexjuj.jpeg?q=90",
     ],
-    rating: 5.5,
+    rating: 4.5,
     reviews: 20,
     tags: ["Best Seller"],
     category: "toys",
