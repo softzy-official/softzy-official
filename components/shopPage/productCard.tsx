@@ -119,9 +119,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
     {product.rating.toFixed(1)}
   </span>
 
-  <span className="text-[10px] sm:text-xs text-muted-foreground inter">
+  {/* <span className="text-[10px] sm:text-xs text-muted-foreground inter">
     ({product.reviews})
-  </span>
+  </span> */}
 </div>
 
 
