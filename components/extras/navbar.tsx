@@ -3,9 +3,19 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Instagram, Facebook, MessageCircle } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+import { Menu, Instagram, Facebook, User, LogOut, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import TopBanner from "./topBanner";
 import { RiWhatsappLine } from "@remixicon/react";
@@ -13,6 +23,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { data: session } = useSession(); // Access NextAuth session
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -35,12 +46,17 @@ const Navbar = () => {
     const interval = setInterval(() => {
       setCurrentQuote((prev) => (prev + 1) % quotes.length);
     }, 4000);
-
     return () => clearInterval(interval);
   }, []);
 
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+
+  // Helper to extract initials for the Avatar
+  const getInitials = (name?: string | null) => {
+    if (!name) return "U";
+    return name.slice(0, 2).toUpperCase();
+  };
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border pb-1">
@@ -50,28 +66,15 @@ const Navbar = () => {
           {/* Logo + Quote */}
           <div className="flex items-center gap-1 flex-shrink-0">
             <Link href="/">
-              <Image
-                src="/logo2.png"
-                alt="Softzy"
-                width={80}
-                height={40}
-                className="h-12 sm:h-14 w-auto"
-              />
+              <Image src="/logo2.png" alt="Softzy" width={80} height={40} className="h-12 sm:h-14 w-auto"/>
             </Link>
-
-            {/* Fixed Width Quote Wrapper */}
-            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[22px] mt-0.5  overflow-hidden">
+            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[22px] mt-0.5 overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentQuote}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{
-                    duration: 0.6,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="absolute left-0 top-0 text-[13px] sm:text-sm md:text-base font-bold text-foreground  whitespace-nowrap nunito"
+                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute left-0 top-0 text-[13px] sm:text-sm md:text-base font-bold text-foreground whitespace-nowrap nunito"
                 >
                   “{quotes[currentQuote]}”
                 </motion.span>
@@ -85,12 +88,9 @@ const Navbar = () => {
               <Link
                 key={link.name}
                 href={link.href}
-                className={`relative inter font-medium px-4 py-2 rounded-full transition-colors group
-                  ${
-                    isActive(link.href)
-                      ? "bg-secondary text-secondary-foreground"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
+                className={`relative inter font-medium px-4 py-2 rounded-full transition-colors group ${
+                  isActive(link.href) ? "bg-secondary text-secondary-foreground" : "text-foreground/70 hover:text-foreground"
+                }`}
               >
                 {link.name}
                 {!isActive(link.href) && (
@@ -100,86 +100,81 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-2">
-            {/* Social Icons */}
-            <div className="hidden sm:flex items-center gap-1">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-              >
-                <Instagram className="w-4.5 h-4.5" />
-              </a>
-              <a
-                href="https://wa.me/919999999999"
-                target="_blank"
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-              >
-                <RiWhatsappLine className="w-4.5 h-4.5" />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-              >
-                <Facebook className="w-4.5 h-4.5" />
-              </a>
-            </div>
+          {/* Right Section: Auth & Mobile Menu */}
+          <div className="flex items-center gap-4">
+            {/* User Auth Profile Icon */}
+            {session?.user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-10 w-10 border border-border">
+                      <AvatarImage src={session.user.image || ""} alt={session.user.name || "User"} />
+                      <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{session.user.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{session.user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>My Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  {session.user.role === "admin" && (
+                    <DropdownMenuItem asChild>
+                       <Link href="/admin" className="cursor-pointer">
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Admin Dashboard</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-600 focus:text-red-600 cursor-pointer" onClick={() => signOut()}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button asChild variant="outline" size="sm" className="hidden sm:flex rounded-full">
+                <Link href="/auth/login">
+                  <User className="h-4 w-4 mr-2" /> Login
+                </Link>
+              </Button>
+            )}
 
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="lg:hidden rounded-full hover:bg-accent"
-                >
+                <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-accent">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-
               <SheetContent side="right" className="w-72 px-5 pt-6 bg-card">
                 <div className="mt-6 flex flex-col gap-2">
                   {navLinks.map((link) => (
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`px-4 py-3 rounded-full text-base font-medium poppins
-                        ${
-                          isActive(link.href)
-                            ? "bg-secondary text-secondary-foreground"
-                            : "hover:bg-accent"
-                        }`}
+                      className={`px-4 py-3 rounded-full text-base font-medium poppins ${
+                        isActive(link.href) ? "bg-secondary text-secondary-foreground" : "hover:bg-accent"
+                      }`}
                     >
                       {link.name}
                     </Link>
                   ))}
-                </div>
-
-                {/* Mobile Social Icons */}
-                <div className="mt-6 flex items-center gap-2">
-                  <a
-                    href="https://instagram.com"
-                    target="_blank"
-                    className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-                  >
-                    <Instagram className="w-4.5 h-4.5" />
-                  </a>
-                  <a
-                    href="https://wa.me/919999999999"
-                    target="_blank"
-                    className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-                  >
-                    <RiWhatsappLine className="w-4.5 h-4.5" />
-                  </a>
-                  <a
-                    href="https://facebook.com"
-                    target="_blank"
-                    className="w-9 h-9 rounded-full flex items-center justify-center hover:bg-accent transition"
-                  >
-                    <Facebook className="w-4.5 h-4.5" />
-                  </a>
+                  {!session?.user && (
+                    <Link href="/auth/login" className="px-4 py-3 rounded-full text-base font-medium hover:bg-accent">
+                      Login
+                    </Link>
+                  )}
                 </div>
               </SheetContent>
             </Sheet>

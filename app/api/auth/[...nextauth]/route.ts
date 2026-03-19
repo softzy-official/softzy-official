@@ -1,33 +1,29 @@
 import NextAuth, { NextAuthOptions, DefaultSession, DefaultUser } from "next-auth";
 import "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 
-// --- Type Extensions ---
 declare module "next-auth" {
   interface Session {
     user: {
       role?: string;
-      phone?: string;
     } & DefaultSession["user"];
   }
 
   interface User extends DefaultUser {
     role?: string;
-    phone?: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     role?: string;
-    phone?: string;
   }
 }
-// -----------------------
 
 export const authOptions: NextAuthOptions = {
   providers: [
-    // 1. Admin Login (Fixed ENV)
+    // 1. Admin Login (Remains exactly the same)
     CredentialsProvider({
       id: "admin-login",
       name: "Admin Login",
@@ -48,26 +44,18 @@ export const authOptions: NextAuthOptions = {
       },
     }),
 
-    // 2. User OTP Login (Mobile Placeholder)
-    CredentialsProvider({
-      id: "user-otp-login",
-      name: "OTP Login",
-      credentials: {
-        phone: { label: "Phone Number", type: "text" },
-        otp: { label: "OTP", type: "text" },
-      },
-      async authorize(credentials) {
-        if (!credentials?.phone || !credentials?.otp) return null;
-
-        if (credentials.otp === "123456") {
-          return { 
-            id: `user-${Date.now()}`, 
-            name: "Customer", 
-            phone: credentials.phone, 
-            role: "user" 
-          };
-        }
-        return null; 
+    // 2. User Google Login (Replaces Email OTP)
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      profile(profile) {
+        return {
+          id: profile.sub,
+          name: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          role: "user", // Automatically assign role 'user' to Google log-ins
+        };
       },
     }),
   ],
@@ -76,14 +64,12 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.role = user.role;
-        token.phone = user.phone;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.role = token.role;
-        session.user.phone = token.phone;
       }
       return session;
     },

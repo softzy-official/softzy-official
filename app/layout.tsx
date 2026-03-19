@@ -13,6 +13,8 @@ import Footer from "@/components/extras/footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
+import { Toaster } from "sonner";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -72,6 +74,7 @@ export default function RootLayout({
         `}
       >
         <NextAuthProvider>
+          <Toaster position="top-center" richColors />
           {children}
           <Analytics />
           <SpeedInsights />
