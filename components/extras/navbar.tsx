@@ -1,10 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, Instagram, Facebook, User, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, User, LogOut, LayoutDashboard, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
@@ -18,12 +18,19 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import TopBanner from "./topBanner";
-import { RiWhatsappLine } from "@remixicon/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useCart } from "@/hooks/use-cart";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const { data: session } = useSession(); // Access NextAuth session
+  const { data: session } = useSession();
+  const cartItems = useCart((state) => state.items);
+  
+  // Prevent hydration mismatch for the cart badge
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -52,7 +59,6 @@ const Navbar = () => {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  // Helper to extract initials for the Avatar
   const getInitials = (name?: string | null) => {
     if (!name) return "U";
     return name.slice(0, 2).toUpperCase();
@@ -100,8 +106,21 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Right Section: Auth & Mobile Menu */}
+          {/* Right Section: Auth & Cart & Mobile Menu */}
           <div className="flex items-center gap-4">
+            
+            {/* Shopping Cart Button */}
+            <Link href="/cart">
+              <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-accent">
+                <ShoppingCart className="h-5 w-5" />
+                {mounted && cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Button>
+            </Link>
+
             {/* User Auth Profile Icon */}
             {session?.user ? (
               <DropdownMenu>
@@ -153,7 +172,7 @@ const Navbar = () => {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-accent">
+                <Button variant="ghost" size="icon" className="hidden max-lg:flex rounded-full hover:bg-accent">
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
