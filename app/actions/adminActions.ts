@@ -6,6 +6,7 @@ import User from "@/models/User";
 
 import Razorpay from "razorpay";
 import { revalidatePath } from "next/cache";
+import { sendOrderNotification } from "@/lib/notifications";
 
 const razorpay = new Razorpay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
@@ -77,7 +78,20 @@ export async function getAllOrdersAdmin() {
 export async function updateOrderStatus(orderId: string, status: string) {
   try {
     await connectToDatabase();
-    await Order.findByIdAndUpdate(orderId, { status });
+
+    // Use `populate` to ensure child user data (email, name) is returned
+    // Cast it to `any` temporarily if TS complains about the Mongoose Document shape
+    const updatedOrder: any = await Order.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true },
+    ).populate("user", "name email phone");
+
+    if (updatedOrder?.user) {
+      // ⚠️ IMPORTANT: Added 'await' so Next.js doesn't kill the promise
+      await sendOrderNotification(updatedOrder.user, orderId, "status", status);
+    }
+
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
@@ -90,13 +104,23 @@ export async function updateOrderStatus(orderId: string, status: string) {
 export async function updateOrderTracking(orderId: string, trackingId: string) {
   try {
     await connectToDatabase();
-    // Usually assigning tracking implies it's shipped
-    await Order.findByIdAndUpdate(orderId, { trackingId, status: "shipped" });
+
+    const updatedOrder: any = await Order.findByIdAndUpdate(
+      orderId,
+      { trackingId, status: "shipped" }, 
+      { new: true },
+    ).populate("user", "name email phone");
+
+    if (updatedOrder?.user) {
+      // ⚠️ IMPORTANT: Added 'await' here too
+      await sendOrderNotification(updatedOrder.user, orderId, "tracking", trackingId);
+    }
+
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
     console.error("Failed to update tracking:", error);
-    return { success: false, error: "Failed to update tracking ID" };
+    return { success: false, error: "Failed to update tracking" };
   }
 }
 
@@ -142,7 +166,7 @@ export async function deleteOrder(orderId: string) {
 export async function getAllUsersAdmin() {
   try {
     await connectToDatabase();
-    
+
     // Advanced Aggregation: Attach orders to users and calculate their real lifetime value
     const users = await User.aggregate([
       {
@@ -150,8 +174,8 @@ export async function getAllUsersAdmin() {
           from: "orders",
           localField: "_id",
           foreignField: "user",
-          as: "userOrders"
-        }
+          as: "userOrders",
+        },
       },
       {
         $addFields: {
@@ -163,23 +187,23 @@ export async function getAllUsersAdmin() {
                   $filter: {
                     input: "$userOrders",
                     as: "order",
-                    cond: { $ne: ["$$order.status", "cancelled"] } // Exclude cancelled from total
-                  }
+                    cond: { $ne: ["$$order.status", "cancelled"] }, // Exclude cancelled from total
+                  },
                 },
                 as: "validOrder",
-                in: "$$validOrder.totalAmount"
-              }
-            }
-          }
-        }
+                in: "$$validOrder.totalAmount",
+              },
+            },
+          },
+        },
       },
       {
         $project: {
           userOrders: 0, // Remove heavy order array to save bandwidth
-          password: 0    // Ensure passwords never leak if you implement them
-        }
+          password: 0, // Ensure passwords never leak if you implement them
+        },
       },
-      { $sort: { createdAt: -1 } }
+      { $sort: { createdAt: -1 } },
     ]);
 
     return JSON.parse(JSON.stringify(users));

@@ -36,11 +36,11 @@ const items = [
     url: "/admin/products",
     icon: PackageSearch,
   },
-  {
-    title: "Settings",
-    url: "/admin/settings",
-    icon: Settings,
-  },
+  // {
+  //   title: "Settings",
+  //   url: "/admin/settings",
+  //   icon: Settings,
+  // },
 ]
 
 export function AppSidebar() {

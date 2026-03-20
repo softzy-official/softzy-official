@@ -20,17 +20,17 @@ so here is my flow :
 
 10.view all the orderd and perfoem all the actions on those order like awb , status , canel , and whatsoever - done
 
-11.then view all the users details
+11.then view all the users details - done
 
-12.then we will move to sms feature to send sms updtaes to users and we will use nodemailer ok 
+12.then we will move to sms feature to send sms updtaes to users and we will use nodemailer ok - done
 
-13.and then setting of admin panel if needed , 
+13.and then products page to view the details of the products. 
 
-14.then we will add important button like logout , login , etc to both admin and user side frontedns ,
+14.then we will add important button like logout , login , etc to both admin and user side frontedns - done
 
-15.user should be able view all the public pages just the profile should need a login ok and obv not able to view admin 
+15.user should be able view all the public pages just the profile should need a login ok and obv not able to view admin - done
 
 
-16.then we will modify the products page to show the products properly as avaialabity and the stocks also , for now keep 10 as default of all the products 
+16.then we will modify the products page to show the products properly as avaialabity and the stocks also , for now keep 10 as default of all the products  - done
 
 this is for now and you have to perform only one point at a time and now lets start with the 1st point and i have also created a tasks.md for you alwways get context of what we have to do 
