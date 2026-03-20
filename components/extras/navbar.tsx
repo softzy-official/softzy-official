@@ -96,7 +96,7 @@ const Navbar = () => {
             </Link>
 
             {/* Hide quote on very small screens to avoid crowding */}
-            <div className="hidden sm:block relative w-[190px] md:w-[220px] h-[22px] mt-0.5 overflow-hidden">
+            <div className="hidden min-[420px]:block relative w-[190px] md:w-[220px] h-[22px] mt-0.5 overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentQuote}
