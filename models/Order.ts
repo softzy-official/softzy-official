@@ -17,7 +17,9 @@ export interface IOrder extends Document {
   razorpayOrderId?: string;
   razorpayPaymentId?: string;
   razorpaySignature?: string;
-  shippingAddress?: string; // We can expand this later based on your profile page
+  shippingAddress?: string;
+  trackingId?: string; // New field
+  courierName?: string; // New field
   createdAt: Date;
   updatedAt: Date;
 }
@@ -44,6 +46,8 @@ const OrderSchema = new Schema<IOrder>(
     razorpayPaymentId: { type: String },
     razorpaySignature: { type: String },
     shippingAddress: { type: String },
+    trackingId: { type: String },
+    courierName: { type: String },
   },
   { timestamps: true }
 );
