@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { toast } from 'sonner';
+import { syncCartToDatabase } from '@/app/actions/cartActions';
 
-// Aligning the Product definition perfectly with your actual productCard interface.
 export interface Product {
-    id: string; // Changed from number to string to fix TS errors
+    id: string; 
     name: string;
     slug: string;
     price: number;
@@ -43,11 +43,25 @@ export interface CartItem extends Product {
 interface CartStore {
   items: CartItem[];
   addItem: (product: Product, quantity?: number) => void;
-  removeItem: (productId: string) => void; // string here too
-  updateQuantity: (productId: string, quantity: number) => void; // string here too
+  removeItem: (productId: string) => void; 
+  updateQuantity: (productId: string, quantity: number) => void; 
   clearCart: () => void;
   getCartTotal: () => number;
 }
+
+// Helper function to format items for MongoDB easily
+const triggerDBSync = (items: CartItem[]) => {
+  const dbFormattedItems = items.map(i => ({
+    productId: i.id,
+    name: i.name,
+    slug: i.slug,
+    price: i.price,
+    image: i.images?.[0] || "",
+    quantity: i.quantity
+  }));
+  // Fire and forget without blocking UI
+  syncCartToDatabase(dbFormattedItems).catch(err => console.error("Sync failed:", err));
+};
 
 export const useCart = create<CartStore>()(
   persist(
@@ -63,6 +77,8 @@ export const useCart = create<CartStore>()(
           return;
         }
 
+        let newItems: CartItem[];
+
         if (existingItem) {
           const newQuantity = existingItem.quantity + quantity;
           if (newQuantity > product.stockCount) {
@@ -70,11 +86,10 @@ export const useCart = create<CartStore>()(
             return;
           }
           
-          set({
-            items: items.map((item) =>
-              item.id === product.id ? { ...item, quantity: newQuantity } : item
-            ),
-          });
+          newItems = items.map((item) =>
+            item.id === product.id ? { ...item, quantity: newQuantity } : item
+          );
+          set({ items: newItems });
           toast.success(`Updated ${product.name} quantity in cart.`);
         } else {
           if (quantity > product.stockCount) {
@@ -82,22 +97,29 @@ export const useCart = create<CartStore>()(
             return;
           }
           
-          set({ items: [...items, { ...product, quantity }] });
+          newItems = [...items, { ...product, quantity }];
+          set({ items: newItems });
           toast.success(`${product.name} added to cart.`);
         }
+
+        // Sync with Mongo
+        triggerDBSync(newItems);
       },
 
       removeItem: (productId: string) => {
-        set({ items: get().items.filter((item) => item.id !== productId) });
+        const newItems = get().items.filter((item) => item.id !== productId);
+        set({ items: newItems });
         toast.info("Item removed from cart");
+        
+        // Sync with Mongo
+        triggerDBSync(newItems);
       },
 
       updateQuantity: (productId: string, quantity: number) => {
         const { items } = get();
         const itemToUpdate = items.find((item) => item.id === productId);
 
-        if (!itemToUpdate) return;
-        if (!itemToUpdate.stockCount) return;
+        if (!itemToUpdate || !itemToUpdate.stockCount) return;
 
         if (quantity > itemToUpdate.stockCount) {
           toast.error(`Maximum available stock is ${itemToUpdate.stockCount}.`);
@@ -109,14 +131,20 @@ export const useCart = create<CartStore>()(
           return;
         }
 
-        set({
-          items: items.map((item) =>
-            item.id === productId ? { ...item, quantity } : item
-          ),
-        });
+        const newItems = items.map((item) =>
+          item.id === productId ? { ...item, quantity } : item
+        );
+
+        set({ items: newItems });
+        
+        // Sync with Mongo
+        triggerDBSync(newItems);
       },
 
-      clearCart: () => set({ items: [] }),
+      clearCart: () => {
+        set({ items: [] });
+        triggerDBSync([]);
+      },
 
       getCartTotal: () => {
         return get().items.reduce((total, item) => total + item.price * item.quantity, 0);
