@@ -7,6 +7,7 @@ import User from "@/models/User";
 import Razorpay from "razorpay";
 import { revalidatePath } from "next/cache";
 import { sendOrderNotification } from "@/lib/notifications";
+import Product from "@/models/Product";
 
 const razorpay = new Razorpay({
   key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID!,
@@ -17,29 +18,92 @@ export async function getDashboardKPIs() {
   try {
     await connectToDatabase();
 
-    // 1. Total Orders
-    const totalOrders = await Order.countDocuments();
+    // 1. High-Level Aggregations for Revenue & Orders
+    const allOrders = await Order.find(
+      {},
+      "status totalAmount createdAt",
+    ).lean();
+
+    let totalRevenue = 0;
+    let successfulRevenue = 0;
+    let totalOrders = allOrders.length;
+    let pendingOrders = 0;
+    let completedOrders = 0;
+    let cancelledOrders = 0;
+
+    // Monthly data for the chart (last 6 months logic could go here, but let's do a simple grouping)
+    // For simplicity, we create a basic frequency map of recent orders for the graph
+    const monthlyGraphData: Record<
+      string,
+      { name: string; income: number; orders: number }
+    > = {};
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    allOrders.forEach((order) => {
+      const date = new Date(order.createdAt);
+      const monthKey = `${monthNames[date.getMonth()]} ${date.getFullYear()}`;
+
+      if (!monthlyGraphData[monthKey]) {
+        monthlyGraphData[monthKey] = { name: monthKey, income: 0, orders: 0 };
+      }
+
+      monthlyGraphData[monthKey].orders += 1;
+
+      if (order.status !== "cancelled") {
+        totalRevenue += order.totalAmount;
+      }
+
+      if (order.status === "delivered" || order.status === "shipped") {
+        successfulRevenue += order.totalAmount;
+        completedOrders += 1;
+        monthlyGraphData[monthKey].income += order.totalAmount;
+      } else if (order.status === "cancelled" || order.status === "failed") {
+        cancelledOrders += 1;
+      } else {
+        // pending, paid
+        pendingOrders += 1;
+      }
+    });
 
     // 2. Total Customers
     const totalCustomers = await User.countDocuments();
 
-    // 3. Total Revenue (sum of totalAmount where status is not cancelled)
-    const revenueAggregation = await Order.aggregate([
-      { $match: { status: { $ne: "cancelled" } } },
-      { $group: { _id: null, totalRevenue: { $sum: "$totalAmount" } } },
+    // 3. Product & Category Stats
+    const totalProducts = await Product.countDocuments();
+    const categoriesAggr = await Product.aggregate([
+      { $group: { _id: "$category", count: { $sum: 1 } } },
     ]);
-    const totalRevenue = revenueAggregation[0]?.totalRevenue || 0;
+    const categoriesCount = categoriesAggr.length;
 
-    // 4. Pending Despatch (usually 'paid' or 'processing' before shipment)
-    const pendingDespatch = await Order.countDocuments({ status: "paid" });
+    // Convert chart Object into array and sort (very basic chronological sort)
+    const graphArray = Object.values(monthlyGraphData).reverse().slice(0, 7); // Last 7 months that had activity
 
     return {
       success: true,
       data: {
         totalRevenue,
+        successfulRevenue,
         totalOrders,
+        completedOrders,
+        pendingOrders,
+        cancelledOrders,
         totalCustomers,
-        pendingDespatch,
+        totalProducts,
+        categoriesCount,
+        graphData: graphArray,
       },
     };
   } catch (error) {
@@ -48,9 +112,15 @@ export async function getDashboardKPIs() {
       success: false,
       data: {
         totalRevenue: 0,
+        successfulRevenue: 0,
         totalOrders: 0,
+        completedOrders: 0,
+        pendingOrders: 0,
+        cancelledOrders: 0,
         totalCustomers: 0,
-        pendingDespatch: 0,
+        totalProducts: 0,
+        categoriesCount: 0,
+        graphData: [],
       },
     };
   }
@@ -107,13 +177,18 @@ export async function updateOrderTracking(orderId: string, trackingId: string) {
 
     const updatedOrder: any = await Order.findByIdAndUpdate(
       orderId,
-      { trackingId, status: "shipped" }, 
+      { trackingId, status: "shipped" },
       { new: true },
     ).populate("user", "name email phone");
 
     if (updatedOrder?.user) {
       // ⚠️ IMPORTANT: Added 'await' here too
-      await sendOrderNotification(updatedOrder.user, orderId, "tracking", trackingId);
+      await sendOrderNotification(
+        updatedOrder.user,
+        orderId,
+        "tracking",
+        trackingId,
+      );
     }
 
     revalidatePath("/admin/orders");
