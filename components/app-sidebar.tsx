@@ -60,10 +60,8 @@ export function AppSidebar() {
     <Sidebar variant="sidebar" className="border-r shadow-sm">
       <SidebarHeader className="h-16 px-6 border-b flex items-center justify-center">
         <Link href="/admin" className="flex items-center gap-2 mt-2 w-full justify-start transition-opacity hover:opacity-80">
-          <div className="flex bg-primary/10 p-1.5 rounded-lg">
-             <Store className="h-5 w-5 text-primary" />
-          </div>
-          <span className="font-bold text-lg tracking-tight playfair text-primary">Softzy Admin</span>
+          <Image src={"/logo2.png"} height={35} width={35} alt="Logo"/>
+          <span className="font-bold text-lg tracking-tight text-primary">Softzy Admin</span>
         </Link>
       </SidebarHeader>
       
