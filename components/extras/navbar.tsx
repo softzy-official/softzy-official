@@ -20,17 +20,33 @@ import Image from "next/image";
 import TopBanner from "./topBanner";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCart } from "@/hooks/use-cart";
+import { getUserProfile } from "@/app/actions/userActions";
 
 const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const cartItems = useCart((state) => state.items);
   
+  // Real DB Name Override
+  const [realName, setRealName] = useState<string | null>(null);
+
   // Prevent hydration mismatch for the cart badge
   const [mounted, setMounted] = useState(false);
+  
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Fetch true database name to override stale next-auth session name
+  useEffect(() => {
+    if (session?.user?.id && session.user.role !== "admin") {
+      getUserProfile().then((data) => {
+        if (data && data.name) {
+          setRealName(data.name);
+        }
+      });
+    }
+  }, [session]);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -63,6 +79,9 @@ const Navbar = () => {
     if (!name) return "U";
     return name.slice(0, 2).toUpperCase();
   };
+
+  // Decide dynamically which name to show
+  const displayName = realName || session?.user?.name || "User";
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border pb-1">
@@ -127,15 +146,15 @@ const Navbar = () => {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-10 w-10 border border-border">
-                      <AvatarImage src={session.user.image || ""} alt={session.user.name || "User"} />
-                      <AvatarFallback>{getInitials(session.user.name)}</AvatarFallback>
+                      <AvatarImage src={session.user.image || ""} alt={displayName} />
+                      <AvatarFallback>{getInitials(displayName)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{session.user.name}</p>
+                      <p className="text-sm font-medium leading-none">{displayName}</p>
                       <p className="text-xs leading-none text-muted-foreground">{session.user.email}</p>
                     </div>
                   </DropdownMenuLabel>
