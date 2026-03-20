@@ -26,18 +26,14 @@ const Navbar = () => {
   const pathname = usePathname();
   const { data: session } = useSession();
   const cartItems = useCart((state) => state.items);
-  
-  // Real DB Name Override
-  const [realName, setRealName] = useState<string | null>(null);
 
-  // Prevent hydration mismatch for the cart badge
+  const [realName, setRealName] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Fetch true database name to override stale next-auth session name
   useEffect(() => {
     if (session?.user?.id && session.user.role !== "admin") {
       getUserProfile().then((data) => {
@@ -80,26 +76,35 @@ const Navbar = () => {
     return name.slice(0, 2).toUpperCase();
   };
 
-  // Decide dynamically which name to show
   const displayName = realName || session?.user?.name || "User";
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-card/95 backdrop-blur-md border-b border-border pb-1">
       <TopBanner />
-      <div className="mx-auto px-6 sm:px-10 md:px-16">
-        <div className="flex h-16 items-center justify-between gap-6">
+      <div className="mx-auto px-4 sm:px-8 md:px-12 lg:px-16">
+        <div className="flex h-16 items-center justify-between gap-3 sm:gap-4 md:gap-6">
           {/* Logo + Quote */}
-          <div className="flex items-center gap-1 flex-shrink-0">
-            <Link href="/">
-              <Image src="/logo2.png" alt="Softzy" width={80} height={40} className="h-12 sm:h-14 w-auto"/>
+          <div className="flex items-center gap-1 flex-shrink min-w-0">
+            <Link href="/" className="flex-shrink-0">
+              <Image
+                src="/logo2.png"
+                alt="Softzy"
+                width={80}
+                height={40}
+                className="h-12 sm:h-14 w-auto"
+              />
             </Link>
-            <div className="relative w-[170px] sm:w-[190px] md:w-[220px] h-[22px] mt-0.5 overflow-hidden">
+
+            {/* Hide quote on very small screens to avoid crowding */}
+            <div className="hidden sm:block relative w-[190px] md:w-[220px] h-[22px] mt-0.5 overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentQuote}
-                  initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
                   transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                  className="absolute left-0 top-0 text-[13px] sm:text-sm md:text-base font-bold text-foreground whitespace-nowrap nunito"
+                  className="absolute left-0 top-0 text-sm md:text-base font-bold text-foreground whitespace-nowrap nunito"
                 >
                   “{quotes[currentQuote]}”
                 </motion.span>
@@ -114,23 +119,27 @@ const Navbar = () => {
                 key={link.name}
                 href={link.href}
                 className={`relative inter font-medium px-4 py-2 rounded-full transition-colors group ${
-                  isActive(link.href) ? "bg-secondary text-secondary-foreground" : "text-foreground/70 hover:text-foreground"
+                  isActive(link.href)
+                    ? "bg-secondary text-secondary-foreground"
+                    : "text-foreground/70 hover:text-foreground"
                 }`}
               >
                 {link.name}
                 {!isActive(link.href) && (
-                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-[calc(100%-2rem)]"></span>
+                  <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-secondary transition-all duration-300 group-hover:w-[calc(100%-2rem)]" />
                 )}
               </Link>
             ))}
           </div>
 
-          {/* Right Section: Auth & Cart & Mobile Menu */}
-          <div className="flex items-center gap-4">
-            
-            {/* Shopping Cart Button */}
+          {/* Right Section */}
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4 flex-shrink-0">
             <Link href="/cart">
-              <Button variant="ghost" size="icon" className="relative rounded-full hover:bg-accent">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative rounded-full hover:bg-accent"
+              >
                 <ShoppingCart className="h-5 w-5" />
                 {mounted && cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
@@ -140,41 +149,62 @@ const Navbar = () => {
               </Button>
             </Link>
 
-            {/* User Auth Profile Icon */}
             {session?.user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Button
+                    variant="ghost"
+                    className="relative h-10 w-10 rounded-full p-0 shrink-0 focus-visible:ring-2 focus-visible:ring-primary/40"
+                  >
                     <Avatar className="h-10 w-10 border border-border">
                       <AvatarImage src={session.user.image || ""} alt={displayName} />
                       <AvatarFallback>{getInitials(displayName)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+
+                <DropdownMenuContent
+                  align="end"
+                  sideOffset={8}
+                  collisionPadding={12}
+                  forceMount
+                  className="z-[70] w-56 max-w-[calc(100vw-1rem)] rounded-xl"
+                >
                   <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{displayName}</p>
-                      <p className="text-xs leading-none text-muted-foreground">{session.user.email}</p>
+                    <div className="flex min-w-0 flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none truncate">
+                        {displayName}
+                      </p>
+                      <p className="text-xs leading-none text-muted-foreground truncate">
+                        {session.user.email}
+                      </p>
                     </div>
                   </DropdownMenuLabel>
+
                   <DropdownMenuSeparator />
+
                   <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer">
+                    <Link href="/profile" className="cursor-pointer w-full">
                       <User className="mr-2 h-4 w-4" />
                       <span>My Profile</span>
                     </Link>
                   </DropdownMenuItem>
+
                   {session.user.role === "admin" && (
                     <DropdownMenuItem asChild>
-                       <Link href="/admin" className="cursor-pointer">
+                      <Link href="/admin" className="cursor-pointer w-full">
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         <span>Admin Dashboard</span>
                       </Link>
                     </DropdownMenuItem>
                   )}
+
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="text-red-600 focus:text-red-600 cursor-pointer" onClick={() => signOut()}>
+
+                  <DropdownMenuItem
+                    className="text-red-600 focus:text-red-600 cursor-pointer"
+                    onClick={() => signOut()}
+                  >
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>Log out</span>
                   </DropdownMenuItem>
@@ -191,7 +221,11 @@ const Navbar = () => {
             {/* Mobile Menu */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden max-lg:flex rounded-full hover:bg-accent">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden max-lg:flex rounded-full hover:bg-accent"
+                >
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
@@ -202,14 +236,19 @@ const Navbar = () => {
                       key={link.name}
                       href={link.href}
                       className={`px-4 py-3 rounded-full text-base font-medium poppins ${
-                        isActive(link.href) ? "bg-secondary text-secondary-foreground" : "hover:bg-accent"
+                        isActive(link.href)
+                          ? "bg-secondary text-secondary-foreground"
+                          : "hover:bg-accent"
                       }`}
                     >
                       {link.name}
                     </Link>
                   ))}
                   {!session?.user && (
-                    <Link href="/auth/login" className="px-4 py-3 rounded-full text-base font-medium hover:bg-accent">
+                    <Link
+                      href="/auth/login"
+                      className="px-4 py-3 rounded-full text-base font-medium hover:bg-accent"
+                    >
                       Login
                     </Link>
                   )}

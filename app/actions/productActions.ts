@@ -32,7 +32,7 @@ const mapToClientProduct = (doc: Record<string, unknown>): Product => {
     description: doc.description as string | undefined,
     category: doc.category as string | undefined,
     tags: (doc.tags as string[]) || [],
-    categoryId: doc.categoryId as string | undefined,
+    // categoryId: doc.categoryId as string | undefined,
     features: (doc.features as string[]) || [],
     careInstructions: (doc.careInstructions as string[]) || [],
     material: doc.material as string | undefined,

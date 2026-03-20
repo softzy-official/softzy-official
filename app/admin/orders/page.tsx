@@ -115,13 +115,13 @@ export default function AdminOrders() {
           o._id.toLowerCase().includes(q) ||
           o.user?.name?.toLowerCase().includes(q) ||
           o.user?.email?.toLowerCase().includes(q) ||
-          o.trackingId?.toLowerCase().includes(q)
+          o.trackingId?.toLowerCase().includes(q),
       );
     }
 
     if (statusFilter !== "All") {
       result = result.filter(
-        (o) => o.status.toLowerCase() === statusFilter.toLowerCase()
+        (o) => o.status.toLowerCase() === statusFilter.toLowerCase(),
       );
     }
 
@@ -296,18 +296,21 @@ export default function AdminOrders() {
                       </TableCell>
 
                       <TableCell className="text-sm whitespace-nowrap text-muted-foreground font-medium">
-                        {new Date(order.createdAt).toLocaleDateString(undefined, {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
+                        {new Date(order.createdAt).toLocaleDateString(
+                          undefined,
+                          {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                          },
+                        )}
                       </TableCell>
 
                       <TableCell>
                         <Badge
                           variant="outline"
                           className={`capitalize font-semibold tracking-wide text-[10px] px-2 py-0.5 border ${getStatusColor(
-                            order.status
+                            order.status,
                           )}`}
                         >
                           {order.status}
@@ -337,7 +340,10 @@ export default function AdminOrders() {
                       </TableCell>
 
                       <TableCell className="text-right pr-6">
-                        <OrderActionMenu order={order} refreshData={fetchOrders} />
+                        <OrderActionMenu
+                          order={order}
+                          refreshData={fetchOrders}
+                        />
                       </TableCell>
                     </TableRow>
                   ))}
@@ -416,8 +422,14 @@ function OrderActionMenu({
       const res = await getRazorpayPaymentDetails(order.razorpayPaymentId);
       if (res.success && res.payment) {
         setRazorpayDetails({
-          contact: res.payment.contact,
-          method: res.payment.method,
+          contact:
+            res.payment.contact !== undefined && res.payment.contact !== null
+              ? String(res.payment.contact)
+              : undefined,
+          method:
+            typeof res.payment.method === "string"
+              ? res.payment.method
+              : undefined,
         });
       }
     }
