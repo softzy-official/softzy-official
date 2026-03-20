@@ -29,7 +29,7 @@ function CartMergeBridge() {
 
       const res = await mergeGuestCartOnLogin(guestCart);
       if (!res.success) {
-        toast.error("Could not merge cart from server.");
+        // toast.error("Could not merge cart from server.");
         return;
       }
 

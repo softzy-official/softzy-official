@@ -51,7 +51,6 @@ export default function AdminLoginPage() {
               <Input 
                 id="admin-email" 
                 type="email" 
-                placeholder="admin@softzy.com" 
                 value={adminEmail} 
                 onChange={(e) => setAdminEmail(e.target.value)} 
                 required 

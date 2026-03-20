@@ -9,7 +9,6 @@ import GoogleProvider from "next-auth/providers/google";
 import connectToDatabase from "@/lib/db";
 import User from "@/models/User";
 
-// ✅ Type augmentation
 declare module "next-auth" {
   interface Session {
     user: {
@@ -130,7 +129,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-
+  
   secret: process.env.NEXTAUTH_SECRET,
 };
 
