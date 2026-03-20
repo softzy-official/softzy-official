@@ -110,7 +110,7 @@ export function AppSidebar() {
               className="h-11 px-3 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all font-medium rounded-lg"
             >
               <LogOut className="h-5 w-5" />
-              <span className="text-[15px]">Log out Securely</span>
+              <span className="text-[15px]">Log out</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

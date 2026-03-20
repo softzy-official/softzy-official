@@ -144,7 +144,7 @@ export default function AdminUsers() {
           </p>
         </div>
         <Button
-          variant="outline"
+         
           onClick={fetchUsers}
           disabled={loading}
           className="rounded-xl shadow-sm hover:shadow-md transition-all px-6"
