@@ -1,7 +1,18 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Mail, Phone, MoreHorizontal, Eye, ShieldAlert, Trash2, Loader2, IndianRupee } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MoreHorizontal,
+  Eye,
+  ShieldAlert,
+  Trash2,
+  Loader2,
+  IndianRupee,
+  Users,
+  RefreshCcw,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -38,11 +49,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-
-import { getAllUsersAdmin, updateUserRole, deleteUserAdmin } from "@/app/actions/adminActions";
 import { Label } from "@/components/ui/label";
+import {
+  getAllUsersAdmin,
+  updateUserRole,
+  deleteUserAdmin,
+} from "@/app/actions/adminActions";
 
-// Strict Types avoiding any
 interface IAdminUser {
   _id: string;
   name: string;
@@ -64,7 +77,6 @@ export default function AdminUsers() {
   const [users, setUsers] = useState<IAdminUser[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Filter & Sort State
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState("All");
   const [sortBy, setSortBy] = useState("Newest");
@@ -80,36 +92,40 @@ export default function AdminUsers() {
     fetchUsers();
   }, []);
 
-  // Secure client-side logic mapped efficiently via useMemo
   const filteredAndSortedUsers = useMemo(() => {
     let result = [...users];
 
-    // 1. Search Query
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
-      result = result.filter((u) => 
-        u.name.toLowerCase().includes(q) || 
-        u.email.toLowerCase().includes(q) ||
-        (u.phone && u.phone.includes(q))
+      result = result.filter(
+        (u) =>
+          u.name.toLowerCase().includes(q) ||
+          u.email.toLowerCase().includes(q) ||
+          (u.phone && u.phone.includes(q))
       );
     }
 
-    // 2. Role Filter
     if (roleFilter !== "All") {
-      result = result.filter((u) => u.role.toLowerCase() === roleFilter.toLowerCase());
+      result = result.filter(
+        (u) => u.role.toLowerCase() === roleFilter.toLowerCase()
+      );
     }
 
-    // 3. Sorting Engine
     result.sort((a, b) => {
       const dateA = new Date(a.createdAt).getTime();
       const dateB = new Date(b.createdAt).getTime();
 
       switch (sortBy) {
-        case "Newest": return dateB - dateA;
-        case "Oldest": return dateA - dateB;
-        case "Highest Spent": return b.totalSpent - a.totalSpent;
-        case "Most Orders": return b.totalOrders - a.totalOrders;
-        default: return 0;
+        case "Newest":
+          return dateB - dateA;
+        case "Oldest":
+          return dateA - dateB;
+        case "Highest Spent":
+          return b.totalSpent - a.totalSpent;
+        case "Most Orders":
+          return b.totalOrders - a.totalOrders;
+        default:
+          return 0;
       }
     });
 
@@ -117,31 +133,45 @@ export default function AdminUsers() {
   }, [users, searchQuery, roleFilter, sortBy]);
 
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+    <div className="flex flex-col gap-8 pb-12 max-w-7xl mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-6">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Customers</h2>
-          <p className="text-muted-foreground">Manage your user base, permissions, and lifetime values.</p>
+          <h2 className="text-3xl font-bold tracking-tight nunito text-primary mb-1">
+            Customers
+          </h2>
+          <p className="text-muted-foreground inter text-sm">
+            Manage your user base, permissions, and lifetime values.
+          </p>
         </div>
-        <Button variant="outline" onClick={fetchUsers} disabled={loading}>
-            {loading ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : "Refresh Directory"}
+        <Button
+          variant="outline"
+          onClick={fetchUsers}
+          disabled={loading}
+          className="rounded-xl shadow-sm hover:shadow-md transition-all px-6"
+        >
+          {loading ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <RefreshCcw className="w-4 h-4 mr-2" />
+          )}
+          {loading ? "Syncing..." : "Refresh Directory"}
         </Button>
       </div>
 
-      <Card>
-        <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <CardTitle>Directory</CardTitle>
-          
-          <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
-            <Input 
-              placeholder="Search name, email, phone..." 
-              className="w-full md:w-64 h-9" 
+      <Card className="shadow-sm border-border/60 rounded-2xl overflow-hidden">
+        <CardHeader className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 bg-muted/20 border-b border-border/40 pb-4">
+          <CardTitle className="text-lg">Directory</CardTitle>
+
+          <div className="flex flex-wrap items-center gap-3 w-full lg:w-auto">
+            <Input
+              placeholder="Search name, email, phone..."
+              className="w-full sm:w-64 h-9 bg-background"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            
+
             <Select value={roleFilter} onValueChange={setRoleFilter}>
-              <SelectTrigger className="w-[120px] h-9">
+              <SelectTrigger className="w-[130px] h-9 bg-background">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>
               <SelectContent>
@@ -152,7 +182,7 @@ export default function AdminUsers() {
             </Select>
 
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-[160px] h-9">
+              <SelectTrigger className="w-[170px] h-9 bg-background">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
               <SelectContent>
@@ -165,65 +195,93 @@ export default function AdminUsers() {
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="p-0">
           {loading ? (
-             <div className="flex justify-center p-10">
-               <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
-             </div>
+            <div className="flex flex-col items-center justify-center py-20">
+              <Loader2 className="w-10 h-10 animate-spin text-primary/50 mb-4" />
+              <p className="text-sm text-muted-foreground font-medium animate-pulse">
+                Syncing customer directory...
+              </p>
+            </div>
           ) : filteredAndSortedUsers.length === 0 ? (
-             <div className="text-center py-10 text-muted-foreground">
-                No active users match your criteria.
-             </div>
+            <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+              <Users className="w-12 h-12 mb-4 opacity-25" />
+              <p className="text-base font-medium">No users found.</p>
+              <p className="text-sm opacity-70">
+                Try adjusting your search, role filter, or sorting.
+              </p>
+            </div>
           ) : (
-             <Table>
-               <TableHeader>
-                 <TableRow>
-                   <TableHead>Customer</TableHead>
-                   <TableHead>Contact</TableHead>
-                   <TableHead>Joined</TableHead>
-                   <TableHead className="text-center">Total Orders</TableHead>
-                   <TableHead className="text-right">Lifetime Value</TableHead>
-                   <TableHead className="text-right">Actions</TableHead>
-                 </TableRow>
-               </TableHeader>
-               <TableBody>
-                 {filteredAndSortedUsers.map((user) => (
-                   <TableRow key={user._id}>
-                     <TableCell className="font-medium">
-                       <div className="flex flex-col">
-                         <span>{user.name}</span>
-                         <Badge 
-                           variant={user.role === "admin" ? "default" : "outline"} 
-                           className={`w-fit mt-1 text-[10px] uppercase ${user.role === 'admin' ? "bg-indigo-600 hover:bg-indigo-700" : ""}`}
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader className="bg-muted/20">
+                  <TableRow className="hover:bg-muted/20">
+                    <TableHead className="w-[64px] pl-6">S.No</TableHead>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Contact</TableHead>
+                    <TableHead>Joined</TableHead>
+                    <TableHead className="text-center">Total Orders</TableHead>
+                    <TableHead className="text-right">Lifetime Value</TableHead>
+                    <TableHead className="text-right pr-6">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredAndSortedUsers.map((user, index) => (
+                    <TableRow key={user._id} className="hover:bg-muted/40">
+                      <TableCell className="pl-6 text-muted-foreground font-medium">
+                        {(index + 1).toString().padStart(2, "0")}
+                      </TableCell>
+
+                      <TableCell className="font-medium">
+                        <div className="flex flex-col gap-1">
+                          <span className="font-semibold">{user.name}</span>
+                          <Badge
+                            variant={user.role === "admin" ? "default" : "secondary"}
+                            className="w-fit text-[10px] uppercase"
                           >
-                           {user.role}
-                         </Badge>
-                       </div>
-                     </TableCell>
-                     <TableCell>
-                       <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                         <div className="flex items-center gap-2">
-                           <Mail className="h-3 w-3" /> {user.email}
-                         </div>
-                         {user.phone && (
-                           <div className="flex items-center gap-2">
-                             <Phone className="h-3 w-3" /> {user.phone}
-                           </div>
-                         )}
-                       </div>
-                     </TableCell>
-                     <TableCell className="text-sm">{new Date(user.createdAt).toLocaleDateString()}</TableCell>
-                     <TableCell className="text-center font-medium">{user.totalOrders}</TableCell>
-                     <TableCell className="text-right font-medium text-emerald-600">
-                        ₹{user.totalSpent.toLocaleString("en-IN")}
-                     </TableCell>
-                     <TableCell className="text-right">
-                       <UserActionMenu user={user} refreshData={fetchUsers} />
-                     </TableCell>
-                   </TableRow>
-                 ))}
-               </TableBody>
-             </Table>
+                            {user.role}
+                          </Badge>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-3.5 w-3.5" />
+                            <span className="truncate max-w-[220px]">{user.email}</span>
+                          </div>
+                          {user.phone && (
+                            <div className="flex items-center gap-2">
+                              <Phone className="h-3.5 w-3.5" />
+                              <span>{user.phone}</span>
+                            </div>
+                          )}
+                        </div>
+                      </TableCell>
+
+                      <TableCell className="text-sm text-muted-foreground">
+                        {new Date(user.createdAt).toLocaleDateString()}
+                      </TableCell>
+
+                      <TableCell className="text-center font-semibold">
+                        {user.totalOrders}
+                      </TableCell>
+
+                      <TableCell className="text-right font-semibold text-primary">
+                        <span className="inline-flex items-center">
+                          <IndianRupee className="w-3.5 h-3.5 mr-0.5" />
+                          {user.totalSpent.toLocaleString("en-IN")}
+                        </span>
+                      </TableCell>
+
+                      <TableCell className="text-right pr-6">
+                        <UserActionMenu user={user} refreshData={fetchUsers} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </CardContent>
       </Card>
@@ -231,8 +289,13 @@ export default function AdminUsers() {
   );
 }
 
-// User Action Menu with Modal logic strongly typed
-function UserActionMenu({ user, refreshData }: { user: IAdminUser, refreshData: () => void }) {
+function UserActionMenu({
+  user,
+  refreshData,
+}: {
+  user: IAdminUser;
+  refreshData: () => void;
+}) {
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [roleOpen, setRoleOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
@@ -243,7 +306,7 @@ function UserActionMenu({ user, refreshData }: { user: IAdminUser, refreshData: 
   const handleUpdateRole = async () => {
     setIsProcessing(true);
     const res = await updateUserRole(user._id, targetRole);
-    if(res.success) {
+    if (res.success) {
       toast.success("User role updated successfully.");
       refreshData();
       setRoleOpen(false);
@@ -256,7 +319,7 @@ function UserActionMenu({ user, refreshData }: { user: IAdminUser, refreshData: 
   const handleDeleteUser = async () => {
     setIsProcessing(true);
     const res = await deleteUserAdmin(user._id);
-    if(res.success){
+    if (res.success) {
       toast.success("User successfully deleted.");
       refreshData();
       setDeleteOpen(false);
@@ -270,94 +333,214 @@ function UserActionMenu({ user, refreshData }: { user: IAdminUser, refreshData: 
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="h-8 w-8 p-0">
+          <Button variant="ghost" className="h-8 w-8 p-0 rounded-lg hover:bg-muted">
             <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
+            <MoreHorizontal className="h-4 w-4 text-muted-foreground" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Account Interventions</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => setDetailsOpen(true)}>
-            <Eye className="mr-2 h-4 w-4" /> Enlarge Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => window.location.href = `mailto:${user.email}`}>
-            <Mail className="mr-2 h-4 w-4" /> Send Email Request
-          </DropdownMenuItem>
+        <DropdownMenuContent
+          align="end"
+          className="w-52 rounded-xl shadow-lg border-border/50"
+        >
+          <DropdownMenuLabel className="font-semibold text-xs uppercase tracking-wider text-muted-foreground">
+            Account Actions
+          </DropdownMenuLabel>
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => setDeleteOpen(true)} className="text-red-600 focus:text-red-600">
-             <Trash2 className="mr-2 h-4 w-4" /> Erase Customer 
+
+          <DropdownMenuItem onClick={() => setDetailsOpen(true)} className="cursor-pointer">
+            <Eye className="mr-2 h-4 w-4" /> View Profile
+          </DropdownMenuItem>
+
+          <DropdownMenuItem onClick={() => setRoleOpen(true)} className="cursor-pointer">
+            <ShieldAlert className="mr-2 h-4 w-4" /> Update Role
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => (window.location.href = `mailto:${user.email}`)}
+            className="cursor-pointer"
+          >
+            <Mail className="mr-2 h-4 w-4" /> Send Email
+          </DropdownMenuItem>
+
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem
+            onClick={() => setDeleteOpen(true)}
+            className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive"
+          >
+            <Trash2 className="mr-2 h-4 w-4" /> Delete User
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      
       {/* Delete Confirmation Modal */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[425px] rounded-2xl">
           <DialogHeader>
-            <DialogTitle className="text-red-600 flex items-center"><Trash2 className="w-5 h-5 mr-2"/> Delete User</DialogTitle>
+            <DialogTitle className="text-destructive flex items-center">
+              <Trash2 className="w-5 h-5 mr-2" /> Delete User
+            </DialogTitle>
             <DialogDescription className="pt-2">
-              Are you sure you want to permanently erase <strong>{user.name}</strong> ({user.email})? They will lose access to their profile and active session instantly.
+              Are you sure you want to permanently delete{" "}
+              <strong>{user.name}</strong> ({user.email})?
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setDeleteOpen(false)} disabled={isProcessing}>Abort</Button>
-            <Button variant="destructive" onClick={handleDeleteUser} disabled={isProcessing}>
-               {isProcessing ? <Loader2 className="h-4 w-4 animate-spin mr-2"/> : null} 
-               Confirm Ejection
+            <Button
+              variant="outline"
+              onClick={() => setDeleteOpen(false)}
+              disabled={isProcessing}
+              className="rounded-xl"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteUser}
+              disabled={isProcessing}
+              className="rounded-xl"
+            >
+              {isProcessing ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
+              Delete User
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-      {/* Deep Profile Detail Modal */}
-      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
-        <DialogContent className="sm:max-w-[600px]">
+      {/* Role Update Modal */}
+      <Dialog open={roleOpen} onOpenChange={setRoleOpen}>
+        <DialogContent className="sm:max-w-[425px] rounded-2xl">
           <DialogHeader>
-            <DialogTitle>Deep Profile Overview</DialogTitle>
-            <DialogDescription>ID: ...{user._id}</DialogDescription>
+            <DialogTitle className="flex items-center gap-2">
+              <ShieldAlert className="w-5 h-5 text-primary" />
+              Update Account Role
+            </DialogTitle>
+            <DialogDescription>
+              Assign role permissions for {user.name}.
+            </DialogDescription>
           </DialogHeader>
-          
-          <div className="grid gap-4 py-4 text-sm mt-2">
-            <div className="grid grid-cols-2 gap-y-4 border-b pb-4">
-               <div>
-                 <p className="text-muted-foreground text-xs uppercase font-semibold mb-1">Standard Info</p>
-                 <p className="font-medium text-base">{user.name}</p>
-                 <p>{user.email}</p>
-                 <p className="mt-1">{user.phone || "No phone given"}</p>
-               </div>
-               <div>
-                 <p className="text-muted-foreground text-xs uppercase font-semibold mb-1">Metrics</p>
-                 <p className="flex justify-between items-center max-w-[150px]"><span className="text-muted-foreground">Joined:</span> <span className="font-semibold">{new Date(user.createdAt).toLocaleDateString()}</span></p>
-                 <p className="flex justify-between items-center max-w-[150px] mt-1"><span className="text-muted-foreground">Volume:</span> <span className="font-semibold">{user.totalOrders} Orders</span></p>
-               </div>
+
+          <div className="py-3">
+            <Label className="text-xs font-semibold uppercase text-muted-foreground tracking-wider">
+              Select Role
+            </Label>
+            <Select value={targetRole} onValueChange={setTargetRole}>
+              <SelectTrigger className="mt-2 h-11">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="user">User</SelectItem>
+                <SelectItem value="admin">Admin</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setRoleOpen(false)}
+              disabled={isProcessing}
+              className="rounded-xl"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleUpdateRole}
+              disabled={isProcessing || targetRole === user.role}
+              className="rounded-xl"
+            >
+              {isProcessing ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : null}
+              Save Role
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Profile Detail Modal */}
+      <Dialog open={detailsOpen} onOpenChange={setDetailsOpen}>
+        <DialogContent className="sm:max-w-[640px] rounded-2xl p-0 overflow-hidden">
+          <div className="border-b bg-muted/20 px-6 py-4">
+            <DialogTitle className="text-xl">Profile Overview</DialogTitle>
+            <DialogDescription className="mt-1 font-mono text-xs">
+              UID: ...{user._id.slice(-8)}
+            </DialogDescription>
+          </div>
+
+          <div className="p-6 grid gap-5 text-sm">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 border rounded-xl p-4 bg-background">
+              <div>
+                <p className="text-muted-foreground text-xs uppercase font-semibold mb-1">
+                  Standard Info
+                </p>
+                <p className="font-semibold text-base">{user.name}</p>
+                <p className="text-muted-foreground">{user.email}</p>
+                <p className="mt-1 text-muted-foreground">
+                  {user.phone || "No phone provided"}
+                </p>
+              </div>
+              <div>
+                <p className="text-muted-foreground text-xs uppercase font-semibold mb-1">
+                  Metrics
+                </p>
+                <p className="flex justify-between items-center max-w-[190px]">
+                  <span className="text-muted-foreground">Joined:</span>
+                  <span className="font-semibold">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </span>
+                </p>
+                <p className="flex justify-between items-center max-w-[190px] mt-1">
+                  <span className="text-muted-foreground">Orders:</span>
+                  <span className="font-semibold">{user.totalOrders}</span>
+                </p>
+                <p className="flex justify-between items-center max-w-[190px] mt-1">
+                  <span className="text-muted-foreground">Role:</span>
+                  <Badge variant={user.role === "admin" ? "default" : "secondary"} className="uppercase text-[10px]">
+                    {user.role}
+                  </Badge>
+                </p>
+              </div>
             </div>
-            
-            <div className="pb-4">
-              <p className="text-muted-foreground text-xs uppercase font-semibold mb-2">Stored Shipping Default</p>
-              <div className="p-3 bg-muted/40 border rounded-lg">
+
+            <div>
+              <p className="text-muted-foreground text-xs uppercase font-semibold mb-2">
+                Stored Shipping Address
+              </p>
+              <div className="p-4 bg-muted/30 border rounded-xl">
                 {user.address?.street ? (
-                   <p className="text-muted-foreground leading-relaxed">
-                     {user.address.street}, <br/>
-                     {user.address.city}, {user.address.state} — {user.address.zip}
-                   </p>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {user.address.street}
+                    <br />
+                    {user.address.city}, {user.address.state} - {user.address.zip}
+                  </p>
                 ) : (
-                  <p className="text-muted-foreground italic">No address populated.</p>
+                  <p className="text-muted-foreground italic">
+                    No address populated.
+                  </p>
                 )}
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-emerald-50 rounded-xl border border-emerald-100">
-              <span className="text-emerald-800 font-semibold">Total Revenue (Lifetime Value)</span>
-              <span className="font-bold text-xl text-emerald-600 flex items-center">
-                 <IndianRupee className="w-5 h-5 mr-0.5"/> {user.totalSpent.toLocaleString("en-IN")}
+            <div className="flex items-center justify-between p-4 bg-primary/10 rounded-xl border border-primary/20">
+              <span className="text-primary font-semibold">
+                Total Revenue (Lifetime Value)
+              </span>
+              <span className="font-bold text-xl text-primary flex items-center">
+                <IndianRupee className="w-5 h-5 mr-0.5" />
+                {user.totalSpent.toLocaleString("en-IN")}
               </span>
             </div>
           </div>
 
-          <DialogFooter>
-            <Button onClick={() => setDetailsOpen(false)}>Close View</Button>
-          </DialogFooter>
+          <div className="px-6 pb-6 flex justify-end">
+            <Button onClick={() => setDetailsOpen(false)} className="rounded-xl">
+              Close
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
     </>
