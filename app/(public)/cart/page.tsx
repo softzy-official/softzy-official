@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import CheckoutButton from "@/components/checkoutButton"; 
 
 export default function CartPage() {
   const [mounted, setMounted] = useState(false);
@@ -23,14 +24,10 @@ export default function CartPage() {
 
   if (!mounted) return null; // Avoid hydration mismatch
 
-  const handleCheckout = () => {
-    if (!session?.user) {
-      router.push("/auth/login?callbackUrl=/cart");
-      return;
-    }
-    // Proceed to checkout (Point 7)
-    alert("Checkout logic coming next (Point 7)!");
-  };
+  // Calculate pricing for logged-out preview scenario
+  const subTotal = cart.getCartTotal();
+  const shippingFee = subTotal > 0 && subTotal < 1400 ? 149 : 0;
+  const grandTotal = subTotal + shippingFee;
 
   return (
     <div className="container mx-auto px-4 py-12 md:py-20 max-w-6xl">
@@ -72,7 +69,7 @@ export default function CartPage() {
                   <div className="flex-grow flex flex-col justify-between h-full w-full space-y-4 sm:space-y-0">
                     <div className="flex justify-between items-start w-full">
                       <div>
-                        {/* Fixed the Link to use the actual SLUG instead of trying to convert undefined title */}
+                        {/* Link securely mapped to slug */}
                         <Link href={`/product/${item.slug}`} className="font-semibold text-lg hover:underline decoration-1 underline-offset-4">
                           {item.name}
                         </Link>
@@ -134,37 +131,49 @@ export default function CartPage() {
             ))}
           </div>
 
-          {/* Cart Summary */}
+          {/* Cart Summary Header */}
           <div className="lg:col-span-4 sticky top-24">
             <Card className="border-border/50 shadow-sm bg-card/50">
               <CardContent className="p-6">
                 <h2 className="text-xl font-bold font-serif mb-6">Order Summary</h2>
                 
-                <div className="space-y-4 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal ({cart.items.length} items)</span>
-                    <span className="font-medium">₹{cart.getCartTotal().toLocaleString("en-IN")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-muted-foreground">Shipping Estimate</span>
-                    <span className="font-medium text-green-600">Free</span>
-                  </div>
-                  <Separator className="my-4" />
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Total</span>
-                    <span>₹{cart.getCartTotal().toLocaleString("en-IN")}</span>
-                  </div>
-                </div>
+                {/* 
+                   If user is authenticated, mount the strict, secure CheckoutButton!
+                   If NOT authenticated, show a generic preview and force them to login first. 
+                */}
+                {session?.user ? (
+                  <CheckoutButton />
+                ) : (
+                  <>
+                    <div className="space-y-4 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Subtotal ({cart.items.length} items)</span>
+                        <span className="font-medium">₹{subTotal.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Shipping Estimate</span>
+                        <span className={`font-medium ${shippingFee === 0 ? "text-green-600" : ""}`}>
+                          {shippingFee === 0 ? "Free" : `₹${shippingFee}`}
+                        </span>
+                      </div>
+                      <Separator className="my-4" />
+                      <div className="flex justify-between text-lg font-bold">
+                        <span>Total (Please Log In)</span>
+                        <span>₹{grandTotal.toLocaleString("en-IN")}</span>
+                      </div>
+                    </div>
 
-                <Button 
-                  className="w-full mt-8 rounded-full py-6 text-base font-semibold"
-                  onClick={handleCheckout}
-                >
-                  Proceed to Checkout
-                </Button>
-                
+                    <Button 
+                      className="w-full mt-8 rounded-full py-6 text-base font-semibold"
+                      onClick={() => router.push("/auth/login?callbackUrl=/cart")}
+                    >
+                      Login to Checkout
+                    </Button>
+                  </>
+                )}
+
                 <p className="text-xs text-center text-muted-foreground mt-4">
-                  Taxes and additional shipping lines calculated at checkout.
+                  Taxes and additional shipping lines calculated securely.
                 </p>
               </CardContent>
             </Card>
