@@ -7,14 +7,15 @@ import { useCart } from "@/hooks/use-cart";
 import { toast } from "sonner";
 
 function CartMergeBridge() {
-  const { status } = useSession();
+  const { status, data: session } = useSession(); // Extract data: session
   const mergedOnceRef = useRef(false);
   const items = useCart((s) => s.items);
   const hydrateFromServerCart = useCart((s) => s.hydrateFromServerCart);
 
   useEffect(() => {
     const run = async () => {
-      if (status !== "authenticated" || mergedOnceRef.current) return;
+      // Add the early return condition for the admin role
+      if (status !== "authenticated" || session?.user?.role === "admin" || mergedOnceRef.current) return;
       mergedOnceRef.current = true;
 
       const guestCart = items.map((i) => ({
@@ -48,7 +49,7 @@ function CartMergeBridge() {
     };
 
     run();
-  }, [status, items, hydrateFromServerCart]);
+  }, [status, session, items, hydrateFromServerCart]);
 
   return null;
 }

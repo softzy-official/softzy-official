@@ -16,9 +16,9 @@ so here is my flow :
 
 8.orders should be displayed in the user profile - done
 
-9.then moving to admin , we should be able to view all the kpis 
+9.then moving to admin , we should be able to view all the kpis - done
 
-10.view all the orderd and perfoem all the actions on those order like awb , status , canel , and whatsoever
+10.view all the orderd and perfoem all the actions on those order like awb , status , canel , and whatsoever - done
 
 11.then view all the users details
 
