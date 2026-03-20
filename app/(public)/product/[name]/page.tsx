@@ -1,12 +1,11 @@
 import React from "react";
 import { notFound } from "next/navigation";
-
 import Link from "next/link";
-import { shopProducts } from "@/data/products";
 import ImageGallery from "@/components/productDetailsPage/imageGallery";
 import ProductInfo from "@/components/productDetailsPage/productInfo";
 import ProductDetails from "@/components/productDetailsPage/productDetails";
 import RelatedProducts from "@/components/productDetailsPage/relatedProducts";
+import { getProductBySlug } from "@/app/actions/productActions";
 
 interface ProductPageProps {
   params: Promise<{
@@ -17,8 +16,8 @@ interface ProductPageProps {
 const SingleProductDetailsPage = async ({ params }: ProductPageProps) => {
   const { name } = await params;
 
-  // Find the product by slug
-  const product = shopProducts.find((p) => p.slug === name);
+  // Fetch the product from MongoDB instead of shopProducts
+  const product = await getProductBySlug(name);
 
   // If product not found, show 404
   if (!product) {
@@ -54,10 +53,7 @@ const SingleProductDetailsPage = async ({ params }: ProductPageProps) => {
 
         {/* Main Product Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-12 sm:mb-16">
-          {/* Image Gallery */}
           <ImageGallery images={product.images} productName={product.name} />
-
-          {/* Product Info */}
           <ProductInfo product={product} />
         </div>
 

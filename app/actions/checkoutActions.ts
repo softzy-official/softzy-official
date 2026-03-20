@@ -6,7 +6,7 @@ import { getServerSession, Session } from "next-auth";
 import connectToDatabase from "@/lib/db";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
-// Adjust path to your auth route if different
+import User from "@/models/User"; // IMPORTANT: Import User!
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 interface CartItem {
@@ -36,12 +36,24 @@ export async function createCheckoutOrder(items: CartItem[]) {
 
     await connectToDatabase();
 
+    // 🔴 STRICT CHECK: Verify Address & Phone Number Exist
+    const dbUser = await User.findById(session.user.id);
+    if (!dbUser) throw new Error("User not found in database.");
+
+    if (!dbUser.phone || !dbUser.address || !dbUser.address.street || !dbUser.address.city || !dbUser.address.state || !dbUser.address.zip) {
+       return { 
+         success: false, 
+         error: "PROFILE_INCOMPLETE", // We will catch this exact string on the frontend
+         message: "Please complete your profile (Phone & Address) before checking out." 
+       };
+    }
+
     // 1. Calculate price securely by pulling real prices from MongoDB
     let subTotal = 0;
     const orderItems = [];
 
     for (const item of items) {
-      // Find the real product in the database!
+      // Find the real product in the database by slug!
       const product = await Product.findOne({ slug: item.slug });
       
       if (!product) throw new Error(`Product not found: ${item.name}`);
@@ -52,7 +64,8 @@ export async function createCheckoutOrder(items: CartItem[]) {
       subTotal += product.price * item.quantity;
       
       orderItems.push({
-        productId: product._id.toString(), // Save the MongoDB ID
+        // 🔴 FIX: Storing the EXACT secure MongoDB _id so stock reduction won't fail
+        productId: product._id.toString(), 
         name: product.name,
         price: product.price,
         quantity: item.quantity,
@@ -66,20 +79,21 @@ export async function createCheckoutOrder(items: CartItem[]) {
 
     // 3. Create Order in Razorpay
     const options = {
-      amount: Math.round(totalAmount * 100), // Razorpay needs amount in paise
+      amount: Math.round(totalAmount * 100), 
       currency: "INR",
       receipt: `receipt_${Date.now()}_${session.user.id.substring(0, 5)}`,
     };
 
     const razorpayOrder = await razorpay.orders.create(options);
 
-    // 4. Create a Pending Order in standard MongoDB
+    // 4. Create a Pending Order in standard MongoDB, saving the formatted address string
     const newOrder = await Order.create({
       user: session.user.id,
       items: orderItems,
-      totalAmount, // This now includes the shipping fee!
+      totalAmount,
       status: "pending",
       razorpayOrderId: razorpayOrder.id,
+      shippingAddress: `${dbUser.address.street}, ${dbUser.address.city}, ${dbUser.address.state}, ${dbUser.address.zip} - Phone: ${dbUser.phone}`
     });
 
     return {
@@ -106,7 +120,7 @@ export async function verifyPaymentAndCompleteOrder(
   try {
     await connectToDatabase();
 
-    // 1. Verify Razorpay Signature (Security measure to prevent fake success calls)
+    // 1. Verify Razorpay Signature
     const secret = process.env.RAZORPAY_KEY_SECRET!;
     const generatedSignature = crypto
       .createHmac("sha256", secret)
@@ -125,17 +139,22 @@ export async function verifyPaymentAndCompleteOrder(
         razorpayPaymentId,
         razorpaySignature,
       },
-      { new: true }
+      { new: true } // Returns the updated document
     );
 
     if (!order) throw new Error("Order not found in database");
 
-    // 3. Deduct stock from the Products collection atomically
+    // 3. 🔴 FIX: Deduct stock robustly. Since productId is perfectly mapped, it will work.
     for (const item of order.items) {
       await Product.findByIdAndUpdate(item.productId, {
         $inc: { stockCount: -item.quantity },
       });
     }
+
+    // 4. Optionally: Push this order ID into the User's "orders" array 
+    await User.findByIdAndUpdate(order.user, {
+      $push: { orders: order._id }
+    });
 
     return { success: true, message: "Payment verified successfully" };
   } catch (error: unknown) {

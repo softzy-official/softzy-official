@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard, { Product } from "@/components/shopPage/productCard";
-import { shopProducts } from "../../data/products";
-
+import { getRelatedProducts } from "@/app/actions/productActions";
 
 interface RelatedProductsProps {
   currentProductId: string;
@@ -11,26 +10,11 @@ interface RelatedProductsProps {
 }
 
 const RelatedProducts = ({ currentProductId, category }: RelatedProductsProps) => {
-  // Get related products from same category
-  const relatedProducts = shopProducts
-    .filter(
-      (product) =>
-        product.id !== currentProductId &&
-        product.category?.toLowerCase() === category?.toLowerCase()
-    )
-    .slice(0, 4);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
-  // If not enough products in same category, fill with other products
-  if (relatedProducts.length < 4) {
-    const otherProducts = shopProducts
-      .filter(
-        (product) =>
-          product.id !== currentProductId &&
-          !relatedProducts.find((rp) => rp.id === product.id)
-      )
-      .slice(0, 4 - relatedProducts.length);
-    relatedProducts.push(...otherProducts);
-  }
+  useEffect(() => {
+    getRelatedProducts(currentProductId, category).then(setRelatedProducts);
+  }, [currentProductId, category]);
 
   if (relatedProducts.length === 0) return null;
 

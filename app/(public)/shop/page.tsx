@@ -1,21 +1,39 @@
 "use client";
 
-import React, { useState, Suspense, useMemo } from "react";
+import React, { useState, Suspense, useMemo, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import FilterSidebar from "@/components/shopPage/filterSidebar";
 import ProductGrid from "@/components/shopPage/productGrid";
 import ShopHeader from "@/components/shopPage/shopHeader";
 import SortDropdown from "@/components/shopPage/sortDropdown";
 import Pagination from "@/components/shopPage/pagination";
-import { shopProducts } from "@/data/products";
+import { Product } from "@/components/shopPage/productCard";
+import { getAllProducts } from "@/app/actions/productActions";
 
 const ShopPageContent = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const searchParams = useSearchParams();
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Fetch real MongoDB products on mount!
+  useEffect(() => {
+    let isMounted = true;
+    getAllProducts().then((data) => {
+      if (isMounted) {
+        setAllProducts(data);
+        setIsLoading(false);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   // Filter products based on URL params
   const filteredProducts = useMemo(() => {
-    let result = [...shopProducts];
+    let result = [...allProducts]; // Operating solely on the DB products now
 
     const searchQuery = searchParams.get("q")?.toLowerCase().trim();
     if (searchQuery) {
@@ -48,15 +66,15 @@ const ShopPageContent = () => {
           product.tags?.map((t) => t.toLowerCase().replace(/\s+/g, "-")) || [];
         switch (filterParam) {
           case "best-sellers":
-            return tags.includes("best-seller") || tags.includes("best-seller");
+            return tags.includes("best-seller");
           case "new-arrivals":
             return tags.includes("new");
           case "trending":
-            return tags.includes("trending");
+            return product.isTrending || tags.includes("trending");
           case "sale":
             return tags.includes("sale");
           case "featured":
-            return tags.includes("featured");
+            return product.isFeatured || tags.includes("featured");
           default:
             return true;
         }
@@ -122,7 +140,7 @@ const ShopPageContent = () => {
     }
 
     return result;
-  }, [searchParams]);
+  }, [searchParams, allProducts]);
 
   const totalProducts = filteredProducts.length;
 
@@ -177,7 +195,13 @@ const ShopPageContent = () => {
             </div>
 
             {/* Products Grid */}
-            <ProductGrid products={paginatedProducts} />
+            {isLoading ? (
+               <div className="flex justify-center items-center py-20">
+                 <div className="w-8 h-8 border-4 border-secondary border-t-transparent rounded-full animate-spin" />
+               </div>
+            ) : (
+               <ProductGrid products={paginatedProducts} />
+            )}
 
             {/* Pagination */}
             {totalPages > 1 && (

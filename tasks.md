@@ -12,9 +12,9 @@ so here is my flow :
 
 6.then we will make the shopping cart page with real functional no dummy or something ok - done
 
-7.then we will intregate the checkout and order logic and i will test this with my test mode raxor pay apu settig and orders should get placed 
+7.then we will intregate the checkout and order logic and i will test this with my test mode raxor pay apu settig and orders should get placed - done 
 
-8.orders should be displayed in the user profile
+8.orders should be displayed in the user profile - done
 
 9.then moving to admin , we should be able to view all the kpis 
 

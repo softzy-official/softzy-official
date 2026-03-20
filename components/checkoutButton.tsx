@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { createCheckoutOrder, verifyPaymentAndCompleteOrder } from "@/app/actions/checkoutActions";
+import {
+  createCheckoutOrder,
+  verifyPaymentAndCompleteOrder,
+} from "@/app/actions/checkoutActions";
 import Script from "next/script";
 import { useCart, CartItem } from "@/hooks/use-cart";
 
@@ -45,7 +48,10 @@ export default function CheckoutButton() {
   const [loading, setLoading] = useState(false);
   const { items, clearCart } = useCart();
 
-  const subTotal = items.reduce((acc: number, item: CartItem) => acc + item.price * item.quantity, 0);
+  const subTotal = items.reduce(
+    (acc: number, item: CartItem) => acc + item.price * item.quantity,
+    0,
+  );
   const shippingFee = subTotal > 0 && subTotal < 1400 ? 149 : 0;
   const grandTotal = subTotal + shippingFee;
 
@@ -61,13 +67,32 @@ export default function CheckoutButton() {
     try {
       const res = await createCheckoutOrder(items);
 
+      if (!res.success) {
+        if (res.error === "PROFILE_INCOMPLETE") {
+          // Provide a highly visible alert and push them to the addresses tab
+          toast.error(res.message || "Profile incomplete", {
+            id: toastId,
+            duration: 4000,
+          });
+          router.push("/profile?tab=addresses");
+          setLoading(false);
+          return;
+        }
+
+        toast.error(res.error || "Order creation failed", { id: toastId });
+        setLoading(false);
+        return;
+      }
+
       if (!res.success || !res.orderId) {
         toast.error(res.error || "Order creation failed", { id: toastId });
         setLoading(false);
         return;
       }
 
-      toast.success("Order mapped securely! Redirecting to payment...", { id: toastId });
+      toast.success("Order mapped securely! Redirecting to payment...", {
+        id: toastId,
+      });
 
       const options: RazorpayOptions = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
@@ -83,15 +108,19 @@ export default function CheckoutButton() {
             response.razorpay_order_id,
             response.razorpay_payment_id,
             response.razorpay_signature,
-            res.dbOrderId as string
+            res.dbOrderId as string,
           );
 
           if (verifyRes.success) {
-            toast.success("Payment Successful! Order Confirmed 🎉", { id: "verify" });
+            toast.success("Payment Successful! Order Confirmed 🎉", {
+              id: "verify",
+            });
             clearCart();
             router.push("/profile");
           } else {
-            toast.error(verifyRes.error || "Payment verification failed", { id: "verify" });
+            toast.error(verifyRes.error || "Payment verification failed", {
+              id: "verify",
+            });
           }
         },
         theme: { color: "#000000" },
@@ -106,7 +135,9 @@ export default function CheckoutButton() {
       razorpayWindow.open();
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong handling the checkout.", { id: toastId });
+      toast.error("Something went wrong handling the checkout.", {
+        id: toastId,
+      });
     } finally {
       setLoading(false);
     }

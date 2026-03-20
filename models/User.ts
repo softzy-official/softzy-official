@@ -5,7 +5,7 @@ export interface ICartItem {
   name: string;
   slug: string;
   price: number;
-  image: string; // Storing the first image
+  image: string; 
   quantity: number;
 }
 
@@ -15,7 +15,17 @@ export interface IUser extends Document {
   image?: string;
   role: "user" | "admin";
   cart: ICartItem[];
-  orders: mongoose.Types.ObjectId[]; // Will hold references to an Order model later
+  orders: mongoose.Types.ObjectId[]; 
+  
+  // NEW FIELDS
+  phone?: string;
+  address?: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+  };
+
   createdAt: Date;
   updatedAt: Date;
 }
@@ -37,10 +47,18 @@ const UserSchema = new Schema<IUser>(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     cart: { type: [CartItemSchema], default: [] },
     orders: [{ type: Schema.Types.ObjectId, ref: "Order", default: [] }],
+    
+    // NEW FIELDS
+    phone: { type: String },
+    address: {
+      street: { type: String },
+      city: { type: String },
+      state: { type: String },
+      zip: { type: String },
+    }
   },
   { timestamps: true }
 );
 
-// Prevent re-compilation of model in Next.js dev environment
 const User = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 export default User;

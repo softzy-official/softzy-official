@@ -2,9 +2,9 @@
 
 import connectToDatabase from "@/lib/db";
 import User, { ICartItem } from "@/models/User";
+import Product from "@/models/Product"; // Pull real Product model
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { shopProducts } from "@/data/products";
 
 export async function syncCartToDatabase(cartItems: ICartItem[]) {
   try {
@@ -15,7 +15,6 @@ export async function syncCartToDatabase(cartItems: ICartItem[]) {
 
     await connectToDatabase();
 
-    // Overwrite the DB Cart with the frontend Zustand Cart map
     const user = await User.findByIdAndUpdate(
       session.user.id,
       { $set: { cart: cartItems } },
@@ -31,10 +30,6 @@ export async function syncCartToDatabase(cartItems: ICartItem[]) {
   }
 }
 
-const stockByProductId = new Map(
-  shopProducts.map((p) => [p.id, p.stockCount ?? 0])
-);
-
 export async function mergeGuestCartOnLogin(guestCartItems: ICartItem[]) {
   try {
     const session = await getServerSession(authOptions);
@@ -48,10 +43,12 @@ export async function mergeGuestCartOnLogin(guestCartItems: ICartItem[]) {
 
     const mergedMap = new Map<string, ICartItem>();
 
+    // 1. Load user's database cart
     for (const item of user.cart ?? []) {
       mergedMap.set(item.productId, { ...item });
     }
 
+    // 2. Add guest items
     for (const item of guestCartItems ?? []) {
       const existing = mergedMap.get(item.productId);
       if (existing) {
@@ -62,16 +59,31 @@ export async function mergeGuestCartOnLogin(guestCartItems: ICartItem[]) {
       }
     }
 
-    const merged = Array.from(mergedMap.values()).map((item) => {
-      const cap = stockByProductId.get(item.productId) ?? 0;
-      const safeQty = Math.max(0, Math.min(item.quantity, cap));
-      return { ...item, quantity: safeQty };
-    }).filter((item) => item.quantity > 0);
+    const mergedArray = Array.from(mergedMap.values());
 
-    user.cart = merged;
+    // 3. Verify stock logic dynamically using real MongoDB DB Products instead of static array
+    const verifiedCart = [];
+    for (const item of mergedArray) {
+      // Find the actual product in DB using SLUG or ID
+      const realProduct = await Product.findOne({
+        $or: [{ _id: item.productId.length === 24 ? item.productId : null }, { slug: item.slug }]
+      });
+
+      if (realProduct) {
+        const cap = realProduct.stockCount || 0;
+        const safeQty = Math.max(0, Math.min(item.quantity, cap));
+
+        if (safeQty > 0 && realProduct.inStock) {
+          verifiedCart.push({ ...item, quantity: safeQty, productId: realProduct._id.toString() }); // Ensure clean IDs
+        }
+      }
+    }
+
+    // 4. Save validated cart
+    user.cart = verifiedCart;
     await user.save();
 
-    return { success: true, cart: merged };
+    return { success: true, cart: verifiedCart };
   } catch (error) {
     console.error("mergeGuestCartOnLogin failed:", error);
     return { success: false, error: "Internal server error" };
