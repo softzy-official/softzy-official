@@ -29,11 +29,11 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { name: "Facebook", icon: Facebook, href: "https://facebook.com" },
-    { name: "Instagram", icon: Instagram, href: "https://instagram.com" },
+    { name: "Facebook", icon: Facebook, href: "#" },
+    { name: "Instagram", icon: Instagram, href: "#" },
     { name: "Whatsapp", icon: RiWhatsappLine, href: "#" },
-    { name: "Twitter", icon: Twitter, href: "https://twitter.com" },
-    { name: "Youtube", icon: Youtube, href: "https://youtube.com" },
+    { name: "Twitter", icon: Twitter, href: "#" },
+    { name: "Youtube", icon: Youtube, href: "#" },
   ];
 
   return (
