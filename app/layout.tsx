@@ -15,7 +15,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { NextAuthProvider } from "@/components/NextAuthProvider";
 import { Toaster } from "sonner";
 
-
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -45,8 +44,60 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "SOFTZY",
-  description: "Ecommerce website",
+  metadataBase: new URL("https://softzy.co.in"),
+  title: {
+    default: "SOFTZY | Premium Fashion & Lifestyle Store",
+    template: "%s | SOFTZY",
+  },
+  description:
+    "Shop premium fashion, accessories, and lifestyle essentials at SOFTZY. Secure checkout, fast delivery, and curated collections for everyday style.",
+  keywords: [
+    "SOFTZY",
+    "ecommerce",
+    "online shopping",
+    "fashion",
+    "lifestyle",
+    "accessories",
+    "india",
+  ],
+  applicationName: "SOFTZY",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://softzy.co.in",
+    siteName: "SOFTZY",
+    title: "SOFTZY | Premium Fashion & Lifestyle Store",
+    description:
+      "Discover curated fashion and lifestyle products with secure payments and fast shipping.",
+    images: [
+      {
+        url: "/logo2.png",
+        width: 1200,
+        height: 630,
+        alt: "SOFTZY",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SOFTZY | Premium Fashion & Lifestyle Store",
+    description:
+      "Discover curated fashion and lifestyle products with secure payments and fast shipping.",
+    images: ["/logo2.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 const nunito = Nunito({
