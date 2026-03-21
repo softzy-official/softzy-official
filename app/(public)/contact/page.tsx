@@ -129,7 +129,7 @@ const ContactPage = () => {
                         Email Us
                       </h3>
                       <p className="text-sm text-muted-foreground poppins">
-                        support@softzy.com
+                        officialsoftzy@gmail.com 
                       </p>
                       <p className="text-xs text-muted-foreground poppins mt-1">
                         We reply within 24 hours
@@ -148,10 +148,10 @@ const ContactPage = () => {
                         Call Us
                       </h3>
                       <p className="text-sm text-muted-foreground poppins">
-                        +91 98765 43210
+                        +91 9992300775
                       </p>
                       <p className="text-xs text-muted-foreground poppins mt-1">
-                        Mon - Sat, 10am - 6pm IST
+                        Available 24 hours
                       </p>
                     </div>
                   </div>
@@ -167,7 +167,7 @@ const ContactPage = () => {
                         Our Address
                       </h3>
                       <p className="text-sm text-muted-foreground poppins">
-                        Greater Noida, Uttar Pradesh, India
+                        854, Sector 33, P1, Hisar, Haryana
                       </p>
                     </div>
                   </div>

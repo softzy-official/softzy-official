@@ -79,12 +79,12 @@ export async function sendOtpEmailAction(
 
   try {
     await transporter.sendMail({
-      from: `Softzy <${smtpUser}>`,
+      from: `SOFTZY <${smtpUser}>`,
       to: email,
-      subject: "Your Softzy login OTP",
+      subject: "Your SOFTZY login OTP",
       html: `
         <div style="font-family:Arial,sans-serif;line-height:1.6">
-          <h2>Softzy Login Verification</h2>
+          <h2>SOFTZY Login Verification</h2>
           <p>Your one-time password is:</p>
           <p style="font-size:24px;font-weight:700;letter-spacing:2px">${otpCode}</p>
           <p>This OTP is valid for 5 minutes.</p>

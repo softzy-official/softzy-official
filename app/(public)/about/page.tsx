@@ -11,7 +11,7 @@ const AboutPage = () => {
             Our Story
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground playfair mb-6">
-            About Softzy
+            About SOFTZY
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground poppins leading-relaxed max-w-2xl mx-auto">
             We believe in bringing you the finest products that blend quality, style, and affordability. 
@@ -40,7 +40,7 @@ const AboutPage = () => {
                 Quality Products, Happy Customers
               </h2>
               <p className="text-muted-foreground poppins leading-relaxed mb-4 ">
-                At Softzy, our mission is simple — to make premium quality products accessible to everyone. 
+                At SOFTZY, our mission is simple — to make premium quality products accessible to everyone. 
                 We work directly with trusted manufacturers to bring you authentic products at the best prices.
               </p>
               <p className="text-muted-foreground poppins leading-relaxed">

@@ -108,7 +108,7 @@ export default async function OrderTrackingPage({ params }: { params: { id: stri
               <div className="mt-12 bg-slate-50 border border-slate-200 rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Assigned Courier</p>
-                  <p className="font-semibold text-slate-900">{order.courierName || "Standard Softzy Shipping"}</p>
+                  <p className="font-semibold text-slate-900">{order.courierName || "Standard SOFTZY Shipping"}</p>
                 </div>
                 <div className="w-px h-10 bg-slate-200 hidden sm:block"></div>
                 <div className="sm:text-right">

@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
           <div className="flex justify-center mb-2">
             <Package className="h-10 w-10 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">Softzy Admin</CardTitle>
+          <CardTitle className="text-2xl font-bold">SOFTZY Admin</CardTitle>
           <CardDescription>Secure login for staff only</CardDescription>
         </CardHeader>
         <CardContent>

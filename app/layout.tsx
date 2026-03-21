@@ -45,7 +45,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Softzy",
+  title: "SOFTZY",
   description: "Ecommerce website",
 };
 

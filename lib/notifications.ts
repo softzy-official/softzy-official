@@ -20,25 +20,25 @@ export async function sendOrderNotification(
   let emailHtml = "";
 
   if (updateType === "status") {
-    subject = `Order Update: Your Softzy Order #${shortOrderId} is now ${value.toUpperCase()}`;
+    subject = `Order Update: Your SOFTZY Order #${shortOrderId} is now ${value.toUpperCase()}`;
     emailHtml = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; max-w: 600px; margin: 0 auto;">
         <h2 style="color: #333;">Order Status Updated</h2>
         <p>Hi ${user.name},</p>
-        <p>The status of your Softzy order <strong>#${shortOrderId}</strong> has been updated to: <span style="font-weight: bold; color: #2563eb;">${value.toUpperCase()}</span>.</p>
+        <p>The status of your SOFTZY order <strong>#${shortOrderId}</strong> has been updated to: <span style="font-weight: bold; color: #2563eb;">${value.toUpperCase()}</span>.</p>
         <p>You can track your order in your profile.</p>
-        <p>Thank you for shopping with Softzy!</p>
+        <p>Thank you for shopping with SOFTZY!</p>
       </div>
     `;
   } else if (updateType === "tracking") {
-    subject = `Your Softzy Order #${shortOrderId} has been Shipped!`;
+    subject = `Your SOFTZY Order #${shortOrderId} has been Shipped!`;
     emailHtml = `
       <div style="font-family: Arial, sans-serif; line-height: 1.6; max-w: 600px; margin: 0 auto;">
         <h2 style="color: #333;">Order Shipped</h2>
         <p>Hi ${user.name},</p>
-        <p>Your Softzy order <strong>#${shortOrderId}</strong> has been dispatched.</p>
+        <p>Your SOFTZY order <strong>#${shortOrderId}</strong> has been dispatched.</p>
         <p>Tracking AWB: <strong>${value}</strong></p>
-        <p>Thank you for shopping with Softzy!</p>
+        <p>Thank you for shopping with SOFTZY!</p>
       </div>
     `;
   }

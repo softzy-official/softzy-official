@@ -24,7 +24,7 @@ export const exploreVideos: ExploreVideo[] = [
   {
     id: "v3",
     video: "https://www.pexels.com/download/video/7205515/",
-    title: "Softzy Premium Packaging",
+    title: "SOFTZY Premium Packaging",
     type: "Packing",
     productLink: "/shop",
   },

@@ -24,7 +24,7 @@ export default function AdminLayout({
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbPage>Softzy Admin</BreadcrumbPage>
+                  <BreadcrumbPage>SOFTZY Admin</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>

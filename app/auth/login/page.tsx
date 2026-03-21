@@ -28,7 +28,7 @@ export default function UserLoginPage() {
           <div className="flex justify-center mb-2">
             <Package className="h-10 w-10 text-primary" />
           </div>
-          <CardTitle className="text-2xl font-bold">Welcome to Softzy</CardTitle>
+          <CardTitle className="text-2xl font-bold">Welcome to SOFTZY</CardTitle>
           <CardDescription>Sign in to your customer account</CardDescription>
         </CardHeader>
         <CardContent>

@@ -61,22 +61,22 @@ const Footer = () => {
             {/* Contact Info */}
             <div className="space-y-2 sm:space-y-2.5">
               <a
-                href="mailto:hello@softzy.com"
+                href="mailto:officialsoftzy@gmail.com "
                 className="flex items-center gap-2 text-xs sm:text-sm text-white/70 hover:text-white transition-colors poppins"
               >
                 <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                hello@softzy.com
+                officialsoftzy@gmail.com
               </a>
               <a
                 href="tel:+919876543210"
                 className="flex items-center gap-2 text-xs sm:text-sm text-white/70 hover:text-white transition-colors poppins"
               >
                 <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
-                +91 XXXXXXXXXX
+                +91 9992300775
               </a>
               <p className="flex items-start gap-2 text-xs sm:text-sm text-white/70 poppins">
                 <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
-                Greater Noida, Uttar Pradesh, India
+                854, Sector 33, P1, Hisar, Haryana
               </p>
             </div>
           </div>
@@ -131,7 +131,7 @@ const Footer = () => {
           <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-4">
             {/* Copyright */}
             <p className="text-[10px] sm:text-xs lg:text-sm text-white/60 poppins text-center sm:text-left">
-              © {currentYear} Softzy. All rights reserved.
+              © {currentYear} SOFTZY. All rights reserved.
             </p>
 
             {/* Social Links */}
