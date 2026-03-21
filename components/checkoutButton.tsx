@@ -52,7 +52,7 @@ export default function CheckoutButton() {
     (acc: number, item: CartItem) => acc + item.price * item.quantity,
     0,
   );
-  const shippingFee = subTotal > 0 && subTotal < 1400 ? 1 : 0;
+  const shippingFee = subTotal > 0 && subTotal < 1400 ? 149 : 0;
   const grandTotal = subTotal + shippingFee;
 
   const handleCheckout = async () => {

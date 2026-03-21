@@ -26,7 +26,7 @@ export default function CartPage() {
 
   // Calculate pricing for logged-out preview scenario
   const subTotal = cart.getCartTotal();
-  const shippingFee = subTotal > 0 && subTotal < 1400 ? 1 : 0;
+  const shippingFee = subTotal > 0 && subTotal < 1400 ? 149 : 0;
   const grandTotal = subTotal + shippingFee;
 
   return (
