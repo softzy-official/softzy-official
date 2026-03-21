@@ -13,9 +13,11 @@ const AboutPage = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground playfair mb-6">
             About SOFTZY
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground poppins leading-relaxed max-w-2xl mx-auto">
-            We believe in bringing you the finest products that blend quality, style, and affordability. 
-            Every item in our collection is handpicked to ensure it meets our high standards.
+          <p className="text-base sm:text-lg text-muted-foreground poppins leading-relaxed max-w-4xl mx-auto">
+            SOFTZY is a modern lifestyle brand built on the idea that comfort
+            and luxury should go hand in hand. With a focus on premium
+            craftsmanship and thoughtful design, Softzy creates products that
+            not only look refined but also feel exceptionally good to use.
           </p>
         </div>
       </section>
@@ -40,12 +42,15 @@ const AboutPage = () => {
                 Quality Products, Happy Customers
               </h2>
               <p className="text-muted-foreground poppins leading-relaxed mb-4 ">
-                At SOFTZY, our mission is simple — to make premium quality products accessible to everyone. 
-                We work directly with trusted manufacturers to bring you authentic products at the best prices.
+                Rooted in simplicity and elegance, the brand blends aesthetics
+                with functionality—ensuring every product delivers a smooth,
+                effortless experience. From concept to creation, attention to
+                detail remains at the core of everything Softzy stands for.
               </p>
               <p className="text-muted-foreground poppins leading-relaxed">
-                From fashion accessories to home essentials, we curate only the best. 
-                Every product goes through our quality check to ensure you receive nothing but the finest.
+                Guided by its philosophy, “Made to Feel Good,” Softzy aims to
+                elevate everyday essentials into experiences of comfort,
+                confidence, and understated luxury.
               </p>
             </div>
           </div>
@@ -73,7 +78,8 @@ const AboutPage = () => {
                 Quality First
               </h3>
               <p className="text-sm text-muted-foreground poppins leading-relaxed">
-                We never compromise on quality. Every product is carefully selected and checked before reaching you.
+                We never compromise on quality. Every product is carefully
+                selected and checked before reaching you.
               </p>
             </div>
 
@@ -85,7 +91,8 @@ const AboutPage = () => {
                 Customer Love
               </h3>
               <p className="text-sm text-muted-foreground poppins leading-relaxed">
-                Your satisfaction is our priority. We&apos;re here to help with any questions or concerns you may have.
+                Your satisfaction is our priority. We&apos;re here to help with
+                any questions or concerns you may have.
               </p>
             </div>
 
@@ -97,7 +104,8 @@ const AboutPage = () => {
                 Trust & Transparency
               </h3>
               <p className="text-sm text-muted-foreground poppins leading-relaxed">
-                We believe in honest business. What you see is what you get — no hidden costs, no surprises.
+                We believe in honest business. What you see is what you get — no
+                hidden costs, no surprises.
               </p>
             </div>
           </div>
@@ -113,22 +121,34 @@ const AboutPage = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground playfair mb-6">
             Why Shop With Us?
           </h2>
-          
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">100%</p>
-              <p className="text-sm text-muted-foreground poppins">Authentic Products</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">
+                100%
+              </p>
+              <p className="text-sm text-muted-foreground poppins">
+                Authentic Products
+              </p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">24/7</p>
-              <p className="text-sm text-muted-foreground poppins">Customer Support</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">
+                24/7
+              </p>
+              <p className="text-sm text-muted-foreground poppins">
+                Customer Support
+              </p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">Fast</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">
+                Fast
+              </p>
               <p className="text-sm text-muted-foreground poppins">Delivery</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">Easy</p>
+              <p className="text-3xl sm:text-4xl font-bold text-secondary inter mb-2">
+                Easy
+              </p>
               <p className="text-sm text-muted-foreground poppins">Returns</p>
             </div>
           </div>
