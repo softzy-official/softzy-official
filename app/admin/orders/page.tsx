@@ -280,7 +280,7 @@ export default function AdminOrders() {
 
                       <TableCell className="font-medium font-mono text-xs">
                         <span className="bg-muted/50 px-2 py-1 rounded-md border border-border/50">
-                          ...{order._id.slice(-6)}
+                          {order._id}
                         </span>
                       </TableCell>
 
@@ -514,7 +514,7 @@ function OrderActionMenu({
             <DialogDescription className="pt-2 text-sm leading-relaxed">
               You are about to permanently delete order{" "}
               <span className="font-mono bg-muted px-1 py-0.5 rounded">
-                ...{order._id.slice(-6)}
+                {order._id}
               </span>
               . This action cannot be undone.
             </DialogDescription>
@@ -609,7 +609,7 @@ function OrderActionMenu({
               Update Order Status
             </DialogTitle>
             <DialogDescription>
-              Change status for order ...{order._id.slice(-6)}.
+              Change status for order {order._id}.
             </DialogDescription>
           </DialogHeader>
 

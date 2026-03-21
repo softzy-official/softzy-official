@@ -13,7 +13,7 @@ export async function sendOrderNotification(
   value: string
 ) {
 
-  const shortOrderId = orderId.slice(-6).toUpperCase();
+  const shortOrderId = orderId.toUpperCase();
   
   // 1. Prepare Content
   let subject = "";
@@ -48,7 +48,7 @@ export async function sendOrderNotification(
   const transPass = process.env.EMAIL_PASS;
 
   if (!transUser || !transPass) {
-    console.error("❌ Email variables missing in .env");
+    // console.error("❌ Email variables missing in .env");
     return;
   }
 

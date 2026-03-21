@@ -19,7 +19,7 @@ export async function GET() {
       count: inserted.length
     });
   } catch (error) {
-    console.error("Seeding error:", error);
+    // console.error("Seeding error:", error);
     return NextResponse.json({ error: "Failed to seed database", details: error }, { status: 500 });
   }
 }

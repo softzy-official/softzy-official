@@ -2,114 +2,56 @@ import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-function getHost(req: NextRequest) {
-  return (
-    req.headers.get("x-forwarded-host") ||
-    req.headers.get("host") ||
-    ""
-  ).toLowerCase();
-}
-
-function getProtocol(req: NextRequest) {
-  return (req.headers.get("x-forwarded-proto") || "https").toLowerCase();
-}
-
-function splitHostAndPort(host: string) {
-  const [hostname, port] = host.split(":");
-  return { hostname, port };
-}
-
-function getRootDomain(hostname: string) {
-  if (hostname.startsWith("admin.")) return hostname.slice(6);
-  if (hostname.startsWith("www.")) return hostname.slice(4);
-  return hostname;
-}
-
-function isLocal(hostname: string) {
-  return hostname === "localhost" || hostname === "127.0.0.1";
-}
-
 export default withAuth(
   function middleware(req: NextRequest) {
     const token = (req as any).nextauth?.token;
     const path = req.nextUrl.pathname;
 
-    const rawHost = getHost(req);
-    const { hostname, port } = splitHostAndPort(rawHost);
-    const protocol = getProtocol(req);
-
-    const adminHost = isLocal(hostname)
-      ? `${hostname}${port ? `:${port}` : ""}`
-      : `admin.${getRootDomain(hostname)}${port ? `:${port}` : ""}`;
-
-    const isAdminSubdomain = hostname.startsWith("admin.");
-    const isDirectAdminPath = path.startsWith("/admin");
-
+    const isAdminPath = path === "/admin" || path.startsWith("/admin/");
+    const isAdminLoginPath = path === "/auth/admin-login";
     const isUserLoginPath = path === "/auth/login";
-    const isAdminLoginPath = path === "/auth/admin-login" || path === "/login";
-
     const isProtectedUserPath =
       path === "/profile" || path.startsWith("/order/");
 
-    // ================= USER DOMAIN =================
-    if (!isAdminSubdomain) {
-      if (isDirectAdminPath || path === "/auth/admin-login") {
-        const mappedPath = isDirectAdminPath
-          ? path.replace(/^\/admin/, "") || "/"
-          : "/login";
-
-        return NextResponse.redirect(`${protocol}://${adminHost}${mappedPath}`);
-      }
-
-      if (isUserLoginPath && token) {
-        if (token.role === "admin") {
-          return NextResponse.redirect(`${protocol}://${adminHost}/`);
-        }
-        return NextResponse.redirect(new URL("/profile", req.url));
-      }
-
-      if (isProtectedUserPath && !token) {
-        const loginUrl = new URL("/auth/login", req.url);
-        loginUrl.searchParams.set("callbackUrl", req.nextUrl.href);
-        return NextResponse.redirect(loginUrl);
-      }
-
-      return NextResponse.next();
+    // 1) Protect admin pages: only admin can access
+    if (isAdminPath && token?.role !== "admin") {
+      return NextResponse.redirect(new URL("/auth/admin-login", req.url));
     }
 
-    // ================= ADMIN DOMAIN =================
-
-    if (isDirectAdminPath) {
-      const cleanPath = path.replace(/^\/admin/, "") || "/";
-      return NextResponse.redirect(`${protocol}://${adminHost}${cleanPath}`);
-    }
-
-    if (path === "/login") {
-      return NextResponse.rewrite(new URL("/auth/admin-login", req.url));
-    }
-
-    if (!isAdminLoginPath && token?.role !== "admin") {
-      return NextResponse.redirect(`${protocol}://${adminHost}/login`);
-    }
-
+    // 2) Logged-in admin should not see admin login page
     if (isAdminLoginPath && token?.role === "admin") {
-      return NextResponse.redirect(`${protocol}://${adminHost}/`);
+      return NextResponse.redirect(new URL("/admin", req.url));
     }
 
-    if (!isAdminLoginPath) {
-      const target = `/admin${path === "/" ? "" : path}`;
-      return NextResponse.rewrite(new URL(target, req.url));
+    // 3) Logged-in users should not see normal login page
+    if (isUserLoginPath && token) {
+      if (token.role === "admin") {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
+      return NextResponse.redirect(new URL("/profile", req.url));
+    }
+
+    // 4) Protect user pages: profile and order details require login
+    if (isProtectedUserPath && !token) {
+      const loginUrl = new URL("/auth/login", req.url);
+      loginUrl.searchParams.set("callbackUrl", req.nextUrl.href);
+      return NextResponse.redirect(loginUrl);
     }
 
     return NextResponse.next();
   },
   {
+    // Keep true so custom rules above decide all redirects
     callbacks: { authorized: () => true },
   },
 );
 
 export const config = {
   matcher: [
-    "/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)",
+    "/admin/:path*",
+    "/auth/login",
+    "/auth/admin-login",
+    "/profile",
+    "/order/:path*",
   ],
 };

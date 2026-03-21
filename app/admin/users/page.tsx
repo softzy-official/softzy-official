@@ -467,7 +467,7 @@ function UserActionMenu({
           <div className="border-b bg-muted/20 px-6 py-4">
             <DialogTitle className="text-xl">Profile Overview</DialogTitle>
             <DialogDescription className="mt-1 font-mono text-xs">
-              UID: ...{user._id.slice(-8)}
+              UID:{user._id}
             </DialogDescription>
           </div>
 

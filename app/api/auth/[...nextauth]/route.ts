@@ -95,7 +95,7 @@ export const authOptions: NextAuthOptions = {
 
           return true;
         } catch (error) {
-          console.error("Error saving Google user to DB:", error);
+          // console.error("Error saving Google user to DB:", error);
           return false;
         }
       }

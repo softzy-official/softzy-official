@@ -47,7 +47,7 @@ export async function getAllProducts(): Promise<Product[]> {
     const products = await ProductModel.find({}).lean();
     return products.map(mapToClientProduct);
   } catch (error) {
-    console.error("Failed to fetch products:", error);
+    // console.error("Failed to fetch products:", error);
     return [];
   }
 }
@@ -83,7 +83,7 @@ export async function getRelatedProducts(currentProductId: string, category?: st
 
     return Array.from(uniqueMap.values()).slice(0, 4);
   } catch (error) {
-    console.error("Failed to fetch related products:", error);
+    // console.error("Failed to fetch related products:", error);
     return [];
   }
 }
@@ -95,7 +95,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     if (!doc) return null;
     return mapToClientProduct(doc as Record<string, unknown>);
   } catch (error) {
-    console.error("Failed to fetch product:", error);
+    // console.error("Failed to fetch product:", error);
     return null;
   }
 }

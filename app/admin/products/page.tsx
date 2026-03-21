@@ -37,7 +37,7 @@ export default function AdminProducts() {
       const data = await getAllProducts();
       setProducts(data);
     } catch (error) {
-      console.error("Failed to fetch products:", error);
+      // console.error("Failed to fetch products:", error);
     } finally {
       setLoading(false);
     }

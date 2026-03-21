@@ -82,7 +82,7 @@ export async function POST(req: Request) {
       dbOrderId: newOrder._id,
     });
   } catch (error) {
-    console.error("Checkout Error:", error);
+    // console.error("Checkout Error:", error);
     return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

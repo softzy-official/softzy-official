@@ -107,7 +107,7 @@ export async function getDashboardKPIs() {
       },
     };
   } catch (error) {
-    console.error("Failed to fetch Admin KPIs:", error);
+    // console.error("Failed to fetch Admin KPIs:", error);
     return {
       success: false,
       data: {
@@ -139,7 +139,7 @@ export async function getAllOrdersAdmin() {
     // Map Mongoose documents to standard JS Objects to pass to Client Components securely
     return JSON.parse(JSON.stringify(orders));
   } catch (error) {
-    console.error("Failed to fetch Admin Orders:", error);
+    // console.error("Failed to fetch Admin Orders:", error);
     return [];
   }
 }
@@ -165,7 +165,7 @@ export async function updateOrderStatus(orderId: string, status: string) {
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
-    console.error("Failed to update status:", error);
+    // console.error("Failed to update status:", error);
     return { success: false, error: "Failed to update status" };
   }
 }
@@ -194,7 +194,7 @@ export async function updateOrderTracking(orderId: string, trackingId: string) {
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
-    console.error("Failed to update tracking:", error);
+    // console.error("Failed to update tracking:", error);
     return { success: false, error: "Failed to update tracking" };
   }
 }
@@ -220,7 +220,7 @@ export async function getRazorpayPaymentDetails(paymentId: string) {
       },
     };
   } catch (error) {
-    console.error("Razorpay Fetch Error:", error);
+    // console.error("Razorpay Fetch Error:", error);
     return { success: false, error: "Unable to verify with Razorpay" };
   }
 }
@@ -232,7 +232,7 @@ export async function deleteOrder(orderId: string) {
     revalidatePath("/admin/orders");
     return { success: true };
   } catch (error) {
-    console.error("Failed to delete order:", error);
+    // console.error("Failed to delete order:", error);
     return { success: false, error: "Failed to delete order" };
   }
 }
@@ -283,7 +283,7 @@ export async function getAllUsersAdmin() {
 
     return JSON.parse(JSON.stringify(users));
   } catch (error) {
-    console.error("Failed to fetch Admin Users:", error);
+    // console.error("Failed to fetch Admin Users:", error);
     return [];
   }
 }
@@ -296,7 +296,7 @@ export async function updateUserRole(userId: string, targetRole: string) {
     revalidatePath("/admin/users");
     return { success: true };
   } catch (error) {
-    console.error("Failed to update user role:", error);
+    // console.error("Failed to update user role:", error);
     return { success: false, error: "Failed to update role" };
   }
 }
@@ -309,7 +309,7 @@ export async function deleteUserAdmin(userId: string) {
     revalidatePath("/admin/users");
     return { success: true };
   } catch (error) {
-    console.error("Failed to delete user:", error);
+    // console.error("Failed to delete user:", error);
     return { success: false, error: "Failed to delete user" };
   }
 }

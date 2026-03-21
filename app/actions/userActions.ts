@@ -17,7 +17,7 @@ export async function getUserProfile() {
 
     return JSON.parse(JSON.stringify(dbUser));
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     return null;
   }
 }

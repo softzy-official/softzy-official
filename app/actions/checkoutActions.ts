@@ -74,7 +74,7 @@ export async function createCheckoutOrder(items: CartItem[]) {
     }
 
     // 2. Shipping Logic: Under ₹1400 gets ₹149 shipping
-    const shippingFee = subTotal < 1400 ? 149 : 0;
+    const shippingFee = subTotal < 1400 ? 1 : 0;
     const totalAmount = subTotal + shippingFee;
 
     // 3. Create Order in Razorpay
@@ -106,7 +106,7 @@ export async function createCheckoutOrder(items: CartItem[]) {
     };
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-    console.error("Checkout Create Error:", errorMessage);
+    // console.error("Checkout Create Error:", errorMessage);
     return { success: false, error: errorMessage };
   }
 }
@@ -159,7 +159,7 @@ export async function verifyPaymentAndCompleteOrder(
     return { success: true, message: "Payment verified successfully" };
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
-    console.error("Payment Verification Error:", errorMessage);
+    // console.error("Payment Verification Error:", errorMessage);
     return { success: false, error: errorMessage };
   }
 }

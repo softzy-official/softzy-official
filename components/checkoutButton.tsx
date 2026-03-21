@@ -52,7 +52,7 @@ export default function CheckoutButton() {
     (acc: number, item: CartItem) => acc + item.price * item.quantity,
     0,
   );
-  const shippingFee = subTotal > 0 && subTotal < 1400 ? 149 : 0;
+  const shippingFee = subTotal > 0 && subTotal < 1400 ? 1 : 0;
   const grandTotal = subTotal + shippingFee;
 
   const handleCheckout = async () => {
@@ -62,7 +62,7 @@ export default function CheckoutButton() {
     }
 
     setLoading(true);
-    const toastId = toast.loading("Creating secure order...");
+    const toastId = toast.loading("Processing...");
 
     try {
       const res = await createCheckoutOrder(items);
@@ -79,18 +79,18 @@ export default function CheckoutButton() {
           return;
         }
 
-        toast.error(res.error || "Order creation failed", { id: toastId });
+        toast.error(res.error || "Order failed", { id: toastId });
         setLoading(false);
         return;
       }
 
       if (!res.success || !res.orderId) {
-        toast.error(res.error || "Order creation failed", { id: toastId });
+        toast.error(res.error || "Order failed", { id: toastId });
         setLoading(false);
         return;
       }
 
-      toast.success("Order mapped securely! Redirecting to payment...", {
+      toast.success("Processing...", {
         id: toastId,
       });
 
@@ -134,8 +134,8 @@ export default function CheckoutButton() {
 
       razorpayWindow.open();
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong handling the checkout.", {
+      // console.error(error);
+      toast.error("Something went wrong...", {
         id: toastId,
       });
     } finally {

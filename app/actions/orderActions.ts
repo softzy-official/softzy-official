@@ -20,7 +20,7 @@ export async function getUserOrders() {
 
     return JSON.parse(JSON.stringify(orders)); // Serialize for the client
   } catch (error) {
-    console.error("getUserOrders ERROR:", error);
+    // console.error("getUserOrders ERROR:", error);
     return [];
   }
 }
@@ -47,7 +47,7 @@ export async function getOrderById(orderId: string) {
 
     return JSON.parse(JSON.stringify(order));
   } catch (error) {
-    console.error("getOrderById ERROR:", error);
+    // console.error("getOrderById ERROR:", error);
     return null;
   }
 }

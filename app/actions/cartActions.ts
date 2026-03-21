@@ -25,7 +25,7 @@ export async function syncCartToDatabase(cartItems: ICartItem[]) {
 
     return { success: true };
   } catch (error) {
-    console.error("Failed to sync cart:", error);
+    // console.error("Failed to sync cart:", error);
     return { success: false, error: "Internal server error" };
   }
 }
@@ -85,7 +85,7 @@ export async function mergeGuestCartOnLogin(guestCartItems: ICartItem[]) {
 
     return { success: true, cart: verifiedCart };
   } catch (error) {
-    console.error("mergeGuestCartOnLogin failed:", error);
+    // console.error("mergeGuestCartOnLogin failed:", error);
     return { success: false, error: "Internal server error" };
   }
 }
@@ -102,7 +102,7 @@ export async function getDatabaseCart() {
 
     return { success: true, cart: user?.cart ?? [] };
   } catch (error) {
-    console.error("getDatabaseCart failed:", error);
+    // console.error("getDatabaseCart failed:", error);
     return { success: false, error: "Internal server error" };
   }
 }

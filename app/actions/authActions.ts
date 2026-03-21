@@ -100,7 +100,7 @@ export async function sendOtpEmailAction(
     const message =
       error instanceof Error ? error.message : "Unknown error";
 
-    console.error("OTP email send failed:", message);
+    // console.error("OTP email send failed:", message);
 
     return {
       success: false,

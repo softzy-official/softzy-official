@@ -60,9 +60,10 @@ const triggerDBSync = (items: CartItem[]) => {
     quantity: i.quantity,
   }));
 
-  syncCartToDatabase(dbFormattedItems).catch((err) =>
-    console.error("Sync failed:", err),
-  );
+  syncCartToDatabase(dbFormattedItems)
+    .catch
+    // console.error("Sync failed:", err),
+    ();
 };
 
 export const useCart = create<CartStore>()(
