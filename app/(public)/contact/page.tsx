@@ -167,7 +167,7 @@ const ContactPage = () => {
                         Our Address
                       </h3>
                       <p className="text-sm text-muted-foreground poppins">
-                        854, Sector 33, P1, Hisar, Haryana
+                        Hisar, Haryana
                       </p>
                     </div>
                   </div>

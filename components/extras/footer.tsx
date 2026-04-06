@@ -76,7 +76,7 @@ const Footer = () => {
               </a>
               <p className="flex items-start gap-2 text-xs sm:text-sm text-white/70 poppins">
                 <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0 mt-0.5" />
-                854, Sector 33, P1, Hisar, Haryana
+                Hisar, Haryana
               </p>
             </div>
           </div>
