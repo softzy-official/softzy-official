@@ -125,7 +125,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             Rs. {product.price.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
           </p>
           {product.originalPrice && (
-            <p className="text-sm text-muted-foreground line-through inter font-normal opacity-60">
+            <p className="text-xs sm:text-sm tracking-tighter text-muted-foreground line-through inter font-normal opacity-60">
               Rs. {product.originalPrice.toLocaleString("en-IN", { minimumFractionDigits: 2 })}
             </p>
           )}
