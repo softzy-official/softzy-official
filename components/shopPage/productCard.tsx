@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Star, Eye } from "lucide-react";
+import { Star } from "lucide-react";
 
 export interface Product {
   id: string;
@@ -45,44 +45,39 @@ interface ProductCardProps {
 const ProductCard = ({ product }: ProductCardProps) => {
   const [currentImage, setCurrentImage] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
+  const safeImages = product.images.length > 0 ? product.images : ["/logo2.png"];
 
   useEffect(() => {
-    if (!isHovering || product.images.length <= 1) return;
+    if (!isHovering || safeImages.length <= 1) return;
 
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % product.images.length);
+      setCurrentImage((prev) => (prev + 1) % safeImages.length);
     }, 1200);
 
     return () => clearInterval(interval);
-  }, [isHovering, product.images.length]);
-
-  useEffect(() => {
-    if (!isHovering) {
-      setCurrentImage(0);
-    }
-  }, [isHovering]);
-
-  const discount = product.originalPrice
-    ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
-    : 0;
+  }, [isHovering, safeImages.length]);
 
   return (
     <div className="group">
       <div
-        className="relative aspect-3/4 rounded-md overflow-hidden bg-gray-100 mb-3 cursor-pointer"
+        className="relative w-full aspect-4/5 rounded-md overflow-hidden bg-white border border-border/40 mb-3 cursor-pointer"
         onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
+        onMouseLeave={() => {
+          setIsHovering(false);
+          setCurrentImage(0);
+        }}
       >
-        {product.images.map((image, index) => (
+        {safeImages.map((image, index) => (
           <Image
             key={index}
             src={image}
             alt={product.name}
             fill
-            className={`object-cover object-top transition-all duration-700 ${
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+            className={`object-contain p-2 transition-opacity duration-500 ${
               currentImage === index
-                ? "opacity-100 scale-100"
-                : "opacity-0 scale-105"
+                ? "opacity-100"
+                : "opacity-0"
             }`}
           />
         ))}
@@ -91,9 +86,9 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
       
 
-        {product.images.length > 1 && (
+        {safeImages.length > 1 && (
           <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-            {product.images.map((_, index) => (
+            {safeImages.map((_, index) => (
               <span
                 key={index}
                 className={`h-1 rounded-full transition-all duration-300 ${
