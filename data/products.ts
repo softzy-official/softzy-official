@@ -47,7 +47,7 @@ export const shopProducts: Product[] = [
     inStock: true,
     stockCount: 5,
     sku: "SZY-BAG-020",
-    brand: "softzy",
+    brand: "softz",
     weight: "",
     dimensions: "30 cm x 24 cm",
     warranty: "",
