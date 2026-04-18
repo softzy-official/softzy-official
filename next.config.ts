@@ -2,41 +2,47 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  poweredByHeader: false, 
-  compress: true, 
+  poweredByHeader: false,
+  compress: true,
 
   productionBrowserSourceMaps: false,
 
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
+
   compiler: {
-    removeConsole: { exclude: ["error", "warn"] }, 
+    removeConsole: { exclude: ["error", "warn"] },
   },
 
   images: {
     remotePatterns: [
       {
-        protocol: "https", 
-        hostname: "**", 
+        protocol: "https",
+        hostname: "**",
       },
     ],
-    formats: ["image/webp"], 
+    formats: ["image/webp"],
   },
 
   async headers() {
     return [
       {
-        source: "/:path*", 
+        source: "/:path*",
         headers: [
           {
             key: "X-Content-Type-Options",
-            value: "nosniff", 
+            value: "nosniff",
           },
           {
             key: "X-Frame-Options",
-            value: "SAMEORIGIN", 
+            value: "SAMEORIGIN",
           },
           {
             key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin", 
+            value: "strict-origin-when-cross-origin",
           },
           {
             key: "Content-Security-Policy",
