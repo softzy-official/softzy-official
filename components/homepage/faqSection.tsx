@@ -43,12 +43,6 @@ const defaultFaqs: FAQ[] = [
       "Once your order is shipped, you'll receive a tracking link via email and SMS. You can also track your order from your account dashboard.",
   },
   {
-    id: "faq5",
-    question: "Do you offer Cash on Delivery?",
-    answer:
-      "Yes, we offer COD on orders up to ₹5,000. A small COD fee of ₹49 applies. Prepaid orders enjoy free shipping on orders above ₹1499.",
-  },
-  {
     id: "faq6",
     question: "How do I contact customer support?",
     answer:
